@@ -7,6 +7,7 @@ import Icon from 'components/Icon';
 import getClassName from 'helpers/getClassName';
 import DataElementWrapper from 'components/DataElementWrapper';
 import { addSearchListener, removeSearchListener } from 'helpers/search';
+import ThumbnailsPanel from 'components/ThumbnailsPanel';
 
 import './SearchPanel.scss';
 import useSearch from 'hooks/useSearch';
@@ -55,7 +56,7 @@ function SearchPanel(props) {
     }
 
     setNextResultValue(result);
-  }, [closeSearchPanel, isMobile]);
+  }, [closeSearchPanel, isInDesktopOnlyMode, isMobile, setActiveResult, setNextResultValue]);
 
   const [isSearchInProgress, setIsSearchInProgress] = React.useState(false);
 
@@ -77,7 +78,6 @@ function SearchPanel(props) {
 
   const className = getClassName('Panel SearchPanel', { isOpen });
   const style = !isInDesktopOnlyMode && isMobile ? {} : { width: `${currentWidth}px`, minWidth: `${currentWidth}px` };
-
   return (
     <DataElementWrapper
       className={className}
@@ -108,6 +108,7 @@ function SearchPanel(props) {
         setIsSearchInProgress={setIsSearchInProgress}
         activeDocumentViewerKey={activeDocumentViewerKey}
       />
+      <div style={{ display: searchStatus !== 'SEARCH_DONE' ? 'block' : 'none', height: '100%' }}><ThumbnailsPanel></ThumbnailsPanel></div>
       <SearchResult
         t={t}
         searchStatus={searchStatus}
@@ -119,7 +120,7 @@ function SearchPanel(props) {
         isSearchInProgress={isSearchInProgress}
         activeDocumentViewerKey={activeDocumentViewerKey}
       />
-    </DataElementWrapper>
+    </DataElementWrapper >
   );
 }
 

@@ -39,6 +39,8 @@ import GenericOutlinesPanel from 'components/GenericOutlinesPanel';
 import FlyoutContainer from 'components/ModularComponents/FlyoutContainer';
 import ZoomFlyoutMenu from 'components/ModularComponents/ZoomFlyoutMenu';
 import LazyLoadWrapper, { LazyLoadComponents } from 'components/LazyLoadWrapper';
+import SearchPanel from 'components/SearchPanel';
+import ThumbnailsPanel from 'components/ThumbnailsPanel'
 
 import useOnTextSelected from 'hooks/useOnTextSelected';
 import useOnContextMenuOpen from 'hooks/useOnContextMenuOpen';
@@ -195,7 +197,7 @@ const App = ({ removeEventHandlers }) => {
       // TODO: Use constants
       dispatch(actions.setLeftPanelWidth(251));
       dispatch(actions.setNotesPanelWidth(293));
-      dispatch(actions.setSearchPanelWidth(293));
+      dispatch(actions.setSearchPanelWidth(320));
     };
 
     const onBreakpoint = () => {
@@ -298,6 +300,7 @@ const App = ({ removeEventHandlers }) => {
           'is-web-component': window.isApryseWebViewerWebComponent,
         })}
       >
+
         <FlyoutContainer />
         <ZoomFlyoutMenu />
         <Accessibility />
@@ -309,19 +312,22 @@ const App = ({ removeEventHandlers }) => {
           />
         )}
         <TopHeader />
-        <div className="content">
+
+        <div className="content" >
           <LeftHeader />
           <LeftPanel />
           {panels}
           {!isMultiViewerMode && <DocumentContainer />}
           {window?.ResizeObserver && <MultiViewer />}
           <RightHeader />
+
           <RightPanel dataElement={DataElements.SEARCH_PANEL} onResize={(width) => dispatch(actions.setSearchPanelWidth(width))}>
-            <LazyLoadWrapper
+            <SearchPanel
               Component={LazyLoadComponents.SearchPanel}
               dataElement={DataElements.SEARCH_PANEL}
             />
           </RightPanel>
+
           <RightPanel dataElement="notesPanel" onResize={(width) => dispatch(actions.setNotesPanelWidth(width))}>
             {!notesInLeftPanel && <LazyLoadWrapper
               Component={LazyLoadComponents.NotesPanel}

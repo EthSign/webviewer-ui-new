@@ -48,7 +48,7 @@ class HeaderItems extends React.PureComponent {
         mediaQueryClassName += ' hide-in-mobile hide-in-small-mobile';
       }
       const key = `${type}-${dataElement || i}`;
-
+      console.log(type, dataElement);
       switch (type) {
         case 'toolButton':
           return <ToolButton key={key} mediaQueryClassName={mediaQueryClassName} {...item} />;

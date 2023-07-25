@@ -19,7 +19,7 @@ const Thumbnail = ({
   shiftKeyThumbnailPivotIndex,
   onFinishLoading,
   onLoad,
-  onRemove = () => {},
+  onRemove = () => { },
   onDragStart,
   onDragOver,
   isDraggable,
@@ -245,12 +245,12 @@ const Thumbnail = ({
         draggable={isDraggable}
         onClick={handleClick}
       >
-        <div id={`pageThumb${index}`} className="thumbnail" />
+        <div id={`pageThumb${index}`} className="thumbnail" ><div className="page-label">{pageLabel}</div></div>
         {isThumbnailSelectingPages && loaded && (
           <Choice className={`checkbox ${checkboxRotateClass}`} checked={selectedPageIndexes.includes(index)} />
         )}
       </div>
-      <div className="page-label">{pageLabel}</div>
+
       {!isThumbnailSelectingPages && isActive && shouldShowControls && <ThumbnailControls index={index} />}
     </div>
   );
