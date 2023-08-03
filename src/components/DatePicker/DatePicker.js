@@ -11,7 +11,7 @@ const DatePicker = ({ onClick, annotation, onDatePickerShow }) => {
         field: dateRef.current,
         onClick,
         container: dateContainerRef.current,
-        format: annotation.getDateFormat && annotation.getDateFormat() || 'mm/dd/yy',
+        format: annotation.getDateFormat && annotation.getDateFormat() || 'dd/mm/yyyy',
       });
       onDatePickerShow(true);
     };

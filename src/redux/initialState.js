@@ -95,7 +95,8 @@ export default {
       [DataElements.STYLE_POPUP_LABEL_TEXT_CONTAINER]: true,
       [DataElements.FORM_FIELD_INDICATOR_CONTAINER]: true,
       [DataElements.CUSTOM_MODAL]: true,
-      searchPanel: true
+      searchPanel: true,
+      [DataElements['FORM_FIELD_INDICATOR_CONTAINER']]: true
     },
     hiddenElements: {},
     panelWidths: {
