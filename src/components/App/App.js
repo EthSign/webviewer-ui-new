@@ -40,7 +40,6 @@ import FlyoutContainer from 'components/ModularComponents/FlyoutContainer';
 import ZoomFlyoutMenu from 'components/ModularComponents/ZoomFlyoutMenu';
 import LazyLoadWrapper, { LazyLoadComponents } from 'components/LazyLoadWrapper';
 import SearchPanel from 'components/SearchPanel';
-import ThumbnailsPanel from 'components/ThumbnailsPanel'
 
 import useOnTextSelected from 'hooks/useOnTextSelected';
 import useOnContextMenuOpen from 'hooks/useOnContextMenuOpen';
