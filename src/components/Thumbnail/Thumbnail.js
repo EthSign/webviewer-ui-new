@@ -64,6 +64,7 @@ const Thumbnail = ({
           width: thumbSize,
           height: thumbSize,
           drawComplete: async (thumb) => {
+            console.log('thumb', thumb);
             const thumbnailContainer = getRootNode().querySelector(`#pageThumb${index}`);
             if (thumbnailContainer) {
               const childElement = thumbnailContainer.querySelector('.page-image');
@@ -92,8 +93,13 @@ const Thumbnail = ({
                 thumb.style['-o-transform'] = cssTransform;
                 thumb.style['-o-transform-origin'] = cssTransformOrigin;
               }
-
+              const container = document.createElement('div');
+              container.className = 'page-image';
+              container.style.width = thumb.style.width;
+              container.style.height = thumb.style.height;
+              container.innerHTML = `<div class="page-label">${pageNum}</div>`;
               thumbnailContainer.appendChild(thumb);
+              thumbnailContainer.appendChild(container);
             }
 
             if (updateAnnotations) {
@@ -216,7 +222,7 @@ const Thumbnail = ({
   };
 
   const isActive = currentPage === index + 1;
-  const pageLabel = pageLabels[index];
+  //const pageLabel = pageLabels[index];
   let checkboxRotateClass = 'default';
   const rotation = core.getRotation(index + 1);
   if ((!rotation || rotation === 2) && dimensions.width > dimensions.height) {
@@ -245,12 +251,11 @@ const Thumbnail = ({
         draggable={isDraggable}
         onClick={handleClick}
       >
-        <div id={`pageThumb${index}`} className="thumbnail" ><div className="page-label">{pageLabel}</div></div>
+        <div id={`pageThumb${index}`} className="thumbnail" ></div>
         {isThumbnailSelectingPages && loaded && (
           <Choice className={`checkbox ${checkboxRotateClass}`} checked={selectedPageIndexes.includes(index)} />
         )}
       </div>
-
       {!isThumbnailSelectingPages && isActive && shouldShowControls && <ThumbnailControls index={index} />}
     </div>
   );

@@ -64,9 +64,9 @@ function SearchOverlay(props) {
   useEffect(() => {
     if (searchTextInputRef.current && isPanelOpen) {
       // give time for the search panel to open before focusing on the input
-      setTimeout(() => {
+      /* setTimeout(() => {
         searchTextInputRef.current.focus();
-      }, waitTime);
+      }, waitTime); */
     }
     if (!isSearchAndReplaceDisabled && isPanelOpen) {
       console.warn('Search and Replace is not supported in this browser');
