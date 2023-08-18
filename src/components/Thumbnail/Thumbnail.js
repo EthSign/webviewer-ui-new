@@ -92,13 +92,15 @@ const Thumbnail = ({
                 thumb.style['-o-transform'] = cssTransform;
                 thumb.style['-o-transform-origin'] = cssTransformOrigin;
               }
-              const container = document.createElement('div');
-              container.className = 'page-image';
-              container.style.width = thumb.style.width;
-              container.style.height = thumb.style.height;
-              container.innerHTML = `<div class="page-label">${pageNum}</div>`;
+              if (!thumbnailContainer.querySelector('.page-div')) {
+                const container = document.createElement('div');
+                container.className = 'page-div';
+                container.style.width = thumb.style.width;
+                container.style.height = thumb.style.height;
+                container.innerHTML = `<div class="page-label">${pageNum}</div>`;
+                thumbnailContainer.appendChild(container);
+              }
               thumbnailContainer.appendChild(thumb);
-              thumbnailContainer.appendChild(container);
             }
 
             if (updateAnnotations) {
