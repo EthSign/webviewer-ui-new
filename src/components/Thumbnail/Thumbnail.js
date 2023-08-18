@@ -64,7 +64,6 @@ const Thumbnail = ({
           width: thumbSize,
           height: thumbSize,
           drawComplete: async (thumb) => {
-            console.log('thumb', thumb);
             const thumbnailContainer = getRootNode().querySelector(`#pageThumb${index}`);
             if (thumbnailContainer) {
               const childElement = thumbnailContainer.querySelector('.page-image');
