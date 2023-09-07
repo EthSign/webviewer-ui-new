@@ -17,22 +17,27 @@
     display: flex;
     position: relative;
     box-sizing: border-box;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    height: 28px;
+    border: 1px solid #D0D5DD;
+    border-radius: 8px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     color: var(--text-color);
-    padding: 6px 2px 6px 6px;
+    padding: 10px 14px;
     background: var(--component-background);
-
+    .search-icon{
+      width: 20px;
+      height: 20px;
+    }
     input {
       width: 100%;
       padding-right: 26px;
-      height: 20px;
+      height: 24px;
       border: none;
       background: transparent;
+      padding-left: 8px;
+      font-size: 17px;
     }
 
     input::placeholder {

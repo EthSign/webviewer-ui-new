@@ -177,7 +177,7 @@ const LeftPanel = () => {
         <div className="left-panel-header">
           {isThumbnailSelectingPages ? <LeftPanelPageTabs /> : <LeftPanelTabs />}
         </div>
-        {activePanel === 'thumbnailsPanel' && <ThumbnailsPanel />}
+        {/* {activePanel === 'thumbnailsPanel' && <ThumbnailsPanel />} */}
         {activePanel === 'outlinesPanel' && <OutlinesPanel />}
         {activePanel === 'bookmarksPanel' && <BookmarksPanel />}
         {activePanel === 'layersPanel' && <LayersPanel />}

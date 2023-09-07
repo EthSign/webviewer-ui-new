@@ -12,7 +12,7 @@ function noop() {
   // Comment needed to suppress SonarCloud code smell.
 }
 
-const DEFAULT_NOTES_PANEL_WIDTH = 293;
+const DEFAULT_NOTES_PANEL_WIDTH = 320;
 
 const initialState = {
   viewer: {

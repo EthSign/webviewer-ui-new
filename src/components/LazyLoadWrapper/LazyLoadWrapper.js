@@ -16,7 +16,7 @@ const elementWasOpened = (dataElement) => openedElementsMap.has(dataElement) && 
 const LazyLoadWrapper = ({
   Component,
   dataElement,
-  onOpenHook = () => {},
+  onOpenHook = () => { },
   ...passedInProps
 }) => {
   const onOpenProps = onOpenHook();
@@ -28,6 +28,7 @@ const LazyLoadWrapper = ({
       openedElementsMap.set(dataElement, true);
     }
   }, [isOpen]);
+
 
   return (isDisabled || !(isOpen || elementWasOpened(dataElement))) ? null : (
     <Suspense fallback={<></>}>

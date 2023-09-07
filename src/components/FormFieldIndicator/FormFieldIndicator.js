@@ -5,9 +5,9 @@ import core from 'core';
 import './FormFieldIndicator.scss';
 
 const FormFieldIndicator = ({ annotation }) => {
-  const INDICATOR_HEIGHT = 40;
-  const INDICATOR_WIDTH = 100;
-  const INDICATOR_PADDING = 20;
+  const INDICATOR_HEIGHT = 34;
+  const INDICATOR_WIDTH = 81;
+  const INDICATOR_PADDING = 0;
 
   const [xOffset, setXOffset] = useState(0);
   const [yOffset, setYOffset] = useState(0);
@@ -72,9 +72,9 @@ const FormFieldIndicator = ({ annotation }) => {
     const yPosition = setIndicatorYPosition(annotation);
     setYOffset(yPosition);
 
-    setShowIndicator(annotation.getCustomData('trn-form-field-show-indicator') === 'true');
+    setShowIndicator(annotation.getCustomData('trn-form-field-show-indicator') === 'true' || true);
 
-    setIndicatorText(annotation.getCustomData('trn-form-field-indicator-text'));
+    setIndicatorText(annotation.getCustomData('trn-form-field-indicator-text') || 'Sign Here');
 
     setIsPlaceholder(annotation.isFormFieldPlaceholder());
 

@@ -5,7 +5,7 @@
   "description": "WebViewer UI built in React",
   "main": "src/index.js",
   "scripts": {
-    "start": "npx babel-node ./dev-server.js",
+    "start": "npx  babel-node --openssl-legacy-provider ./dev-server.js",
     "download-webviewer": "npx @pdftron/webviewer-downloader --core-only --path ./lib",
     "lint": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx",
     "lint:ci": "eslint ./src --quiet --ext .js,.jsx,.ts,.tsx",

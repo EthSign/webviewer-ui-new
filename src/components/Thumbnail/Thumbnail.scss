@@ -7,6 +7,7 @@
   align-items: center;
   text-align: center;
   cursor: pointer;
+  position: relative;
 
   &.active {
     .container {
@@ -33,11 +34,38 @@
       box-shadow: 0px 0px 3px 0px var(--box-shadow);
     }
 
-    .annotation-image, .page-image {
+    .annotation-image,
+    .page-image {
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .page-div {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+
+      .page-label {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        z-index: 1;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: #FAEFE7;
+        line-height: 20px;
+        text-align: center;
+        color: #CF5C10;
+        font-size: 13px;
+        font-weight: 500px;
+        padding: 0 2px;
+      }
+
     }
 
     .checkbox {
@@ -57,14 +85,19 @@
     }
   }
 
-  .page-label {
-    margin-top: 11px;
+
+  .thumbnail {
+    position: relative;
+    width: 115px;
+    height: 150px;
   }
 
   &.selected {
     $selected-icon-size: 16px;
 
     .container {
+
+
       .thumbnail::before {
         color: white;
         background: var(--focus-border);
@@ -80,7 +113,5 @@
     }
   }
 
-  &.active .page-label {
-    color: var(--focus-border) !important;
-  }
+
 }

@@ -48,7 +48,7 @@ const ThumbnailsPanel = () => {
     isRightClickEnabled
   ] = useSelector(
     (state) => [
-      selectors.isElementOpen(state, 'leftPanel'),
+      selectors.isElementOpen(state, 'leftPanel') || true,
       selectors.isElementDisabled(state, 'thumbnailsPanel'),
       selectors.getTotalPages(state),
       selectors.getCurrentPage(state),

@@ -95,6 +95,9 @@ export default function useOnAnnotationPopupOpen() {
         if (!isRightClickAnnotationPopupEnabled) {
           setFocusedAnnotation(annotations[0]);
         }
+        if (annotations[0].isCustomDate) {
+          setDatePickerOpen(true);
+        }
 
         setSelectedMultipleAnnotations(annotations.length > 1);
         setIncludesFormFieldAnnotation(annotations.some((annotation) => annotation.isFormFieldPlaceholder()));
@@ -131,7 +134,13 @@ export default function useOnAnnotationPopupOpen() {
         return;
       }
       if (action === 'modify') {
-        openPopup();
+        if (focusedAnnotation?.isCustomDate) {
+          closePopup();
+        } else {
+          openPopup();
+        }
+
+
       }
       const hasLinkAnnotation = annotations.some((annotation) => annotation instanceof Annotations.Link);
       if (!hasLinkAnnotation) {
