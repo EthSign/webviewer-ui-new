@@ -29,6 +29,8 @@ jobs:
 
       - name: Build
         run: npm run build
+      - name: down core
+        run: npm run download-webviewer 
       - name: read version
         id: version
         uses: ashley-taylor/read-json-property-action@v1.0
@@ -37,29 +39,33 @@ jobs:
           property: version
 
       # 执行 Release
-      - name: Release
-        uses: actions/create-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{steps.version.outputs.value}}
-          release_name: v${{steps.version.outputs.value}}
+      # - name: Release
+      #   uses: actions/create-release@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: v${{steps.version.outputs.value}}
+      #     release_name: v${{steps.version.outputs.value}}
 
       - uses: shallwefootball/s3-upload-action@master
-        name: Upload S3
-        id: S3
+        name: Upload ui to S3
+        id: S3-ui
         with:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
           source_dir: build
-          destination_dir: webviewer/${{steps.version.outputs.value}}
+          destination_dir: webviewer/ui/${{steps.version.outputs.value}}
           endpoint: https://s3.ap-east-1.amazonaws.com
-      - name: Update deployment status (success)
-        if: success()
-        uses: chrnorm/deployment-status@releases/v1
+
+      - uses: shallwefootball/s3-upload-action@master 
+        name: Upload core to S3
+        id: S3-core
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target_url: https://cdn-hk.ethsign.xyz/${{steps.S3.outputs.object_key}}
-          state: 'success'
-          deployment_id: ${{ steps.test.outputs.deployment_id }}
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: lib/core
+          destination_dir: webviewer/core/${{steps.version.outputs.value}}
+          endpoint: https://s3.ap-east-1.amazonaws.com
+          
