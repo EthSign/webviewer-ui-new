@@ -37,13 +37,13 @@ jobs:
           property: version
 
       # 执行 Release
-      # - name: Release
-      #   uses: actions/create-release@master
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: v${{steps.version.outputs.value}}
-      #     release_name: v${{steps.version.outputs.value}}
+      - name: Release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{steps.version.outputs.value}}
+          release_name: v${{steps.version.outputs.value}}
 
       - uses: shallwefootball/s3-upload-action@master
         name: Upload ui to S3
