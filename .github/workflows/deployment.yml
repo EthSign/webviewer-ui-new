@@ -1,0 +1,76 @@
+# This is a basic workflow to help you get started with Actions
+
+name:  Deployment
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Setup pnpm
+      # You may pin to the exact commit or the version.
+      # uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd
+        uses: pnpm/action-setup@v2.2.4
+        with:
+        # Version of pnpm to install
+          version: latest # optional
+        # Where to store pnpm files
+        # dest: # optional, default is ~/setup-pnpm
+        # If specified, run `pnpm install`
+          run_install: true # optional, default is null
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+      - name: read version
+        id: version
+        uses: ashley-taylor/read-json-property-action@v1.0
+        with:
+          path: ./package.json
+          property: version
+
+      # 执行 Release
+      - name: Release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{steps.version.outputs.value}}
+          release_name: v${{steps.version.outputs.value}}
+
+      - uses: shallwefootball/s3-upload-action@master
+        name: Upload S3
+        id: S3
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: 'build'
+          destination_dir: webviewer/${{steps.version.outputs.value}}
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target_url: https://aws-bucket.s3.ap-northeast-2.amazonaws.com/${{steps.S3.outputs.object_key}}/index.html
+          state: 'success'
+          deployment_id: ${{ steps.test.outputs.deployment_id }}

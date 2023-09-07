@@ -27,7 +27,7 @@ export default function useOnFormFieldsChanged() {
         const widgets = annotations.filter(
           (annotation) => formFieldCreationManager.getShowIndicator(annotation)
         );
-        formFieldIndicators = [
+        formFieldIndicators = widgets;/* [
           ...widgets
             .reduce(
               (fieldNameMap, field) => {
@@ -38,7 +38,7 @@ export default function useOnFormFieldsChanged() {
               },
               new Map()
             ).values(),
-        ];
+        ]; */
       }
       setFormFieldAnnotationsList(formFieldIndicators);
     };

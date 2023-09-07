@@ -28,17 +28,25 @@
 }
 
 .SearchPanel {
-  padding: 16px 8px 0 16px;
+  padding: 32px 24px 0 24px;
   display: flex;
   flex-direction: column;
+  position: relative;
   // Needed
   // overflow: hidden; // https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width
-
+  .thumbnails-panel{
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 99;
+  }
 
   .ListSeparator:first-child {
     margin-top: 0px;
   }
-
+  
   @include ie11 {
     .ReactVirtualized__Grid__innerScrollContainer {
       max-width: 1000px !important

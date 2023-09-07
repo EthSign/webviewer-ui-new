@@ -293,6 +293,7 @@ class DocumentContainer extends React.PureComponent {
       isInDesktopOnlyMode,
       featureFlags,
       bottomHeaderHeight,
+      currentPage
     } = this.props;
 
     const marginLeft = 0 + (isLeftPanelOpen ? leftPanelWidth : 0) + (isFlxPanelOpen ? panelMinWidth : 0);
@@ -328,6 +329,7 @@ class DocumentContainer extends React.PureComponent {
         <Measure onResize={this.handleResize}>
           {({ measureRef }) => (
             <div className="measurement-container" ref={measureRef}>
+              {/*   <div>{currentPage}/{totalPages}</div> */}
               <div
                 className={documentContainerClassName}
                 ref={this.container}
@@ -361,7 +363,7 @@ class DocumentContainer extends React.PureComponent {
                     showNavOverlay={this.state.showNavOverlay}
                     onMouseEnter={this.pageNavOnMouseEnter}
                     onMouseLeave={this.pageNavOnMouseLeave}
-                    isLogoBarEnabled={this.props.isLogoBarEnabled}
+                    isLogoBarEnabled={true}
                   />
                 )}
 

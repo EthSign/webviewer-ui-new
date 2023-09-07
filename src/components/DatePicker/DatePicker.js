@@ -11,7 +11,7 @@ const DatePicker = ({ onClick, annotation, onDatePickerShow }) => {
         field: dateRef.current,
         onClick,
         container: dateContainerRef.current,
-        format: annotation.getDateFormat(),
+        format: annotation.getDateFormat && annotation.getDateFormat() || 'dd/mm/yyyy',
       });
       onDatePickerShow(true);
     };
@@ -26,7 +26,7 @@ const DatePicker = ({ onClick, annotation, onDatePickerShow }) => {
   return (
     <div data-element="datePickerContainer">
       <div ref={dateRef} />
-      <div ref={dateContainerRef}/>
+      <div ref={dateContainerRef} />
     </div>
   );
 };

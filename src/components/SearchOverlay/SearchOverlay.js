@@ -64,9 +64,9 @@ function SearchOverlay(props) {
   useEffect(() => {
     if (searchTextInputRef.current && isPanelOpen) {
       // give time for the search panel to open before focusing on the input
-      setTimeout(() => {
+      /* setTimeout(() => {
         searchTextInputRef.current.focus();
-      }, waitTime);
+      }, waitTime); */
     }
     if (!isSearchAndReplaceDisabled && isPanelOpen) {
       console.warn('Search and Replace is not supported in this browser');
@@ -315,6 +315,7 @@ function SearchOverlay(props) {
   return (
     <div className="SearchOverlay">
       <div className="input-container">
+        <div className='search-icon'><Icon color="#667085" glyph="icon-header-search" /></div>
         <input
           ref={searchTextInputRef}
           type="text"
@@ -341,10 +342,10 @@ function SearchOverlay(props) {
         (isSearchAndReplaceDisabled || !isReplacementRegexValid) ? null :
           (isMoreOptionsOpen)
             ? <div className="extra-options">
-              <button className='Button' onClick={toggleMoreOptionsBtn}>{t('option.searchPanel.lessOptions')} <Icon glyph="icon-chevron-up"/></button>
+              <button className='Button' onClick={toggleMoreOptionsBtn}>{t('option.searchPanel.lessOptions')} <Icon glyph="icon-chevron-up" /></button>
             </div>
             : <div className="extra-options">
-              <button className='Button' onClick={toggleMoreOptionsBtn}>{t('option.searchPanel.moreOptions')} <Icon glyph="icon-chevron-down"/></button>
+              <button className='Button' onClick={toggleMoreOptionsBtn}>{t('option.searchPanel.moreOptions')} <Icon glyph="icon-chevron-down" /></button>
             </div>
       }
       {
@@ -362,7 +363,7 @@ function SearchOverlay(props) {
                     />
                   </div>
                   <div className='replace-buttons'>
-                    { (showReplaceSpinner) ? <Spinner width={25} height={25} /> : null }
+                    {(showReplaceSpinner) ? <Spinner width={25} height={25} /> : null}
                     <button className='Button btn-replace-all' disabled={isReplaceAllBtnDisabled}
                       onClick={replaceAllConfirmationWarning}>{t('option.searchPanel.replaceAll')}</button>
                     <button className='Button btn-replace' disabled={isReplaceBtnDisabled || !nextResultValue || !core.getActiveSearchResult()}
@@ -373,7 +374,7 @@ function SearchOverlay(props) {
           </div>
       }
 
-      <div className="divider" />
+      {/*  <div className="divider" /> */}
       <div className="footer">
         {searchStatus === 'SEARCH_NOT_INITIATED' || '' ? null : showSpinner}
         {numberOfResultsFound > 0 && (
