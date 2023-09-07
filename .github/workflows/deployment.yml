@@ -29,8 +29,6 @@ jobs:
 
       - name: Build
         run: npm run build
-      - name: down core
-        run: npm run download-webviewer 
       - name: read version
         id: version
         uses: ashley-taylor/read-json-property-action@v1.0
