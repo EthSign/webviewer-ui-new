@@ -55,11 +55,3 @@ jobs:
           source_dir: build
           destination_dir: webviewer/${{steps.version.outputs.value}}
           endpoint: https://s3.ap-east-1.amazonaws.com
-      - name: Update deployment status (success)
-        if: success()
-        uses: chrnorm/deployment-status@releases/v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target_url: https://cdn-hk.ethsign.xyz/${{steps.S3.outputs.object_key}}
-          state: 'success'
-          deployment_id: ${{ steps.test.outputs.deployment_id }}
