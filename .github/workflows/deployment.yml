@@ -54,6 +54,7 @@ jobs:
           aws_bucket: ${{ secrets.AWS_BUCKET }}
           source_dir: 'build'
           destination_dir: webviewer/${{steps.version.outputs.value}}
+          endpoint: 'https://s3.ap-east-1.amazonaws.com'
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-status@releases/v1
