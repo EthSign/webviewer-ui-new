@@ -187,7 +187,6 @@ const LeftPanel = () => {
           && core.isFullPDFEnabled()
           && portfolioFiles.length > 0
           && <PortfolioPanel />}
-        {activePanel === 'thumbnailsPanel' && <ThumbnailsPanel />}
         {activePanel === 'outlinesPanel' && <OutlinesPanel />}
         {activePanel === 'bookmarksPanel' && <BookmarksPanel />}
         {activePanel === 'layersPanel' && <LayersPanel />}
