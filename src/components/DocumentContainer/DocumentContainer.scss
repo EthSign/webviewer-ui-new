@@ -10,6 +10,17 @@
   height: 100%;
   transition: all .3s ease-in-out;
 
+  .document-title {
+    background-color: #ffffff;
+    width: calc(100% + 24px);
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 21px;
+    color: #1D2939;
+    font-weight: 600;
+  }
+
   .measurement-container {
     display: flex;
     flex-direction: column;

@@ -87,7 +87,7 @@ const App = ({ removeEventHandlers }) => {
     customFlxPanels,
     customModals,
     notesInLeftPanel,
-  ] = useSelector((state) => [
+  ] = useSelector(state => [
     selectors.isInDesktopOnlyMode(state),
     selectors.isMultiViewerMode(state),
     selectors.getCustomFlxPanels(state),
@@ -162,7 +162,6 @@ const App = ({ removeEventHandlers }) => {
             showInvalidBookmarks: getHashParameters('showInvalidBookmarks', null),
             l: getHashParameters('l', null),
           };
-
           loadDocument(dispatch, initialDoc, options);
         }
       }
@@ -197,7 +196,7 @@ const App = ({ removeEventHandlers }) => {
       // TODO: Use constants
       dispatch(actions.setLeftPanelWidth(251));
       dispatch(actions.setNotesPanelWidth(293));
-      dispatch(actions.setSearchPanelWidth(320));
+      dispatch(actions.setSearchPanelWidth(334));
     };
 
     const onBreakpoint = () => {
@@ -216,7 +215,7 @@ const App = ({ removeEventHandlers }) => {
   }, []);
 
   useEffect(() => {
-    const onError = (error) => {
+    const onError = error => {
       error = error.detail?.message || error.detail || error.message;
 
       let errorMessage;
@@ -321,40 +320,40 @@ const App = ({ removeEventHandlers }) => {
           {window?.ResizeObserver && <MultiViewer />}
           <RightHeader />
 
-          <RightPanel dataElement={DataElements.SEARCH_PANEL} onResize={(width) => dispatch(actions.setSearchPanelWidth(width))}>
+          <RightPanel dataElement={DataElements.SEARCH_PANEL} onResize={width => dispatch(actions.setSearchPanelWidth(width))}>
             <SearchPanel
               Component={LazyLoadComponents.SearchPanel}
               dataElement={DataElements.SEARCH_PANEL}
             />
           </RightPanel>
 
-          <RightPanel dataElement="notesPanel" onResize={(width) => dispatch(actions.setNotesPanelWidth(width))}>
+          <RightPanel dataElement="notesPanel" onResize={width => dispatch(actions.setNotesPanelWidth(width))}>
             {!notesInLeftPanel && <LazyLoadWrapper
               Component={LazyLoadComponents.NotesPanel}
               dataElement={DataElements.NOTES_PANEL}
             />}
           </RightPanel>
-          <RightPanel dataElement="redactionPanel" onResize={(width) => dispatch(actions.setRedactionPanelWidth(width))}>
+          <RightPanel dataElement="redactionPanel" onResize={width => dispatch(actions.setRedactionPanelWidth(width))}>
             <RedactionPanel />
           </RightPanel>
-          <RightPanel dataElement="watermarkPanel" onResize={(width) => dispatch(actions.setWatermarkPanelWidth(width))}>
+          <RightPanel dataElement="watermarkPanel" onResize={width => dispatch(actions.setWatermarkPanelWidth(width))}>
             <WatermarkPanel />
           </RightPanel>
           <RightPanel
             dataElement="wv3dPropertiesPanel"
-            onResize={(width) => dispatch(actions.setWv3dPropertiesPanelWidth(width))}
+            onResize={width => dispatch(actions.setWv3dPropertiesPanelWidth(width))}
           >
             <Wv3dPropertiesPanel />
           </RightPanel>
           <MultiTabEmptyPage />
           <RightPanel
             dataElement="textEditingPanel"
-            onResize={(width) => dispatch(actions.setTextEditingPanelWidth(width))}
+            onResize={width => dispatch(actions.setTextEditingPanelWidth(width))}
           >
             <TextEditingPanel />
           </RightPanel>
           {isMultiViewerMode && (
-            <RightPanel dataElement="comparePanel" onResize={(width) => dispatch(actions.setComparePanelWidth(width))}>
+            <RightPanel dataElement="comparePanel" onResize={width => dispatch(actions.setComparePanelWidth(width))}>
               <ComparePanel />
             </RightPanel>
           )}

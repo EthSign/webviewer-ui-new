@@ -187,7 +187,7 @@ export default {
           img: 'icon-header-chat-line',
           title: 'component.notesPanel',
           element: 'notesPanel',
-          onClick: (dispatch) => {
+          onClick: dispatch => {
             dispatch(actions.toggleElement('notesPanel'));
             // Trigger with a delay so we ensure the panel is open before we compute correct coordinates of annotation
             setTimeout(() => dispatch(actions.toggleElement('annotationNoteConnectorLine')), 400);
@@ -199,7 +199,7 @@ export default {
           dataElement: 'moreButton',
           title: 'action.more',
           img: 'icon-tools-more',
-          onClick: (dispatch) => {
+          onClick: dispatch => {
             dispatch(actions.setActiveHeaderGroup('small-mobile-more-buttons'));
             core.setToolMode(defaultTool);
           },
@@ -227,7 +227,7 @@ export default {
           dataElement: 'defaultHeaderButton',
           titile: 'action.close',
           img: 'ic_close_black_24px',
-          onClick: (dispatch) => {
+          onClick: dispatch => {
             dispatch(actions.setActiveHeaderGroup('default'));
             core.setToolMode(defaultTool);
           },
@@ -399,7 +399,7 @@ export default {
           title: 'action.redactPages',
           showColor: 'never',
           img: 'icon-tool-page-redact',
-          onClick: (dispatch) => dispatch(actions.openElement(DataElements.PAGE_REDACT_MODAL)),
+          onClick: dispatch => dispatch(actions.openElement(DataElements.PAGE_REDACT_MODAL)),
         },
         { type: 'divider' },
         {
@@ -1929,8 +1929,8 @@ export default {
     colorMap: copyMapWithDataProperties('currentStyleTab', 'iconColor'),
     warning: {},
     customNoteFilter: null,
-    inlineCommentFilter: (annot) => {
-      const isAnnotationInstanceOf = defaultToolsWithInlineComment.some((annotationInstance) => annot instanceof annotationInstance);
+    inlineCommentFilter: annot => {
+      const isAnnotationInstanceOf = defaultToolsWithInlineComment.some(annotationInstance => annot instanceof annotationInstance);
       return isAnnotationInstanceOf;
     },
     zoomList: defaultZoomList,

@@ -119,9 +119,9 @@ class DocumentContainer extends React.PureComponent {
     this.props.closeElements([DataElements.MULTITABS_EMPTY_PAGE]);
   }
 
-  preventDefault = (e) => e.preventDefault();
+  preventDefault = e => e.preventDefault();
 
-  onDrop = (e) => {
+  onDrop = e => {
     e.preventDefault();
 
     const { files } = e.dataTransfer;
@@ -134,7 +134,7 @@ class DocumentContainer extends React.PureComponent {
     handleWindowResize(this.props, this.container.current);
   };
 
-  onWheel = (e) => {
+  onWheel = e => {
     const { isMouseWheelZoomEnabled } = this.props;
     if (isMouseWheelZoomEnabled && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
@@ -196,7 +196,7 @@ class DocumentContainer extends React.PureComponent {
     setCurrentPage(currentPage + getNumberOfPagesToNavigate());
   };
 
-  wheelToZoom = (e) => {
+  wheelToZoom = e => {
     const { zoom: currentZoomFactor, activeDocumentViewerKey } = this.props;
     let newZoomFactor = currentZoomFactor;
     if (e.deltaY < 0) {
@@ -236,7 +236,7 @@ class DocumentContainer extends React.PureComponent {
     this.hidePageNavigationOverlay();
   };
 
-  getClassName = (props) => {
+  getClassName = props => {
     const { isSearchOverlayOpen } = props;
 
     return classNames({
@@ -326,6 +326,7 @@ class DocumentContainer extends React.PureComponent {
         })}
         onTransitionEnd={this.onTransitionEnd}
       >
+        <div className="document-title" >{core.getDocument()?.getFilename()}</div>
         <Measure onResize={this.handleResize}>
           {({ measureRef }) => (
             <div className="measurement-container" ref={measureRef}>
@@ -363,7 +364,7 @@ class DocumentContainer extends React.PureComponent {
                     showNavOverlay={this.state.showNavOverlay}
                     onMouseEnter={this.pageNavOnMouseEnter}
                     onMouseLeave={this.pageNavOnMouseLeave}
-                    isLogoBarEnabled={true}
+                    isLogoBarEnabled
                   />
                 )}
 
@@ -378,7 +379,7 @@ class DocumentContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   documentContentContainerWidthStyle: selectors.getDocumentContentContainerWidthStyle(state),
   leftPanelWidth: selectors.getLeftPanelWidthWithResizeBar(state),
   isLeftPanelOpen: selectors.isElementOpen(state, 'leftPanel'),
@@ -405,17 +406,17 @@ const mapStateToProps = (state) => ({
   isLogoBarEnabled: !selectors.isElementDisabled(state, DataElements.LOGO_BAR),
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dispatch,
-  openElement: (dataElement) => dispatch(actions.openElement(dataElement)),
-  closeElements: (dataElements) => dispatch(actions.closeElements(dataElements)),
-  setDocumentContainerWidth: (width) => dispatch(actions.setDocumentContainerWidth(width)),
-  setDocumentContainerHeight: (height) => dispatch(actions.setDocumentContainerHeight(height)),
+  openElement: dataElement => dispatch(actions.openElement(dataElement)),
+  closeElements: dataElements => dispatch(actions.closeElements(dataElements)),
+  setDocumentContainerWidth: width => dispatch(actions.setDocumentContainerWidth(width)),
+  setDocumentContainerHeight: height => dispatch(actions.setDocumentContainerHeight(height)),
 });
 
 const ConnectedDocumentContainer = connect(mapStateToProps, mapDispatchToProps)(DocumentContainer);
 
-const connectedComponent = (props) => {
+const connectedComponent = props => {
   const isMobile = isMobileSize();
 
   return <ConnectedDocumentContainer {...props} isMobile={isMobile} />;
