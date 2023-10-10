@@ -30,7 +30,6 @@
 
 .DocumentContainer {
   border-right: 3px solid transparent;
-
   overflow-x: auto;
 }
 
@@ -46,6 +45,12 @@ body,
   font-family: 'Lato', sans-serif;
   color: var(--text-color);
   visibility: visible !important;
+}
+
+// This needed in WebComponent mode
+#note-state-popup-portal {
+  font-family: 'Lato', sans-serif;
+  color: var(--text-color);
 }
 
 input,
@@ -130,7 +135,16 @@ select {
   }
 }
 
-
 .freetext-editor .ql-editor {
   padding: 0px;
+}
+
+.ql-editor>p {
+  margin: 0;
+  padding: 0;
+}
+
+.ql-clipboard {
+  width: 0;
+  height: 1px;
 }

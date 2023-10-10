@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import core from 'core';
 
 import Button from '../Button';
-import BookmarkOutlineContextMenuPopup from '../BookmarkOutlineContextMenuPopup';
+import MoreOptionsContextMenuPopup from '../MoreOptionsContextMenuPopup';
 import OutlineContext from '../Outline/Context';
 import './OutlineContent.scss';
 
@@ -18,6 +18,7 @@ const propTypes = {
   setOutlineChangingDest: PropTypes.func,
   setIsHovered: PropTypes.func,
   onCancel: PropTypes.func,
+  textColor: PropTypes.string,
 };
 
 const OutlineContent = ({
@@ -30,6 +31,7 @@ const OutlineContent = ({
   setOutlineChangingDest,
   setIsHovered,
   onCancel,
+  textColor,
 }) => {
   const {
     currentDestPage,
@@ -127,6 +129,10 @@ const OutlineContent = ({
     }
   }, [isContextMenuOpen]);
 
+  const textStyle = {
+    color: textColor || 'auto'
+  };
+
   return (
     <div className="bookmark-outline-label-row">
       {isAdding &&
@@ -144,6 +150,7 @@ const OutlineContent = ({
                 setOutlineRenaming(true);
               }
             }}
+            style={textStyle}
           >
             {text}
           </div>
@@ -161,7 +168,7 @@ const OutlineContent = ({
             />
           }
           {isContextMenuOpen &&
-            <BookmarkOutlineContextMenuPopup
+            <MoreOptionsContextMenuPopup
               type={'outline'}
               anchorButton={`outline-more-button-${outlinePath}`}
               shouldDisplayDeleteButton={!isMultiSelectMode}
@@ -185,7 +192,10 @@ const OutlineContent = ({
       }
 
       {isOutlineChangingDest &&
-        <div className="bookmark-outline-text outline-text">
+        <div
+          className="bookmark-outline-text outline-text"
+          style={textStyle}
+        >
           {text}
         </div>
       }

@@ -134,8 +134,9 @@ import deleteScale from './deleteScale';
 import getScalePrecision from './getScalePrecision';
 import enableAnnotationNumbering from './enableAnnotationNumbering';
 import getSemanticDiffAnnotations from './getSemanticDiffAnnotations';
-import getEmptyWordDocument from './getEmptyWordDocument';
+import loadBlankOfficeEditorDocument from './loadBlankOfficeEditorDocument';
 import getOfficeEditor from './getOfficeEditor';
+import isValidURI from './isValidURI';
 
 export default {
   getSemanticDiffAnnotations,
@@ -279,5 +280,6 @@ export default {
   getScalePrecision,
   enableAnnotationNumbering,
   getOfficeEditor,
-  getEmptyWordDocument,
+  loadBlankOfficeEditorDocument,
+  isValidURI
 };

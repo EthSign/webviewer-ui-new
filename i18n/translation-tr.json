@@ -117,6 +117,8 @@
     "formFillCheckmark": "kene",
     "formFillCross": "Geçmek",
     "distanceMeasurement": "Mesafe",
+    "rectangularAreaMeasurement": "Dikdörtgen Alan",
+    "ellipseMeasurement": "Elips Alanı",
     "countMeasurement": "sayım ölçümü",
     "ellipse": "Elips",
     "eraser": "Silgi",
@@ -137,6 +139,7 @@
     "redact": "Yazıya dökmek",
     "formFillDot": "Nokta",
     "signature": "İmza",
+    "snipping": "Kesme Aracı",
     "squiggly": "dalgalı",
     "stamp": "Damga vurmak",
     "stickyNote": "Not",
@@ -435,12 +438,10 @@
       "drawSignature": "İmza Çek*",
       "drawInitial": "Baş Harflerini Çiz*",
       "pickInitialsFile": "Baş Harfleri Seçin",
-      "noSignatures": "Şu anda kayıtlı imza yok."
+      "noSignatures": "Şu anda kayıtlı imza yok.",
+      "fontStyle": "yazı stili"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Dosyanızı buraya sürükleyip bırakın",
-      "selectFile": "Dosyanızı buradan seçin",
-      "or": "Veya",
       "yourFiles": "Dosyalarınız",
       "chooseFile": "Bir dosya seçin",
       "localFile": "Yerel dosya",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Güvenlik uyarısı",
-      "message": "Bu belge şuraya bağlanmaya çalışıyor:\n\n{{- uri}}.\n\n Bu belgeye güveniyorsanız açmak için Onayla'yı tıklayın."
+      "message": "Bu belge şuraya bağlanmaya çalışıyor:\n\n{{- uri}}\n\n Bu belgeye güveniyorsanız açmak için Onayla'yı tıklayın."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Seçilen tüm sayfaları kırpmayı iptal etmek istediğinizden emin misiniz?"
     }
   },
+  "snippingPopUp": {
+    "title": "Kesme Aracı",
+    "clipboard": "Panoya Kopyala",
+    "download": "İndir",
+    "cropAndRemove": "Kırp ve Kaldır",
+    "snippingModal": {
+      "applyTitle": "Kesmeyi Uygula?",
+      "applyMessage": "Bu eylem belirtilen alanı kalıcı olarak keser ve diğer sayfaları kaldırır. Geri alınamaz.",
+      "cancelTitle": "Kesmeyi İptal Et?",
+      "cancelMessage": "Kesmeyi durdurmak istediğinizden emin misiniz?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Paragraf",
     "text": "Metin"
@@ -1082,6 +1095,26 @@
     "browse": "Araştır",
     "watermarkOptions": "Filigran Seçenekleri",
     "watermarks": "filigranlar"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "PDF Portföyü Oluştur",
+    "uploadFiles": "Dosyaları yükle",
+    "uploadFolder": "Klasörü Yükle",
+    "addFiles": "Dosya Ekle",
+    "addFile": "Dosya Ekle",
+    "addFolder": "Klasörü eklemek",
+    "createFolder": "Klasör oluşturun",
+    "portfolioPanelTitle": "PDF Portföyü",
+    "portfolioNewFolder": "Yeni dosya",
+    "portfolioFolderPlaceholder": "Klasör adı",
+    "portfolioFilePlaceholder": "Dosya adı",
+    "folderNameAlreadyExists": "Klasör adı zaten var",
+    "fileNameAlreadyExists": "Dosya adı zaten var",
+    "openFile": "Yeni sekmede aç",
+    "fileAlreadyExists": "Dosya zaten mevcut",
+    "fileAlreadyExistsMessage": "\"{{fileName}}\" dosyası portföyde zaten var.",
+    "deletePortfolio": "\"{{fileName}}\" dosyasını silmek istediğinizden emin misiniz?",
+    "reselect": "yeniden seç"
   },
   "languageModal": {
     "selectLanguage": "Dil Seçin"
@@ -1184,6 +1217,12 @@
     "watermark": "Filigran",
     "addWatermark": "Filigran ekle",
     "save": "Dosyayı kaydet",
-    "pageError": "Geçersiz sayfa. Geçerli sayfa aralıkları 1 -"
+    "pageError": "Geçersiz sayfa. Geçerli sayfa aralıkları 1 -",
+    "fileNameCannotBeEmpty": "Dosya Adı boş olamaz"
+  },
+  "filePicker": {
+    "dragAndDrop": "Dosyanızı buraya sürükleyip bırakın",
+    "selectFile": "dosyanızı buradan seçin",
+    "or": "Veya"
   }
 }

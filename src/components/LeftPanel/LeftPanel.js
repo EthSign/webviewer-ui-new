@@ -4,6 +4,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import LeftPanelTabs from 'components/LeftPanelTabs';
+import PortfolioPanel from 'components/PortfolioPanel';
 import ThumbnailsPanel from 'components/ThumbnailsPanel';
 import OutlinesPanel from 'components/OutlinesPanel';
 import BookmarksPanel from 'components/BookmarksPanel';
@@ -14,16 +15,16 @@ import CustomElement from 'components/CustomElement';
 import ResizeBar from 'components/ResizeBar';
 import Icon from 'components/Icon';
 import LazyLoadWrapper, { LazyLoadComponents } from 'components/LazyLoadWrapper';
+import LeftPanelPageTabs from 'components/LeftPanelPageTabs';
 
 import core from 'core';
 import selectors from 'selectors';
 import actions from 'actions';
 import { isMobileSize, isTabletAndMobileSize } from 'helpers/getDeviceSize';
 import { isIE } from 'helpers/device';
+import DataElements from 'constants/dataElement';
 
 import './LeftPanel.scss';
-import LeftPanelPageTabs from 'components/LeftPanelPageTabs';
-import DataElements from 'constants/dataElement';
 
 const LeftPanel = () => {
   const isMobile = isMobileSize();
@@ -51,8 +52,9 @@ const LeftPanel = () => {
     featureFlags,
     topHeadersHeight,
     bottomHeadersHeight,
+    portfolioFiles,
   ] = useSelector(
-    (state) => [
+    state => [
       selectors.getCurrentToolbarGroup(state),
       selectors.isElementOpen(state, 'header'),
       selectors.isElementOpen(state, 'toolsHeader'),
@@ -73,6 +75,7 @@ const LeftPanel = () => {
       selectors.getFeatureFlags(state),
       selectors.getTopHeadersHeight(state),
       selectors.getBottomHeadersHeight(state),
+      selectors.getPortfolio(state),
     ],
     shallowEqual,
   );
@@ -81,17 +84,17 @@ const LeftPanel = () => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
-  const onDrop = (e) => {
+  const onDrop = e => {
     // this is mainly for the thumbnail panel, to prevent the broswer from loading a document that dropped in
     e.preventDefault();
   };
 
-  const onDragOver = (e) => {
+  const onDragOver = e => {
     // when dragging over the "LeftPanel", change the cursor to "Move" from "Copy"
     e.preventDefault();
   };
 
-  const getDisplay = (panel) => (panel === activePanel ? 'flex' : 'none');
+  const getDisplay = panel => (panel === activePanel ? 'flex' : 'none');
 
   let style = {};
   if (isInDesktopOnlyMode || !isMobile) {
@@ -102,13 +105,13 @@ const LeftPanel = () => {
 
   useEffect(() => {
     if (isBookmarkPanelEnabled) {
-      core.setBookmarkShortcutToggleOnFunction((pageIndex) => {
+      core.setBookmarkShortcutToggleOnFunction(pageIndex => {
         dispatch(actions.addBookmark(pageIndex, t('message.untitled')));
       });
-      core.setBookmarkShortcutToggleOffFunction((pageIndex) => {
+      core.setBookmarkShortcutToggleOffFunction(pageIndex => {
         dispatch(actions.removeBookmark(pageIndex));
       });
-      core.setUserBookmarks(Object.keys(bookmarks).map((pageIndex) => parseInt(pageIndex, 10)));
+      core.setUserBookmarks(Object.keys(bookmarks).map(pageIndex => parseInt(pageIndex, 10)));
     }
   }, [isBookmarkPanelEnabled, bookmarks]);
 
@@ -175,9 +178,16 @@ const LeftPanel = () => {
             </div>
           </div>}
         <div className="left-panel-header">
-          {isThumbnailSelectingPages ? <LeftPanelPageTabs /> : <LeftPanelTabs />}
+          {isThumbnailSelectingPages ?
+            <LeftPanelPageTabs /> :
+            <LeftPanelTabs showPortfolio={portfolioFiles.length > 0} />}
         </div>
         {/* {activePanel === 'thumbnailsPanel' && <ThumbnailsPanel />} */}
+        {activePanel === DataElements.PORTFOLIO_PANEL
+          && core.isFullPDFEnabled()
+          && portfolioFiles.length > 0
+          && <PortfolioPanel />}
+        {activePanel === 'thumbnailsPanel' && <ThumbnailsPanel />}
         {activePanel === 'outlinesPanel' && <OutlinesPanel />}
         {activePanel === 'bookmarksPanel' && <BookmarksPanel />}
         {activePanel === 'layersPanel' && <LayersPanel />}
@@ -203,7 +213,7 @@ const LeftPanel = () => {
         <ResizeBar
           dataElement="leftPanelResizeBar"
           minWidth={minWidth}
-          onResize={(_width) => {
+          onResize={_width => {
             let maxAllowedWidth = window.innerWidth;
             // there will be a scroll bar in IE, so we don't allow 100% page width
             if (isIE) {

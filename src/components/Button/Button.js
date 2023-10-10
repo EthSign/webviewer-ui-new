@@ -3,12 +3,11 @@ import { useSelector, shallowEqual } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-
 import Tooltip from 'components/Tooltip';
 import Icon from 'components/Icon';
 import { shortcutAria } from 'helpers/hotkeysManager';
-
 import selectors from 'selectors';
+import { getClickMiddleWare, ClickedItemTypes } from 'helpers/clickTracker';
 
 import './Button.scss';
 
@@ -100,9 +99,19 @@ const Button = (props) => {
   const actuallyDisabled = disable || disabled;
   let onClickHandler;
   if (shouldPassActiveDocumentViewerKeyToOnClickHandler) {
-    onClickHandler = () => onClick(activeDocumentViewerKey);
+    onClickHandler = () => {
+      getClickMiddleWare()?.(dataElement, { type: ClickedItemTypes.BUTTON });
+      if (onClick) {
+        return onClick(activeDocumentViewerKey);
+      }
+    };
   } else {
-    onClickHandler = onClick;
+    onClickHandler = (e) => {
+      getClickMiddleWare()?.(dataElement, { type: ClickedItemTypes.BUTTON });
+      if (onClick) {
+        return onClick(e);
+      }
+    };
   }
 
   // if there is no file extension then assume that this is a glyph

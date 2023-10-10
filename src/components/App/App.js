@@ -10,7 +10,6 @@ import actions from 'actions';
 import LogoBar from 'components/LogoBar';
 import Accessibility from 'components/Accessibility';
 import Header from 'components/Header';
-import AnnotationContentOverlay from 'components/AnnotationContentOverlay';
 import DocumentContainer from 'components/DocumentContainer';
 import LeftPanel from 'components/LeftPanel';
 import RightPanel from 'components/RightPanel';
@@ -23,7 +22,7 @@ import TextEditingPanel from 'components/TextEditingPanel';
 import Wv3dPropertiesPanel from 'components/Wv3dPropertiesPanel';
 import AudioPlaybackPopup from 'components/AudioPlaybackPopup';
 import DocumentCropPopup from 'components/DocumentCropPopup';
-import LeftPanelOverlayContainer from 'components/LeftPanelOverlay';
+import SnippingToolPopup from '../SnippingToolPopup';
 import FormFieldIndicatorContainer from 'components/FormFieldIndicator';
 import MultiTabEmptyPage from 'components/MultiTabEmptyPage';
 import MultiViewer from 'components/MultiViewer';
@@ -31,13 +30,13 @@ import ComparePanel from 'components/MultiViewer/ComparePanel';
 import WatermarkPanel from 'components/WatermarkPanel';
 import CustomElement from 'components/CustomElement';
 import Panel from 'components/Panel';
-import LeftHeader from 'components/LeftHeader';
-import RightHeader from 'components/RightHeader';
-import BottomHeader from 'components/BottomHeader';
-import TopHeader from 'components/TopHeader';
+import LeftHeader from 'components/ModularComponents/LeftHeader';
+import RightHeader from 'components/ModularComponents/RightHeader';
+import BottomHeader from 'components/ModularComponents/BottomHeader';
+import TopHeader from 'components/ModularComponents/TopHeader';
 import GenericOutlinesPanel from 'components/GenericOutlinesPanel';
 import FlyoutContainer from 'components/ModularComponents/FlyoutContainer';
-import ZoomFlyoutMenu from 'components/ModularComponents/ZoomFlyoutMenu';
+import ProgressModal from 'components/ProgressModal';
 import LazyLoadWrapper, { LazyLoadComponents } from 'components/LazyLoadWrapper';
 import SearchPanel from 'components/SearchPanel';
 
@@ -49,6 +48,7 @@ import useOnFreeTextEdit from 'hooks/useOnFreeTextEdit';
 import useOnMeasurementToolOrAnnotationSelected from 'hooks/useOnMeasurementToolOrAnnotationSelected';
 import useOnInlineCommentPopupOpen from 'hooks/useOnInlineCommentPopupOpen';
 import useOnRightClickAnnotation from 'hooks/useOnRightClickAnnotation';
+import useOnAnnotationContentOverlayOpen from 'hooks/useOnAnnotationContentOverlayOpen';
 
 import loadDocument from 'helpers/loadDocument';
 import getHashParameters from 'helpers/getHashParameters';
@@ -68,6 +68,7 @@ import DataElements from 'constants/dataElement';
 import setLanguage from 'src/apis/setLanguage';
 
 import './App.scss';
+import SignaturePanel from 'components/SignaturePanel';
 
 // TODO: Use constants
 const tabletBreakpoint = window.matchMedia('(min-width: 641px) and (max-width: 900px)');
@@ -123,8 +124,9 @@ const App = ({ removeEventHandlers }) => {
       let initialDoc = getHashParameters('d', '');
       const isOfficeEditingEnabled = getHashParameters('enableOfficeEditing', false);
       if (!initialDoc && isOfficeEditingEnabled) {
-        loadDocument(dispatch, (await core.getEmptyWordDocument()).default, {
+        loadDocument(dispatch, null, {
           filename: 'Untitled.docx',
+          isOfficeEditingEnabled: true,
         });
 
         return;
@@ -184,6 +186,18 @@ const App = ({ removeEventHandlers }) => {
     });
     window.addEventListener('message', messageHandler, false);
 
+    // When a user switches tabs, the focused element can cause unexpected behavior,
+    // such as triggering keyboard events or displaying tooltips, when they return
+    // to the tab. Blurring the focused element before switching tabs helps to
+    // prevent these unwanted interactions.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+      }
+    });
+
     // In case WV is used outside of iframe, postMessage will not
     // receive the message, and this timeout will trigger loadInitialDocument
     timeoutReturn = setTimeout(loadDocumentAndCleanup, 500);
@@ -240,43 +254,20 @@ const App = ({ removeEventHandlers }) => {
     return () => window.removeEventListener('loaderror', onError);
   }, []);
 
-
-  useEffect(() => {
-    const handleToolModeChange = (newTool, oldTool) => {
-      if (newTool instanceof window.Core.Tools.ContentEditTool) {
-        setTimeout(() => {
-          dispatch(actions.openElement(DataElements.CONTENT_EDIT_MODAL));
-        }, 500);
-      } else if (oldTool instanceof window.Core.Tools.ContentEditTool) {
-        dispatch(actions.clearCurrentContentBeingEdited());
-      }
-    };
-
-    const handleContentEditModeStart = () => {
-      dispatch(actions.openElement(DataElements.CONTENT_EDIT_MODAL));
-    };
-
-    const handleContentEditModeEnd = () => {
-      dispatch(actions.clearCurrentContentBeingEdited());
-    };
-
-    core.addEventListener('toolModeUpdated', handleToolModeChange);
-    core.addEventListener('contentEditModeStarted', handleContentEditModeStart);
-    core.addEventListener('contentEditModeEnded', handleContentEditModeEnd);
-    return () => {
-      core.removeEventListener('toolModeUpdated', handleToolModeChange);
-      core.removeEventListener('contentEditModeStarted', handleContentEditModeStart);
-      core.removeEventListener('contentEditModeEnded', handleContentEditModeEnd);
-    };
-  }, []);
+  const renderPanel = (panelName) => {
+    switch (panelName) {
+      case panelNames.OUTLINE:
+        return <GenericOutlinesPanel/>;
+      case panelNames.SIGNATURE:
+        return <SignaturePanel/>;
+    }
+  };
 
   const panels = customFlxPanels.map((panel, index) => {
     return (
       panel.render && (
         <Panel key={index} dataElement={panel.dataElement} location={panel.location}>
-          {Object.values(panelNames).includes(panel.render) ? (
-            panel.render === panelNames.OUTLINE && <GenericOutlinesPanel />
-          ) : (
+          {Object.values(panelNames).includes(panel.render) ? renderPanel(panel.render) : (
             <CustomElement
               key={panel.dataElement || index}
               className={`Panel ${panel.dataElement}`}
@@ -301,7 +292,6 @@ const App = ({ removeEventHandlers }) => {
       >
 
         <FlyoutContainer />
-        <ZoomFlyoutMenu />
         <Accessibility />
         <Header />
         {isOfficeEditorMode() && (
@@ -371,12 +361,27 @@ const App = ({ removeEventHandlers }) => {
           Component={LazyLoadComponents.ZoomOverlay}
           dataElement={DataElements.ZOOM_OVERLAY}
         />
-        <AnnotationContentOverlay />
+        <LazyLoadWrapper
+          Component={LazyLoadComponents.AnnotationContentOverlay}
+          dataElement={DataElements.ANNOTATION_CONTENT_OVERLAY}
+          onOpenHook={useOnAnnotationContentOverlayOpen}
+        />
         <LazyLoadWrapper
           Component={LazyLoadComponents.PageManipulationOverlay}
           dataElement={DataElements.PAGE_MANIPULATION_OVERLAY}
         />
-        <LeftPanelOverlayContainer />
+        <LazyLoadWrapper
+          Component={LazyLoadComponents.RotatePopup}
+          dataElement={DataElements.THUMBNAILS_CONTROL_ROTATE_POPUP}
+        />
+        <LazyLoadWrapper
+          Component={LazyLoadComponents.ThumbnailMoreOptionsPopup}
+          dataElement={DataElements.THUMBNAILS_CONTROL_MANIPULATE_POPUP}
+        />
+        <LazyLoadWrapper
+          Component={LazyLoadComponents.ThumbnailMoreOptionsPopupSmall}
+          dataElement={DataElements.THUMBNAILS_CONTROL_MANIPULATE_POPUP_SMALL}
+        />
         <FormFieldIndicatorContainer />
         {/* Popups */}
         {/* AnnotationPopup should be the first so that other popups can lay on top of it */}
@@ -412,6 +417,7 @@ const App = ({ removeEventHandlers }) => {
         />
         <AudioPlaybackPopup />
         <DocumentCropPopup />
+        <SnippingToolPopup />
         {/* Modals */}
         <LazyLoadWrapper
           Component={LazyLoadComponents.ScaleModal}
@@ -446,12 +452,19 @@ const App = ({ removeEventHandlers }) => {
         <LazyLoadWrapper Component={LazyLoadComponents.SaveModal} dataElement={DataElements.SAVE_MODAL} />
         <LazyLoadWrapper Component={LazyLoadComponents.InsertPageModal} dataElement={DataElements.INSERT_PAGE_MODAL} />
         <LazyLoadWrapper Component={LazyLoadComponents.LoadingModal} dataElement={DataElements.LOADING_MODAL} />
-        <LazyLoadWrapper Component={LazyLoadComponents.ProgressModal} dataElement={DataElements.PROGRESS_MODAL} />
+
+        {
+          /*
+            There were issues appearing in WebViewer BIM add-on with lazy loading ProgressModal.
+            The BIM add-on relies on ProgressModal styling which wouldn't not get loaded explicitly.
+            This caused styling issues when loading a 3D model and would impact the UI of the BIM add-on.
+
+            See https://apryse.atlassian.net/browse/WVR-3094
+          */
+        }
+        <ProgressModal />
+
         <LazyLoadWrapper Component={LazyLoadComponents.WarningModal} dataElement={DataElements.WARNING_MODAL} />
-        <LazyLoadWrapper
-          Component={LazyLoadComponents.ContentEditModal}
-          dataElement={DataElements.CONTENT_EDIT_MODAL}
-        />
         <LazyLoadWrapper Component={LazyLoadComponents.Model3DModal} dataElement={DataElements.MODEL3D_MODAL} />
         <LazyLoadWrapper
           Component={LazyLoadComponents.ColorPickerModal}
@@ -468,6 +481,7 @@ const App = ({ removeEventHandlers }) => {
           />
         )}
         <LogoBar />
+        <LazyLoadWrapper Component={LazyLoadComponents.CreatePortfolioModal} dataElement={DataElements.CREATE_PORTFOLIO_MODAL} />
       </div>
 
       <PrintHandler />

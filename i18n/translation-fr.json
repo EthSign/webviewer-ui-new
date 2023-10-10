@@ -117,6 +117,8 @@
     "formFillCheckmark": "Cocher",
     "formFillCross": "Traverser",
     "distanceMeasurement": "Mesure de distance",
+    "rectangularAreaMeasurement": "Zone rectangulaire",
+    "ellipseMeasurement": "Zone elliptique",
     "countMeasurement": "Mesure de décompte",
     "ellipse": "Ellipse",
     "eraser": "Gomme à effacer",
@@ -137,6 +139,7 @@
     "redact": "Caviardage",
     "formFillDot": "Point",
     "signature": "Signature",
+    "snipping": "Outil de Découpage",
     "squiggly": "Ligne ondulée",
     "stamp": "Tampon",
     "stickyNote": "Note collante",
@@ -435,12 +438,10 @@
       "drawSignature": "Tirage au sort Signature*",
       "drawInitial": "Dessiner des initiales*",
       "pickInitialsFile": "Choisissez les initiales",
-      "noSignatures": "Il n'y a actuellement aucune signature enregistrée."
+      "noSignatures": "Il n'y a actuellement aucune signature enregistrée.",
+      "fontStyle": "Police"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Glissez & Déposez votre fichier ici",
-      "selectFile": "Sélectionnez votre fichier ici",
-      "or": "Ou",
       "yourFiles": "Vos fichiers",
       "chooseFile": "Choisissez un fichier",
       "localFile": "Fichier local",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Avertissement de sécurité",
-      "message": "Ce document tente de se connecter à :\n\n{{-uri}}.\n\n Si vous faites confiance à ce document, cliquez sur Confirmer pour l'ouvrir."
+      "message": "Ce document tente de se connecter à :\n\n{{- uri}}\n\n Si vous faites confiance à ce document, cliquez sur Confirmer pour l'ouvrir."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Voulez-vous vraiment annuler le recadrage de toutes les pages sélectionnées?"
     }
   },
+  "snippingPopUp": {
+    "title": "Outil de Découpage",
+    "clipboard": "Copier dans le presse-papiers",
+    "download": "Télécharger",
+    "cropAndRemove": "Recadrer et supprimer",
+    "snippingModal": {
+      "applyTitle": "Appliquer le découpage ?",
+      "applyMessage": "Cette action découpera définitivement la zone spécifiée et supprimera les autres pages. Elle est irréversible.",
+      "cancelTitle": "Annuler le découpage ?",
+      "cancelMessage": "Êtes-vous sûr de vouloir arrêter le découpage ?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Paragraphe",
     "text": "Texte"
@@ -1082,6 +1095,26 @@
     "browse": "Parcourir",
     "watermarkOptions": "Options de filigrane",
     "watermarks": "Filigranes"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "Créer un portfolio PDF",
+    "uploadFiles": "Télécharger des fichiers",
+    "uploadFolder": "Télécharger le dossier",
+    "addFiles": "Ajouter des fichiers",
+    "addFile": "Ajouter le fichier",
+    "addFolder": "Ajouter le dossier",
+    "createFolder": "Créer le dossier",
+    "portfolioPanelTitle": "Portfolio PDF",
+    "portfolioNewFolder": "Nouveau dossier",
+    "portfolioFolderPlaceholder": "Nom de dossier",
+    "portfolioFilePlaceholder": "Nom de fichier",
+    "folderNameAlreadyExists": "Le nom du dossier existe déjà",
+    "fileNameAlreadyExists": "Le nom du fichier existe déjà",
+    "openFile": "Ouvrir dans un nouvel onglet",
+    "fileAlreadyExists": "Le fichier existe déjà",
+    "fileAlreadyExistsMessage": "Le fichier \"{{fileName}}\" existe déjà dans le portfolio.",
+    "deletePortfolio": "Voulez-vous vraiment supprimer \"{{fileName}}\" ?",
+    "reselect": "Sélectionner de nouveau"
   },
   "languageModal": {
     "selectLanguage": "Choisir la langue"
@@ -1184,6 +1217,12 @@
     "watermark": "Filigrane",
     "addWatermark": "Ajouter un filigrane",
     "save": "Enregistrer le fichier",
-    "pageError": "Page invalide. Les plages de pages valides sont comprises entre 1 et"
+    "pageError": "Page invalide. Les plages de pages valides sont comprises entre 1 et",
+    "fileNameCannotBeEmpty": "Le nom du fichier ne peut pas être vide"
+  },
+  "filePicker": {
+    "dragAndDrop": "Faites glisser et déposez votre fichier ici",
+    "selectFile": "Sélectionnez votre dossier ici",
+    "or": "Ou"
   }
 }

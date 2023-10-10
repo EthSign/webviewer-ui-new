@@ -117,6 +117,8 @@
     "formFillCheckmark": "Ketyegés",
     "formFillCross": "Kereszt",
     "distanceMeasurement": "Távolság",
+    "rectangularAreaMeasurement": "Téglalap alakú terület",
+    "ellipseMeasurement": "Ellipszis terület",
     "countMeasurement": "Gróf mérés",
     "ellipse": "Ellipszis",
     "eraser": "Radír",
@@ -137,6 +139,7 @@
     "redact": "Szerkeszt",
     "formFillDot": "Pont",
     "signature": "Aláírás",
+    "snipping": "Vágóeszköz",
     "squiggly": "kacskaringós",
     "stamp": "Bélyeg",
     "stickyNote": "jegyzet",
@@ -435,12 +438,10 @@
       "drawSignature": "Aláírás rajzolása*",
       "drawInitial": "Rajz kezdőbetűi*",
       "pickInitialsFile": "Válassza a Kezdőbetűket",
-      "noSignatures": "Jelenleg nincsenek mentett aláírások."
+      "noSignatures": "Jelenleg nincsenek mentett aláírások.",
+      "fontStyle": "betű stílus"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Drag & Drop ide a fájlt",
-      "selectFile": "Válassza ki a fájlt itt",
-      "or": "Vagy",
       "yourFiles": "Az Ön Fájljai",
       "chooseFile": "Válasszon egy fájlt",
       "localFile": "Helyi fájl",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Biztonsági figyelmeztetés",
-      "message": "Ez a dokumentum a következőhöz próbál csatlakozni:\n\n{{- uri}}.\n\n Ha megbízik ebben a dokumentumban, kattintson a Megerősítés gombra a megnyitásához."
+      "message": "Ez a dokumentum a következőhöz próbál csatlakozni:\n\n{{- uri}}\n\n Ha megbízik ebben a dokumentumban, kattintson a Megerősítés gombra a megnyitásához."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Biztosan megszakítja az összes kiválasztott oldal levágását?"
     }
   },
+  "snippingPopUp": {
+    "title": "Vágóeszköz",
+    "clipboard": "Másolás a vágólapra",
+    "download": "Letöltés",
+    "cropAndRemove": "Vágás és eltávolítás",
+    "snippingModal": {
+      "applyTitle": "Vágás alkalmazása?",
+      "applyMessage": "Ez a művelet véglegesen kivágja a megadott területet, és eltávolítja a másik oldalakat. Nem lehet visszavonni.",
+      "cancelTitle": "Vágás megszakítása?",
+      "cancelMessage": "Biztosan meg akarja állítani a vágást?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Bekezdés",
     "text": "Szöveg"
@@ -1082,6 +1095,26 @@
     "browse": "Tallózás",
     "watermarkOptions": "Vízjel opciók",
     "watermarks": "Vízjelek"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "PDF-portfólió létrehozása",
+    "uploadFiles": "Fájlok feltöltése",
+    "uploadFolder": "Mappa feltöltése",
+    "addFiles": "Fájlok hozzáadása",
+    "addFile": "Fájl hozzáadása",
+    "addFolder": "Mappa hozzáadása",
+    "createFolder": "Mappa létrehozás",
+    "portfolioPanelTitle": "PDF portfólió",
+    "portfolioNewFolder": "Új mappa",
+    "portfolioFolderPlaceholder": "Mappa neve",
+    "portfolioFilePlaceholder": "Fájl név",
+    "folderNameAlreadyExists": "A mappanév már létezik",
+    "fileNameAlreadyExists": "A fájlnév már létezik",
+    "openFile": "Megnyitás új lapon",
+    "fileAlreadyExists": "A fájl már létezik",
+    "fileAlreadyExistsMessage": "A \"{{fileName}}\" fájl már létezik a portfólióban.",
+    "deletePortfolio": "Biztosan törli a következőt: \"{{fileName}}\"?",
+    "reselect": "Válassza ki újra"
   },
   "languageModal": {
     "selectLanguage": "Válasszon nyelvet"
@@ -1184,6 +1217,12 @@
     "watermark": "Vízjel",
     "addWatermark": "Vízjel hozzáadása",
     "save": "Fájl mentése",
-    "pageError": "Érvénytelen oldal. Az érvényes oldaltartományok 1 -"
+    "pageError": "Érvénytelen oldal. Az érvényes oldaltartományok 1 -",
+    "fileNameCannotBeEmpty": "A fájlnév nem lehet üres"
+  },
+  "filePicker": {
+    "dragAndDrop": "Drag & Drop ide a fájlt",
+    "selectFile": "Válassza ki a fájlt itt",
+    "or": "Vagy"
   }
 }

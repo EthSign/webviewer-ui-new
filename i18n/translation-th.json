@@ -117,6 +117,8 @@
     "formFillCheckmark": "ติ๊ก",
     "formFillCross": "ข้าม",
     "distanceMeasurement": "ระยะทาง",
+    "rectangularAreaMeasurement": "พื้นที่สี่เหลี่ยม",
+    "ellipseMeasurement": "พื้นที่วงรี",
     "countMeasurement": "นับการวัด",
     "ellipse": "วงรี",
     "eraser": "ยางลบ",
@@ -137,6 +139,7 @@
     "redact": "Redact",
     "formFillDot": "Dot",
     "signature": "ลายเซ็น",
+    "snipping": "เครื่องมือตัด",
     "squiggly": "ไก่เขี่ย",
     "stamp": "ประทับ",
     "stickyNote": "บันทึก",
@@ -435,12 +438,10 @@
       "drawSignature": "วาดลายเซ็น*",
       "drawInitial": "วาดชื่อย่อ*",
       "pickInitialsFile": "เลือกชื่อย่อ",
-      "noSignatures": "ขณะนี้ไม่มีลายเซ็นที่บันทึกไว้"
+      "noSignatures": "ขณะนี้ไม่มีลายเซ็นที่บันทึกไว้",
+      "fontStyle": "รูปแบบตัวอักษร"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "ลากและวางไฟล์ของคุณที่นี่",
-      "selectFile": "เลือกไฟล์ของคุณที่นี่",
-      "or": "หรือ",
       "yourFiles": "ไฟล์ของคุณ",
       "chooseFile": "เลือกไฟล์",
       "localFile": "ไฟล์ในเครื่อง",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "คำเตือนความปลอดภัย",
-      "message": "เอกสารนี้พยายามเชื่อมต่อกับ:\n\n{{-ยูริ}}.\n\n หากคุณเชื่อถือเอกสารนี้ ให้คลิกยืนยันเพื่อเปิด"
+      "message": "เอกสารนี้พยายามเชื่อมต่อกับ:\n\n{{- uri}}\n\n หากคุณเชื่อถือเอกสารนี้ ให้คลิกยืนยันเพื่อเปิด"
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการครอบตัดหน้าที่เลือกทั้งหมด"
     }
   },
+  "snippingPopUp": {
+    "title": "เครื่องมือตัด",
+    "clipboard": "คัดลอกไปยังคลิปบอร์ด",
+    "download": "ดาวน์โหลด",
+    "cropAndRemove": "ครอบและลบ",
+    "snippingModal": {
+      "applyTitle": "ใช้การตัด?",
+      "applyMessage": "การดำเนินการนี้จะตัดพื้นที่ที่ระบุโดยถาวรและเอาหน้าอื่นออก ไม่สามารถยกเลิกได้",
+      "cancelTitle": "ยกเลิกการตัด?",
+      "cancelMessage": "คุณแน่ใจหรือไม่ว่าต้องการหยุดการตัด?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "ย่อหน้า",
     "text": "ข้อความ"
@@ -1082,6 +1095,26 @@
     "browse": "เรียกดู",
     "watermarkOptions": "ตัวเลือกลายน้ำ",
     "watermarks": "ลายน้ำ"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "สร้างผลงาน PDF",
+    "uploadFiles": "อัพโหลดไฟล์",
+    "uploadFolder": "อัปโหลดโฟลเดอร์",
+    "addFiles": "เพิ่มไฟล์",
+    "addFile": "เพิ่มไฟล์",
+    "addFolder": "เพิ่มกล่องเก็บไฟล์",
+    "createFolder": "สร้างโฟลเดอร์",
+    "portfolioPanelTitle": "ไฟล์ PDF",
+    "portfolioNewFolder": "แฟ้มใหม่",
+    "portfolioFolderPlaceholder": "ชื่อโฟลเดอร์",
+    "portfolioFilePlaceholder": "ชื่อไฟล์",
+    "folderNameAlreadyExists": "ชื่อโฟลเดอร์มีอยู่แล้ว",
+    "fileNameAlreadyExists": "ชื่อไฟล์มีอยู่แล้ว",
+    "openFile": "เปิดในแท็บใหม่",
+    "fileAlreadyExists": "มีไฟล์อยู่แล้ว",
+    "fileAlreadyExistsMessage": "ไฟล์ \"{{fileName}}\" มีอยู่ในพอร์ตโฟลิโอแล้ว",
+    "deletePortfolio": "แน่ใจไหมว่าต้องการลบ \"{{fileName}}\"",
+    "reselect": "เลือกใหม่"
   },
   "languageModal": {
     "selectLanguage": "เลือกภาษา"
@@ -1184,6 +1217,12 @@
     "watermark": "ลายน้ำ",
     "addWatermark": "ใส่ลายน้ำ",
     "save": "บันทึกไฟล์",
-    "pageError": "หน้าไม่ถูกต้อง ช่วงหน้าที่ถูกต้องอยู่ระหว่าง 1 -"
+    "pageError": "หน้าไม่ถูกต้อง ช่วงหน้าที่ถูกต้องอยู่ระหว่าง 1 -",
+    "fileNameCannotBeEmpty": "ชื่อไฟล์ต้องไม่ว่างเปล่า"
+  },
+  "filePicker": {
+    "dragAndDrop": "ลากและวางไฟล์ของคุณที่นี่",
+    "selectFile": "เลือกไฟล์ของคุณที่นี่",
+    "or": "หรือ"
   }
 }

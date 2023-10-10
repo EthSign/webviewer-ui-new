@@ -59,7 +59,7 @@ export default {
     isMultiTab: false,
     thumbnailSelectingPages: false,
     isInDesktopOnlyMode: false,
-    toolbarGroup: 'toolbarGroup-Annotate',
+    toolbarGroup: DataElements.ANNOTATE_TOOLBAR_GROUP,
     activeTheme: 'light',
     currentLanguage: 'en',
     disabledElements: {
@@ -77,6 +77,7 @@ export default {
       textPopup: { disabled: true, priority: 2 },
       contextMenuPopup: { disabled: true, priority: 2 },
       //annotationPopup: { disabled: true, priority: 2 },
+      [DataElements.OFFICE_EDITOR_TOOLS_HEADER_INSERT_IMAGE]: { disabled: true, priority: 2 },
     },
     selectedScale: initialScale,
     isAddingNewScale: false,
@@ -188,7 +189,6 @@ export default {
           title: 'component.notesPanel',
           element: 'notesPanel',
           onClick: dispatch => {
-            dispatch(actions.toggleElement('notesPanel'));
             // Trigger with a delay so we ensure the panel is open before we compute correct coordinates of annotation
             setTimeout(() => dispatch(actions.toggleElement('annotationNoteConnectorLine')), 400);
           },
@@ -233,8 +233,8 @@ export default {
           },
         },
       ],
-      'toolbarGroup-View': [],
-      'toolbarGroup-Annotate': [
+      [DataElements.VIEW_TOOLBAR_GROUP]: [],
+      [DataElements.ANNOTATE_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -290,6 +290,18 @@ export default {
           dataElement: 'strikeoutToolGroupButton',
           title: 'annotation.strikeout',
         },
+        {
+          type: 'toolGroupButton',
+          toolGroup: 'markInsertTextTools',
+          dataElement: 'markInsertTextGroupButton',
+          title: 'annotation.markInsertText',
+        },
+        {
+          type: 'toolGroupButton',
+          toolGroup: 'markReplaceTextTools',
+          dataElement: 'markReplaceTextGroupButton',
+          title: 'annotation.markReplaceText',
+        },
         { type: 'divider' },
         {
           type: 'customElement',
@@ -308,7 +320,7 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
         { type: 'spacer', hidden: ['tablet', 'mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-Shapes': [
+      [DataElements.SHAPES_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -384,7 +396,7 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
         { type: 'spacer', hidden: ['tablet', 'mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-Redact': [
+      [DataElements.REDACT_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -420,7 +432,7 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
         { type: 'spacer', hidden: ['tablet', 'mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-Insert': [
+      [DataElements.INSERT_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -484,7 +496,7 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
         { type: 'spacer', hidden: ['tablet', 'mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-Measure': [
+      [DataElements.MEASURE_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         // @todo: add "measurement" to data-element names in 9.0. Note: do not rename arcMeasurementTools to arcTools as it is being used elsewhere.
         {
@@ -515,13 +527,13 @@ export default {
           type: 'toolGroupButton',
           toolGroup: 'ellipseAreaTools',
           dataElement: 'ellipseAreaToolGroupButton',
-          title: 'annotation.areaMeasurement',
+          title: 'annotation.ellipseMeasurement',
         },
         {
           type: 'toolGroupButton',
           toolGroup: 'rectangleAreaTools',
           dataElement: 'rectangleAreaToolGroupButton',
-          title: 'annotation.areaMeasurement',
+          title: 'annotation.rectangularAreaMeasurement',
         },
         {
           type: 'toolGroupButton',
@@ -547,13 +559,19 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
         { type: 'spacer', hidden: ['tablet', 'mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-Edit': [
+      [DataElements.EDIT_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
           toolGroup: 'cropTools',
           dataElement: 'cropToolGroupButton',
           title: 'annotation.crop',
+        },
+        {
+          type: 'toolGroupButton',
+          toolGroup: 'snippingTools',
+          dataElement: 'snippingToolGroupButton',
+          title: 'annotation.snipping',
         },
         {
           type: 'toolGroupButton',
@@ -570,7 +588,7 @@ export default {
         },
         { type: 'spacer', hidden: ['mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-EditText': [
+      [DataElements.EDIT_TEXT_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -586,7 +604,7 @@ export default {
         },
         { type: 'spacer', hidden: ['mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-FillAndSign': [
+      [DataElements.FILL_AND_SIGN_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -652,7 +670,7 @@ export default {
         { type: 'toolButton', toolName: 'AnnotationEraserTool' },
         { type: 'spacer', hidden: ['tablet', 'mobile', 'small-mobile'] },
       ],
-      'toolbarGroup-Forms': [
+      [DataElements.FORMS_TOOLBAR_GROUP]: [
         { type: 'spacer' },
         {
           type: 'toolGroupButton',
@@ -937,56 +955,56 @@ export default {
       },
       AnnotationCreateEllipseMeasurement: {
         dataElement: 'ellipseMeasurementToolButton',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.ellipseMeasurement',
         img: 'icon-tool-measurement-area-ellipse-line',
         group: 'ellipseAreaTools',
         showColor: 'always',
       },
       AnnotationCreateEllipseMeasurement2: {
         dataElement: 'ellipseMeasurementToolButton2',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.ellipseMeasurement',
         img: 'icon-tool-measurement-area-ellipse-line',
         group: 'ellipseAreaTools',
         showColor: 'always',
       },
       AnnotationCreateEllipseMeasurement3: {
         dataElement: 'ellipseMeasurementToolButton3',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.ellipseMeasurement',
         img: 'icon-tool-measurement-area-ellipse-line',
         group: 'ellipseAreaTools',
         showColor: 'always',
       },
       AnnotationCreateEllipseMeasurement4: {
         dataElement: 'ellipseMeasurementToolButton4',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.ellipseMeasurement',
         img: 'icon-tool-measurement-area-ellipse-line',
         group: 'ellipseAreaTools',
         showColor: 'always',
       },
       AnnotationCreateRectangularAreaMeasurement: {
         dataElement: 'rectangularAreaMeasurementToolButton',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.rectangularAreaMeasurement',
         img: 'icon-tool-measurement-area-line',
         group: 'rectangleAreaTools',
         showColor: 'always',
       },
       AnnotationCreateRectangularAreaMeasurement2: {
         dataElement: 'rectangularAreaMeasurementToolButton2',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.rectangularAreaMeasurement',
         img: 'icon-tool-measurement-area-line',
         group: 'rectangleAreaTools',
         showColor: 'always',
       },
       AnnotationCreateRectangularAreaMeasurement3: {
         dataElement: 'rectangularAreaMeasurementToolButton3',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.rectangularAreaMeasurement',
         img: 'icon-tool-measurement-area-line',
         group: 'rectangleAreaTools',
         showColor: 'always',
       },
       AnnotationCreateRectangularAreaMeasurement4: {
         dataElement: 'rectangularAreaMeasurementToolButton4',
-        title: 'annotation.areaMeasurement',
+        title: 'annotation.rectangularAreaMeasurement',
         img: 'icon-tool-measurement-area-line',
         group: 'rectangleAreaTools',
         showColor: 'always',
@@ -1649,6 +1667,13 @@ export default {
         showColor: 'never',
         group: 'cropTools',
       },
+      SnippingTool: {
+        dataElement: 'snippingToolButton',
+        title: 'annotation.snipping',
+        img: 'ic_snipping_black_24px',
+        showColor: 'never',
+        group: 'snippingTools',
+      },
       ContentEditTool: {
         dataElement: 'contentEditToolButton',
         title: 'action.edit',
@@ -1877,10 +1902,11 @@ export default {
       linkModal: 'URLPanelButton',
       rubberStampTab: 'standardStampPanelButton',
       filterAnnotModal: DataElements.ANNOTATION_USER_FILTER_PANEL_BUTTON,
-      settingsModal: DataElements.SETTINGS_GENERAL_BUTTON,
+      [DataElements.SETTINGS_MODAL]: DataElements.SETTINGS_GENERAL_BUTTON,
       savedSignatures: DataElements.SAVED_SIGNATURES_PANEL_BUTTON,
       openFileModal: 'urlInputPanelButton',
-      insertPageModal: 'insertBlankPagePanelButton'
+      insertPageModal: 'insertBlankPagePanelButton',
+      [DataElements.CREATE_PORTFOLIO_MODAL]: DataElements.PORTFOLIO_UPLOAD_FILES_TAB
     },
     customElementOverrides: {},
     activeHeaderGroup: 'default',
@@ -1913,6 +1939,7 @@ export default {
     enableNoteSubmissionWithEnter: false,
     isNotesPanelTextCollapsingEnabled: true,
     isNotesPanelRepliesCollapsingEnabled: true,
+    isMeasurementAnnotationFilterEnabled: false,
     isCommentThreadExpansionEnabled: false,
     enableMouseWheelZoom: true,
     doesAutoLoad: getHashParameters('auto_load', true),
@@ -1960,21 +1987,19 @@ export default {
     isSnapModeEnabled: false,
     isReaderMode: false,
     unreadAnnotationIdSet: new Set(),
-    certificates: [],
-    trustLists: [],
-    validationModalWidgetName: '',
-    verificationResult: {},
     watermarkModalOptions: null,
     fonts: [...defaultFonts, ...webFonts],
     shouldResetAudioPlaybackPosition: false,
     activeSoundAnnotation: null,
     shouldShowApplyCropWarning: true,
+    shouldShowApplySnippingWarning: true,
     presetCropDimensions,
     presetNewPageDimensions,
     dateTimeFormats: defaultDateTimeFormats,
     thumbnailSelectionMode: 'checkbox',
     annotationFilters: {
       includeReplies: true,
+      isDocumentFilterActive: false,
       authorFilter: [],
       colorFilter: [],
       typeFilter: [],
@@ -2023,6 +2048,7 @@ export default {
     customSettings: [],
     modularHeaders: [],
     activeGroupedItems: [],
+    fixedGroupedItems: [],
     modularHeadersHeight: {
       topHeaders: 40,
       bottomHeaders: 40
@@ -2036,6 +2062,7 @@ export default {
     flyoutMap: {},
     flyoutPosition: { x: 0, y: 0 },
     activeFlyout: null,
+    textSignatureCanvasMultiplier: 1,
   },
   search: {
     value: '',
@@ -2077,6 +2104,7 @@ export default {
     },
     outlines: [],
     bookmarks: {},
+    portfolio: [],
     layers: [],
     printQuality: 1,
     passwordAttempts: -1,
@@ -2123,5 +2151,12 @@ export default {
     availableFontFaces,
     cssFontValues,
   },
-  isRevocationCheckingEnabled: false,
+  digitalSignatureValidation: {
+    validationModalWidgetName: '',
+    verificationResult: {},
+    certificates: [],
+    trustLists: [],
+    isRevocationCheckingEnabled: false,
+    revocationProxyPrefix: null,
+  },
 };

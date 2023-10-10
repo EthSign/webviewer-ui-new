@@ -45,8 +45,8 @@ import actions from 'actions';
  * Invalid.
  * @ignore
  */
-export default async (doc, certificates, trustLists, currentLanguage, revocationChecking, dispatch) => {
-  const verificationResult = await getVerificationResult(doc, certificates, trustLists, currentLanguage, revocationChecking);
+export default async (doc, certificates, trustLists, currentLanguage, revocationChecking, revocationProxyPrefix, dispatch) => {
+  const verificationResult = await getVerificationResult(doc, certificates, trustLists, currentLanguage, revocationChecking, revocationProxyPrefix);
   dispatch(actions.setVerificationResult(verificationResult));
   return verificationResult;
 };
@@ -68,11 +68,14 @@ export default async (doc, certificates, trustLists, currentLanguage, revocation
  * VerificationOptions.enableOnlineCRLRevocationChecking is invoked to enable
  * Online Certification Revocation List (CRL) Revocation Checking is done
  * within the PDFNet logic
+ * @param {string} revocationProxyPrefix The URL of a proxy server that should
+ * be used to avoid CORS related issues when contacting Certificate Revocation
+ * List (CRL) servers
  * @returns {object} An object mapping the field name of each signature widget
  * to their verification results
  * @ignore
  */
-const getVerificationResult = async (doc, certificates, trustLists, currentLanguage, revocationChecking) => {
+const getVerificationResult = async (doc, certificates, trustLists, currentLanguage, revocationChecking, revocationProxyPrefix) => {
   const { PDFNet } = window.Core;
   const { VerificationResult } = PDFNet;
   const {
@@ -95,6 +98,10 @@ const getVerificationResult = async (doc, certificates, trustLists, currentLangu
 
     if (revocationChecking) {
       await opts.enableOnlineCRLRevocationChecking(true);
+    }
+
+    if (revocationProxyPrefix) {
+      await opts.setRevocationProxyPrefix(revocationProxyPrefix);
     }
 
     for (const certificate of certificates) {
@@ -242,7 +249,7 @@ const getVerificationResult = async (doc, certificates, trustLists, currentLangu
             signTime = await digitalSigField.getSigningTime();
 
             if (await signTime.isValid()) {
-              signTime = formatPDFNetDate(signTime);
+              signTime = formatPDFNetDate(signTime, currentLanguage);
             } else {
               signTime = null;
             }
@@ -399,11 +406,19 @@ const getVerificationResult = async (doc, certificates, trustLists, currentLangu
  * @returns {string} Human readable formatted date and time
  * @ignore
  */
-const formatPDFNetDate = (date) => {
+const formatPDFNetDate = (date, currentLanguage) => {
   const { year, month, day, hour, minute, second } = date;
-  const d = new Date(year, month, day, hour, minute, second);
+  const d = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
 
-  return d.toLocaleString();
+  return d.toLocaleDateString(currentLanguage.replace('_', '-'), {
+    year: 'numeric',
+    month: 'long',
+    weekday: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZoneName: 'short',
+  });
 };
 
 /**
@@ -426,6 +441,7 @@ const formatDate = (epochTime, currentLanguage) => {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
+    timeZoneName: 'short',
   });
 };
 

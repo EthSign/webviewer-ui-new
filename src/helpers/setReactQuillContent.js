@@ -1,12 +1,13 @@
+import mentionsManager from './MentionsManager';
 /*
  * Transforming RichText Style object into the Object acceptable by React Quill component.
  */
 
-const setReactQuillContent = (annotation) => {
+const setReactQuillContent = (annotation, editor) => {
   const richTextStyle = annotation.getRichTextStyle();
   const indexes = Object.keys(richTextStyle);
-  const editor = annotation.editor;
-  const text = editor.getText();
+  const formattedText = mentionsManager.getFormattedTextFromDeltas(editor.getContents());
+  const text = mentionsManager.extractMentionDataFromStr(formattedText).plainTextValue;
   const ops = [];
 
   for (let i = 0; i < indexes.length; i++) {

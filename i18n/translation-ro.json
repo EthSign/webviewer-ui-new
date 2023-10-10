@@ -117,6 +117,8 @@
     "formFillCheckmark": "Bifă",
     "formFillCross": "Cruce",
     "distanceMeasurement": "Distanţă",
+    "rectangularAreaMeasurement": "Zona dreptunghiulară",
+    "ellipseMeasurement": "Zona elipsei",
     "countMeasurement": "Măsurarea numărului",
     "ellipse": "Elipsă",
     "eraser": "Radieră",
@@ -137,6 +139,7 @@
     "redact": "Redacta",
     "formFillDot": "Punct",
     "signature": "Semnătură",
+    "snipping": "Instrument de Tăiere",
     "squiggly": "Squiggly",
     "stamp": "Timbru",
     "stickyNote": "Notă",
@@ -435,12 +438,10 @@
       "drawSignature": "Semnătura extragerii*",
       "drawInitial": "Desenați inițiale*",
       "pickInitialsFile": "Alegeți Inițiale",
-      "noSignatures": "În prezent, nu există semnături salvate."
+      "noSignatures": "În prezent, nu există semnături salvate.",
+      "fontStyle": "stilul fontului"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Trageți și plasați fișierul aici",
-      "selectFile": "Selectați fișierul dvs. aici",
-      "or": "Sau",
       "yourFiles": "Fișierele dvs",
       "chooseFile": "Alegeți un fișier",
       "localFile": "Fișier local",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Avertizare de securitate",
-      "message": "Acest document încearcă să se conecteze la:\n\n{{- uri}}.\n\n Dacă aveți încredere în acest document, faceți clic pe Confirmare pentru a-l deschide."
+      "message": "Acest document încearcă să se conecteze la:\n\n{{- uri}}\n\n Dacă aveți încredere în acest document, faceți clic pe Confirmare pentru a-l deschide."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Sigur doriți să anulați decuparea tuturor paginilor selectate?"
     }
   },
+  "snippingPopUp": {
+  "title": "Instrument de Tăiere",
+  "clipboard": "Copiați în Clipboard",
+  "download": "Descărcare",
+  "cropAndRemove": "Decupați și Eliminați",
+    "snippingModal": {
+      "applyTitle": "Aplicați tăierea?",
+      "applyMessage": "Această acțiune va tăia în mod permanent zona specificată și va elimina alte pagini. Nu poate fi anulată.",
+      "cancelTitle": "Anulați tăierea?",
+      "cancelMessage": "Sunteți sigur că doriți să opriți tăierea?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Paragraf",
     "text": "Text"
@@ -1082,6 +1095,26 @@
     "browse": "Naviga",
     "watermarkOptions": "Opțiuni filigran",
     "watermarks": "Filigrane"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "Creați portofoliu PDF",
+    "uploadFiles": "Încărca fișiere",
+    "uploadFolder": "Încărcați dosarul",
+    "addFiles": "Adăugați fișiere",
+    "addFile": "Adauga fisier",
+    "addFolder": "Adaugă folder",
+    "createFolder": "Creeaza dosar",
+    "portfolioPanelTitle": "Portofoliu PDF",
+    "portfolioNewFolder": "Dosar nou",
+    "portfolioFolderPlaceholder": "Numele fisierului",
+    "portfolioFilePlaceholder": "Nume de fișier",
+    "folderNameAlreadyExists": "Numele dosarului există deja",
+    "fileNameAlreadyExists": "Numele fișierului există deja",
+    "openFile": "Deschideți în filă nouă",
+    "fileAlreadyExists": "Fisierul există deja",
+    "fileAlreadyExistsMessage": "Fișierul „{{fileName}}” există deja în portofoliu.",
+    "deletePortfolio": "Sigur doriți să ștergeți „{{fileName}}”?",
+    "reselect": "Reselectați"
   },
   "languageModal": {
     "selectLanguage": "Selecteaza limba"
@@ -1184,6 +1217,12 @@
     "watermark": "Filigran",
     "addWatermark": "Adăugați filigran",
     "save": "Salvează fișierul",
-    "pageError": "Pagina nevalidă. Intervalele de pagini valide sunt cuprinse între 1 -"
+    "pageError": "Pagina nevalidă. Intervalele de pagini valide sunt cuprinse între 1 -",
+    "fileNameCannotBeEmpty": "Numele fișierului nu poate fi gol"
+  },
+  "filePicker": {
+    "dragAndDrop": "Trageți și plasați fișierul aici",
+    "selectFile": "Selectați fișierul dvs. aici",
+    "or": "Sau"
   }
 }

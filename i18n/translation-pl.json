@@ -117,6 +117,8 @@
     "formFillCheckmark": "Znacznik",
     "formFillCross": "Krzyżyk",
     "distanceMeasurement": "Dystans",
+    "rectangularAreaMeasurement": "Obszar prostokątny",
+    "ellipseMeasurement": "Obszar elipsy",
     "countMeasurement": "Pomiar",
     "ellipse": "Elipsa",
     "eraser": "Gumka",
@@ -137,6 +139,7 @@
     "redact": "Redaguj",
     "formFillDot": "Kropka",
     "signature": "Podpis",
+    "snipping": "Narzędzie Wycinania",
     "squiggly": "Falista linia",
     "stamp": "Stempel",
     "stickyNote": "Notatka",
@@ -435,12 +438,10 @@
       "drawSignature": "Narysuj podpis*",
       "drawInitial": "Narysuj inicjały*",
       "pickInitialsFile": "Wybierz inicjały",
-      "noSignatures": "Obecnie nie ma zapisanych podpisów."
+      "noSignatures": "Obecnie nie ma zapisanych podpisów.",
+      "fontStyle": "styl czcionki"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Przeciągnij i upuść plik tutaj",
-      "selectFile": "Wybierz swój plik tutaj",
-      "or": "Lub",
       "yourFiles": "Twoje pliki",
       "chooseFile": "Wybierz plik",
       "localFile": "Plik lokalny",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Ostrzeżenie bezpieczeństwa",
-      "message": "Ten dokument próbuje połączyć się z:\n\n{{- ur}}.\n\n Jeśli ufasz temu dokumentowi, kliknij Potwierdź, aby go otworzyć."
+      "message": "Ten dokument próbuje połączyć się z:\n\n{{- uri}}\n\n Jeśli ufasz temu dokumentowi, kliknij Potwierdź, aby go otworzyć."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Czy na pewno chcesz anulować przycinanie wszystkich wybranych stron?"
     }
   },
+  "snippingPopUp": {
+    "title": "Narzędzie Wycinania",
+    "clipboard": "Kopiuj do Schowka",
+    "download": "Pobierz",
+    "cropAndRemove": "Przytnij i Usuń",
+    "snippingModal": {
+      "applyTitle": "Zastosować wycinanie?",
+      "applyMessage": "Ta operacja trwale wycina określony obszar i usuwa inne strony. Nie można jej cofnąć.",
+      "cancelTitle": "Anulować wycinanie?",
+      "cancelMessage": "Czy na pewno chcesz przerwać wycinanie?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Ustęp",
     "text": "Tekst"
@@ -1082,6 +1095,26 @@
     "browse": "Przeglądaj",
     "watermarkOptions": "Opcje znaku wodnego",
     "watermarks": "Znaki wodne"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "Utwórz portfolio PDF",
+    "uploadFiles": "Prześlij pliki",
+    "uploadFolder": "Prześlij folder",
+    "addFiles": "Dodaj pliki",
+    "addFile": "Dodaj plik",
+    "addFolder": "Dodaj folder",
+    "createFolder": "Utwórz folder",
+    "portfolioPanelTitle": "Portfolio PDF",
+    "portfolioNewFolder": "Nowy folder",
+    "portfolioFolderPlaceholder": "Nazwa folderu",
+    "portfolioFilePlaceholder": "Nazwa pliku",
+    "folderNameAlreadyExists": "Nazwa folderu już istnieje",
+    "fileNameAlreadyExists": "Nazwa pliku już istnieje",
+    "openFile": "Otwórz w nowej karcie",
+    "fileAlreadyExists": "Plik już istnieje",
+    "fileAlreadyExistsMessage": "Plik „{{fileName}}” już istnieje w portfolio.",
+    "deletePortfolio": "Czy na pewno chcesz usunąć „{{fileName}}”?",
+    "reselect": "Wybierz ponownie"
   },
   "languageModal": {
     "selectLanguage": "Wybierz język"
@@ -1184,6 +1217,12 @@
     "watermark": "znak wodny",
     "addWatermark": "Dodaj znak wodny",
     "save": "Zapisz plik",
-    "pageError": "Nieprawidłowa strona. Prawidłowe zakresy stron mieszczą się w przedziale od 1 do"
+    "pageError": "Nieprawidłowa strona. Prawidłowe zakresy stron mieszczą się w przedziale od 1 do",
+    "fileNameCannotBeEmpty": "Nazwa pliku nie może być pusta"
+  },
+  "filePicker": {
+    "dragAndDrop": "Przeciągnij i upuść swój plik tutaj",
+    "selectFile": "Wybierz swój plik tutaj",
+    "or": "Lub"
   }
 }

@@ -1,9 +1,12 @@
 import getFilteredDataElements from 'helpers/getFilteredDataElements';
+import { getEmbeddedFileData } from 'helpers/getFileAttachments';
 import { isAndroid, isIOS } from 'helpers/device';
 import fireEvent from 'helpers/fireEvent';
 import Events from 'constants/events';
 import selectors from 'selectors';
 import core from 'core';
+import DataElements from 'constants/dataElement';
+import { setToolbarGroup } from './exposedActions';
 
 // viewer
 /**
@@ -14,7 +17,7 @@ import core from 'core';
  * If a element is disabled with priority 3, then calling enableElement with priority 2 won't enable it back because the element is disabled in a more specific manner.
  * This priority argument is used by external APIs such as instance.disableElements and instance.disableFeatures(...)
  * For example, instance.disableElements has priority 3 and instance.enableFeatures has priority 1.
- * So calling instance.enableFeatures([instance.Feature.NotesPanel]) won't enable the notes panel if it's disabled by instance.disableElements(['notesPanel'])
+ * So calling instance.enableFeatures([instance.UI.Feature.NotesPanel]) won't enable the notes panel if it's disabled by instance.disableElements(['notesPanel'])
  */
 export const disableElement = (dataElement, priority) => (
   dispatch,
@@ -33,6 +36,7 @@ export const disableElement = (dataElement, priority) => (
     );
     if (!currentPriority || priority >= currentPriority) {
       dispatch({ type: 'DISABLE_ELEMENT', payload: { dataElement, priority } });
+      updateCurrentToolbarGroup([dataElement], dispatch, getState);
     }
   }
 };
@@ -49,6 +53,26 @@ export const disableElements = (dataElements, priority) => (
     type: 'DISABLE_ELEMENTS',
     payload: { dataElements: filteredDataElements, priority },
   });
+
+  updateCurrentToolbarGroup(filteredDataElements, dispatch, getState);
+};
+
+// A helper that updates the current toolbar group if the current toolbar group is disabled
+const updateCurrentToolbarGroup = (dataElements, dispatch, getState) => {
+  // Check if we disabled a toolbar group
+  const disabledToolbarGroups = dataElements.filter((dataElement) => DataElements.TOOLBAR_GROUPS.includes(dataElement));
+  if (disabledToolbarGroups.length > 0) {
+    // If we did check if it is the currently active toolbar group
+    const activeToolbarGroup = selectors.getCurrentToolbarGroup(getState());
+    const wasActiveToolbarGroupDisabled = disabledToolbarGroups.includes(activeToolbarGroup);
+    // If it is disabled, switch to the first enabled toolbar group, or the view group if none are enabled
+    if (wasActiveToolbarGroupDisabled) {
+      const enabledToolbarGroups = selectors.getEnabledToolbarGroups(getState());
+      const firstEnabledToolbarGroup = enabledToolbarGroups[0] || DataElements.VIEW_TOOLBAR_GROUP;
+      // Set the toolbar group, with no default tool selected by default
+      setToolbarGroup(firstEnabledToolbarGroup, false)(dispatch, getState);
+    }
+  }
 };
 export const enableElement = (dataElement, priority) => (
   dispatch,
@@ -91,6 +115,20 @@ export const enableElements = (dataElements, priority) => (
     payload: { dataElements: filteredDataElements, priority },
   });
 };
+
+export const addPortfolioTab = ({ fileObject, name, extension }) => async (dispatch, getState) => {
+  const state = getState();
+  const tabManager = selectors.getTabManager(state);
+  tabManager.addTab(
+    await getEmbeddedFileData(fileObject),
+    {
+      setActive: true,
+      extension: extension,
+      filename: name,
+    },
+  );
+};
+
 export const setIsElementHidden = (dataElement, isHidden) => ({
   type: 'SET_IS_ELEMENT_HIDDEN',
   payload: { dataElement, isHidden }
@@ -118,10 +156,6 @@ export const updateCalibrationInfo = ({ isCalibration = true, tempScale = '', pr
 export const setIsAddingNewScale = (isAddingNewScale = false) => ({
   type: 'SET_IS_ADDING_NEW_SCALE',
   payload: { isAddingNewScale }
-});
-export const setIsRevocationCheckingEnabled = (isRevocationCheckingEnabled = false) => ({
-  type: 'SET_IS_REVOCATION_CHECKING_ENABLED',
-  payload: { isRevocationCheckingEnabled }
 });
 export const updateDeleteScale = (deleteScale = '') => ({
   type: 'UPDATE_DELETE_SCALE',
@@ -491,6 +525,10 @@ export const setBookmarkIconShortcutVisibility = (bookmarkIconShortcutVisibility
   type: 'SET_BOOKMARK_ICON_SHORTCUT_VISIBILITY',
   payload: { bookmarkIconShortcutVisibility },
 });
+export const setPortfolio = (portfolio) => ({
+  type: 'SET_PORTFOLIO',
+  payload: { portfolio },
+});
 export const setLayers = (layers) => ({
   type: 'SET_LAYERS',
   payload: { layers },
@@ -518,6 +556,14 @@ export const resetLoadingProgress = () => ({
 export const setVerificationResult = (result) => ({
   type: 'SET_VERIFICATION_RESULT',
   payload: { result },
+});
+export const setIsRevocationCheckingEnabled = (isRevocationCheckingEnabled = false) => ({
+  type: 'SET_IS_REVOCATION_CHECKING_ENABLED',
+  payload: { isRevocationCheckingEnabled }
+});
+export const setRevocationProxyPrefix = (revocationProxyPrefix) => ({
+  type: 'SET_REVOCATION_PROXY_PREFIX',
+  payload: { revocationProxyPrefix }
 });
 
 // user

@@ -117,6 +117,8 @@
     "formFillCheckmark": "Garrapata",
     "formFillCross": "Cruzar",
     "distanceMeasurement": "Medición de distancia",
+    "rectangularAreaMeasurement": "área rectangular",
+    "ellipseMeasurement": "Área de elipse",
     "countMeasurement": "Medida de conteo",
     "ellipse": "Elipse",
     "eraser": "Borrador",
@@ -137,6 +139,7 @@
     "redact": "Modificar",
     "formFillDot": "Punto",
     "signature": "Firma",
+    "snipping": "Herramienta de Recorte",
     "squiggly": "Subrayado ondulado",
     "stamp": "Sello",
     "stickyNote": "Comentario",
@@ -435,12 +438,10 @@
       "drawSignature": "Dibujar Firma*",
       "drawInitial": "Dibujar iniciales*",
       "pickInitialsFile": "Elija Iniciales",
-      "noSignatures": "Actualmente no hay firmas guardadas."
+      "noSignatures": "Actualmente no hay firmas guardadas.",
+      "fontStyle": "Estilo de fuente"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Arrastra y suelta tu archivo aquí",
-      "selectFile": "Seleccione su archivo aquí",
-      "or": "O",
       "yourFiles": "Tus archivos",
       "chooseFile": "Escoge un archivo",
       "localFile": "Archivo local",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Advertencia de seguridad",
-      "message": "Este documento está intentando conectarse a:\n\n{{-uri}}.\n\n Si confía en este documento, haga clic en Confirmar para abrirlo."
+      "message": "Este documento está intentando conectarse a:\n\n{{- uri}}\n\n Si confía en este documento, haga clic en Confirmar para abrirlo."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "¿Está seguro de que desea cancelar el recorte de todas las páginas seleccionadas?"
     }
   },
+  "snippingPopUp": {
+    "title": "Herramienta de Recorte",
+    "clipboard": "Copiar al portapapeles",
+    "download": "Descargar",
+    "cropAndRemove": "Recortar y eliminar",
+    "snippingModal": {
+      "applyTitle": "¿Aplicar recorte?",
+      "applyMessage": "Esta acción recortará permanentemente el área especificada y eliminará otras páginas. No se puede deshacer.",
+      "cancelTitle": "¿Cancelar recorte?",
+      "cancelMessage": "¿Está seguro de que desea detener el recorte?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Párrafo",
     "text": "Texto"
@@ -1082,6 +1095,26 @@
     "browse": "Navegar",
     "watermarkOptions": "Opciones de marca de agua",
     "watermarks": "marcas de agua"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "Crear cartera PDF",
+    "uploadFiles": "Subir archivos",
+    "uploadFolder": "Cargar carpeta",
+    "addFiles": "Agregar archivos",
+    "addFile": "Agregar archivo",
+    "addFolder": "Agregar carpeta",
+    "createFolder": "Crear carpeta",
+    "portfolioPanelTitle": "Portafolio PDF",
+    "portfolioNewFolder": "Nueva carpeta",
+    "portfolioFolderPlaceholder": "Nombre de la carpeta",
+    "portfolioFilePlaceholder": "Nombre del archivo",
+    "folderNameAlreadyExists": "El nombre de la carpeta ya existe",
+    "fileNameAlreadyExists": "El nombre del archivo ya existe",
+    "openFile": "Abrir en una pestaña nueva",
+    "fileAlreadyExists": "El archivo ya existe",
+    "fileAlreadyExistsMessage": "El archivo \"{{fileName}}\" ya existe en la cartera.",
+    "deletePortfolio": "¿Está seguro de que desea eliminar \"{{fileName}}\"?",
+    "reselect": "Reseleccionar"
   },
   "languageModal": {
     "selectLanguage": "Seleccione el idioma"
@@ -1184,6 +1217,12 @@
     "watermark": "Filigrana",
     "addWatermark": "Agregar marca de agua",
     "save": "Guardar el archivo",
-    "pageError": "Página no válida. Los intervalos de páginas válidos están entre 1 y"
+    "pageError": "Página no válida. Los intervalos de páginas válidos están entre 1 y",
+    "fileNameCannotBeEmpty": "El nombre del archivo no puede estar vacío"
+  },
+  "filePicker": {
+    "dragAndDrop": "Arrastra y suelta tu archivo aquí",
+    "selectFile": "Seleccione su archivo aquí",
+    "or": "O"
   }
 }

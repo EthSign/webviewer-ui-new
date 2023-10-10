@@ -117,6 +117,8 @@
     "formFillCheckmark": "Tick",
     "formFillCross": "Cross",
     "distanceMeasurement": "Distance",
+    "rectangularAreaMeasurement": "Rectangular Area",
+    "ellipseMeasurement": "Ellipse Area",
     "countMeasurement": "Count measurement",
     "ellipse": "Ellipse",
     "eraser": "Eraser",
@@ -137,6 +139,7 @@
     "redact": "Redact",
     "formFillDot": "Dot",
     "signature": "Signature",
+    "snipping": "Snipping Tool",
     "squiggly": "Squiggly",
     "stamp": "Stamp",
     "stickyNote": "Note",
@@ -435,12 +438,10 @@
       "drawSignature": "Draw Signature*",
       "drawInitial": "Draw Initials*",
       "pickInitialsFile": "Choose Initials",
-      "noSignatures": "There are currently no saved signatures."
+      "noSignatures": "There are currently no saved signatures.",
+      "fontStyle": "Font style"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Drag & Drop your file here",
-      "selectFile": "Select your file here",
-      "or": "Or",
       "yourFiles": "Your Files",
       "chooseFile": "Choose a file",
       "localFile": "Upload",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Security Warning",
-      "message": "This document is trying to connect to: \n\n{{- uri}}.\n\n If you trust this document, click Confirm to open it."
+      "message": "This document is trying to connect to: \n\n{{- uri}}\n\n If you trust this document, click Confirm to open it."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Are you sure you want to cancel cropping all selected pages?"
     }
   },
+  "snippingPopUp": {
+    "title": "Snipping Tool",
+    "clipboard": "Copy to Clipboard",
+    "download": "Download",
+    "cropAndRemove": "Crop and Remove",
+    "snippingModal": {
+      "applyTitle": "Apply snipping?",
+      "applyMessage": "This action will permanently cut out the specified area and remove other pages. It cannot be undone.",
+      "cancelTitle": "Cancel snipping?",
+      "cancelMessage": "Are you sure you want to stop snipping?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Paragraph",
     "text": "Text"
@@ -1082,6 +1095,26 @@
     "browse": "Browse",
     "watermarkOptions": "Watermark Options",
     "watermarks": "Watermarks"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "Create PDF Portfolio",
+    "uploadFiles": "Upload Files",
+    "uploadFolder": "Upload Folder",
+    "addFiles": "Add Files",
+    "addFile": "Add File",
+    "addFolder": "Add Folder",
+    "createFolder": "Create Folder",
+    "portfolioPanelTitle": "PDF Portfolio",
+    "portfolioNewFolder": "New Folder",
+    "portfolioFolderPlaceholder": "Folder Name",
+    "portfolioFilePlaceholder": "File Name",
+    "folderNameAlreadyExists": "Folder name already exists",
+    "fileNameAlreadyExists": "File name already exists",
+    "openFile": "Open in New Tab",
+    "fileAlreadyExists": "File Already Exists",
+    "fileAlreadyExistsMessage": "The file \"{{fileName}}\" already exists in the portfolio.",
+    "deletePortfolio": "Are you sure you want to delete \"{{fileName}}\"?",
+    "reselect": "Reselect"
   },
   "languageModal": {
     "selectLanguage": "Select language"
@@ -1184,6 +1217,12 @@
     "watermark": "Watermark",
     "addWatermark": "Add Watermark",
     "save": "Save File",
-    "pageError": "Invalid page. Valid page ranges are between  1 - "
+    "pageError": "Invalid page. Valid page ranges are between  1 - ",
+    "fileNameCannotBeEmpty": "File Name cannot be empty"
+  },
+  "filePicker": {
+    "dragAndDrop": "Drag & Drop your file here",
+    "selectFile": "Select your file here",
+    "or": "Or"
   }
 }

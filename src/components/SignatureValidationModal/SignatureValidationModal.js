@@ -22,7 +22,7 @@ const SignatureValidationModal = () => {
 
   const [isOpen, verificationResult] = useSelector(
     (state) => {
-      const { validationModalWidgetName } = state.viewer;
+      const { validationModalWidgetName } = state.digitalSignatureValidation;
       return [
         selectors.isElementOpen(state, DataElements.SIGNATURE_VALIDATION_MODAL),
         selectors.getVerificationResult(state, validationModalWidgetName),
@@ -149,7 +149,10 @@ const SignatureValidationModal = () => {
               badgeIcon === 'digital_signature_valid'
                 ? translate(
                   'digitalSignatureModal.summaryBox.signedBy',
-                  { name: signerName || translate('digitalSignatureModal.unknown') },
+                  {
+                    name: signerName || translate('digitalSignatureModal.unknown'),
+                    interpolation: { escapeValue: false }
+                  },
                 ) : ''
             }
           </div>

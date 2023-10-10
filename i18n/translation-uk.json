@@ -117,6 +117,8 @@
     "formFillCheckmark": "Поставте галочку",
     "formFillCross": "Хрест",
     "distanceMeasurement": "Відстань",
+    "rectangularAreaMeasurement": "Прямокутна область",
+    "ellipseMeasurement": "Площа еліпса",
     "countMeasurement": "Вимірювання підрахунку",
     "ellipse": "Еліпс",
     "eraser": "Гумка",
@@ -137,6 +139,7 @@
     "redact": "Редагувати",
     "formFillDot": "Крапка",
     "signature": "Підпис",
+    "snipping": "Інструмент обрізки",
     "squiggly": "Хвиляста",
     "stamp": "штамп",
     "stickyNote": "Примітка",
@@ -435,12 +438,10 @@
       "drawSignature": "Намалювати підпис*",
       "drawInitial": "Намалювати ініціали*",
       "pickInitialsFile": "Виберіть Ініціали",
-      "noSignatures": "Наразі немає збережених підписів."
+      "noSignatures": "Наразі немає збережених підписів.",
+      "fontStyle": "стиль шрифту"
     },
     "pageReplacementModal": {
-      "dragAndDrop": "Перетягніть свій файл сюди",
-      "selectFile": "Виберіть свій файл тут",
-      "or": "Або",
       "yourFiles": "Ваші файли",
       "chooseFile": "Виберіть файл",
       "localFile": "Локальний файл",
@@ -748,7 +749,7 @@
     },
     "connectToURL": {
       "title": "Попередження безпеки",
-      "message": "Цей документ намагається підключитися до:\n\n{{- uri}}.\n\n Якщо ви довіряєте цьому документу, натисніть Підтвердити, щоб відкрити його."
+      "message": "Цей документ намагається підключитися до:\n\n{{- uri}}\n\n Якщо ви довіряєте цьому документу, натисніть Підтвердити, щоб відкрити його."
     }
   },
   "shortcut": {
@@ -1041,6 +1042,18 @@
       "cancelMessage": "Ви впевнені, що хочете скасувати обрізання всіх вибраних сторінок?"
     }
   },
+  "snippingPopUp": {
+    "title": "Інструмент обрізки",
+    "clipboard": "Копіювати до буферу обміну",
+    "download": "Завантажити",
+    "cropAndRemove": "Обрізати та Видалити",
+    "snippingModal": {
+      "applyTitle": "Застосувати обрізку?",
+      "applyMessage": "Ця дія назавжди обріже вказану область і видалить інші сторінки. Це не можна скасувати.",
+      "cancelTitle": "Скасувати обрізку?",
+      "cancelMessage": "Ви впевнені, що хочете припинити обрізку?"
+    }
+  },
   "textEditingPanel": {
     "paragraph": "Абзац",
     "text": "текст"
@@ -1082,6 +1095,26 @@
     "browse": "переглядати",
     "watermarkOptions": "Параметри водяного знака",
     "watermarks": "Водяні знаки"
+  },
+  "portfolio": {
+    "createPDFPortfolio": "Створити PDF-портфоліо",
+    "uploadFiles": "Завантажити файли",
+    "uploadFolder": "Завантажити папку",
+    "addFiles": "Додати файли",
+    "addFile": "Додати файл",
+    "addFolder": "Додати папку",
+    "createFolder": "Створити папку",
+    "portfolioPanelTitle": "PDF-портфоліо",
+    "portfolioNewFolder": "Нова папка",
+    "portfolioFolderPlaceholder": "Назва папки",
+    "portfolioFilePlaceholder": "Ім'я файлу",
+    "folderNameAlreadyExists": "Назва папки вже існує",
+    "fileNameAlreadyExists": "Назва файлу вже існує",
+    "openFile": "Відкрити в новій вкладці",
+    "fileAlreadyExists": "Файл уже існує",
+    "fileAlreadyExistsMessage": "Файл \"{{fileName}}\" вже існує в портфоліо.",
+    "deletePortfolio": "Ви впевнені, що хочете видалити \"{{fileName}}\"?",
+    "reselect": "Виберіть повторно"
   },
   "languageModal": {
     "selectLanguage": "Оберіть мову"
@@ -1184,6 +1217,12 @@
     "watermark": "Водяний знак",
     "addWatermark": "Додати водяний знак",
     "save": "Зберегти файл",
-    "pageError": "Недійсна сторінка. Дійсні діапазони сторінок від 1 до"
+    "pageError": "Недійсна сторінка. Дійсні діапазони сторінок від 1 до",
+    "fileNameCannotBeEmpty": "Назва файлу не може бути пустою"
+  },
+  "filePicker": {
+    "dragAndDrop": "Перетягніть файл сюди",
+    "selectFile": "Виберіть свій файл тут",
+    "or": "Або"
   }
 }
