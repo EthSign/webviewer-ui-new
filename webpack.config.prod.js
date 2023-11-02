@@ -70,7 +70,7 @@ module.exports = {
           },
         },
         include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'node_modules')],
-        exclude(modulePath) {
+        exclude: function(modulePath) {
           return /node_modules/.test(modulePath) && !/node_modules.+react-dnd/.test(modulePath);
         }
       },
@@ -80,7 +80,7 @@ module.exports = {
           {
             loader: 'style-loader',
             options: {
-              insert (styleTag) {
+              insert: function (styleTag) {
                 const webComponents = document.getElementsByTagName('apryse-webviewer');
                 if (webComponents.length > 0) {
                   const clonedStyleTags = [];
@@ -90,7 +90,8 @@ module.exports = {
                       webComponent.shadowRoot.appendChild(styleTag);
                       styleTag.onload = function () {
                         if (clonedStyleTags.length > 0) {
-                          clonedStyleTags.forEach(styleNode => {
+                          clonedStyleTags.forEach((styleNode) => {
+                            // eslint-disable-next-line no-unsanitized/property
                             styleNode.innerHTML = styleTag.innerHTML;
                           });
                         }
