@@ -1,39 +1,42 @@
 import { isAndroid, isChrome } from 'helpers/device';
 import { defaultNoteDateFormat, defaultPrintedNoteDateFormat } from 'constants/defaultTimeFormat';
 import { panelMinWidth, RESIZE_BAR_WIDTH } from 'constants/panel';
-import { PLACEMENT, ITEM_TYPE } from 'constants/customizationVariables';
+import { PLACEMENT, POSITION, ITEM_TYPE } from 'constants/customizationVariables';
+import DataElements from 'constants/dataElement';
 
 // viewer
-export const getActiveFlyout = state => state.viewer.activeFlyout;
-export const getFlyoutPosition = state => state.viewer.flyoutPosition;
-export const getFlyoutMap = state => state.viewer.flyoutMap;
+export const getActiveFlyout = (state) => state.viewer.activeFlyout;
+export const getFlyoutPosition = (state) => state.viewer.flyoutPosition;
+export const getFlyoutMap = (state) => state.viewer.flyoutMap;
 export const getFlyout = (state, dataElement) => state.viewer.flyoutMap[dataElement];
-export const getInitialsOffset = state => state.viewer.initalsOffset;
-export const isSavedSignaturesTabEnabled = state => state.viewer.savedSignatureTabEnabled;
-export const getSyncViewer = state => state.viewer.syncViewer;
-export const isCompareStarted = state => state.viewer.isCompareStarted;
-export const isComparisonDisabled = state => state.advanced.disableMultiViewerComparison;
-export const getIsComparisonOverlayEnabled = state => state.viewer.isComparisonOverlayEnabled;
-export const getActiveDocumentViewerKey = state => state.viewer.activeDocumentViewerKey;
-export const isMultiViewerMode = state => state.viewer.isMultiViewerMode;
+export const getFlyoutToggleElement = (state) => state.viewer.flyoutToggleElement;
+export const getInitialsOffset = (state) => state.viewer.initalsOffset;
+export const isSavedSignaturesTabEnabled = (state) => state.viewer.savedSignatureTabEnabled;
+export const getSyncViewer = (state) => state.viewer.syncViewer;
+export const isCompareStarted = (state) => state.viewer.isCompareStarted;
+export const isComparisonDisabled = (state) => state.advanced.disableMultiViewerComparison;
+export const getIsComparisonOverlayEnabled = (state) => state.viewer.isComparisonOverlayEnabled;
+export const getActiveDocumentViewerKey = (state) => (state.viewer.isMultiViewerMode && state.viewer.activeDocumentViewerKey ? state.viewer.activeDocumentViewerKey : 1);
+export const isMultiViewerMode = (state) => state.viewer.isMultiViewerMode;
+export const isMultiViewerReady = (state) => state.viewer.isMultiViewerReady;
 export const getCustomFlxPanels = (state, location) => {
   if (location) {
     return state.viewer.customFlxPanels.filter(item => item.location === location);
   }
   return state.viewer.customFlxPanels;
 };
-export const shouldShowApplyCropWarning = state => state.viewer.shouldShowApplyCropWarning;
-export const shouldShowApplySnippingWarning = state => state.viewer.shouldShowApplySnippingWarning;
-export const getPresetCropDimensions = state => state.viewer.presetCropDimensions;
-export const getPresetNewPageDimensions = state => state.viewer.presetNewPageDimensions;
-export const getDateTimeFormats = state => state.viewer.dateTimeFormats;
-export const getThumbnailSelectionMode = state => state.viewer.thumbnailSelectionMode;
-export const getFonts = state => state.viewer.fonts;
-export const getTabs = state => state.viewer.tabs;
-export const getActiveTab = state => state.viewer.activeTab;
-export const getIsMultiTab = state => state.viewer.isMultiTab;
-export const getTabManager = state => state.viewer.TabManager;
-export const getIsHighContrastMode = state => state.viewer.highContrastMode;
+export const shouldShowApplyCropWarning = (state) => state.viewer.shouldShowApplyCropWarning;
+export const shouldShowApplySnippingWarning = (state) => state.viewer.shouldShowApplySnippingWarning;
+export const getPresetCropDimensions = (state) => state.viewer.presetCropDimensions;
+export const getPresetNewPageDimensions = (state) => state.viewer.presetNewPageDimensions;
+export const getDateTimeFormats = (state) => state.viewer.dateTimeFormats;
+export const getThumbnailSelectionMode = (state) => state.viewer.thumbnailSelectionMode;
+export const getFonts = (state) => state.viewer.fonts;
+export const getTabs = (state) => state.viewer.tabs;
+export const getActiveTab = (state) => state.viewer.activeTab;
+export const getIsMultiTab = (state) => state.viewer.isMultiTab;
+export const getTabManager = (state) => state.viewer.TabManager;
+export const getIsHighContrastMode = (state) => state.viewer.highContrastMode;
 export const getLastPickedToolForGroup = (state, group) => state.viewer.lastPickedToolForGroup[group];
 export const getStandardStamps = state => state.viewer.standardStamps;
 export const getCustomStamps = state => state.viewer.customStamps;
@@ -49,16 +52,16 @@ export const getSelectedStamp = state => {
   }
   return selectedStamp;
 };
-export const getSavedSignatures = state => state.viewer.savedSignatures;
-export const getDisplayedSignatures = state => state.viewer.savedSignatures.filter(state.viewer.displayedSignaturesFilterFunction);
-export const getSelectedDisplayedSignatureIndex = state => state.viewer.selectedDisplayedSignatureIndex;
-export const getSelectedDisplayedSignature = state => getDisplayedSignatures(state)[getSelectedDisplayedSignatureIndex(state)];
-export const getDisplayedSignaturesFilterFunction = state => state.viewer.displayedSignaturesFilterFunction;
-export const getSignatureMode = state => state.viewer.signatureMode;
-export const getSavedInitials = state => state.viewer.savedInitials;
-export const getSelectedDisplayedInitialsIndex = state => state.viewer.selectedDisplayedInitialsIndex;
-export const getIsInitialsModeEnabled = state => state.viewer.isInitialsModeEnabled;
-export const getDisplayedInitial = state => state.viewer.savedInitials[state.viewer.selectedDisplayedInitialsIndex];
+export const getSavedSignatures = (state) => state.viewer.savedSignatures;
+export const getDisplayedSignatures = (state) => state.viewer.savedSignatures.filter(state.viewer.displayedSignaturesFilterFunction);
+export const getSelectedDisplayedSignatureIndex = (state) => state.viewer.selectedDisplayedSignatureIndex;
+export const getSelectedDisplayedSignature = (state) => getDisplayedSignatures(state)[getSelectedDisplayedSignatureIndex(state)];
+export const getDisplayedSignaturesFilterFunction = (state) => state.viewer.displayedSignaturesFilterFunction;
+export const getSignatureMode = (state) => state.viewer.signatureMode;
+export const getSavedInitials = (state) => state.viewer.savedInitials;
+export const getSelectedDisplayedInitialsIndex = (state) => state.viewer.selectedDisplayedInitialsIndex;
+export const getIsInitialsModeEnabled = (state) => state.viewer.isInitialsModeEnabled;
+export const getDisplayedInitial = (state) => state.viewer.savedInitials[state.viewer.selectedDisplayedInitialsIndex];
 
 export const getAutoFocusNoteOnAnnotationSelection = state => state.viewer.autoFocusNoteOnAnnotationSelection;
 export const getNotesInLeftPanel = state => state.viewer.notesInLeftPanel;
@@ -102,8 +105,8 @@ export const getDocumentContentContainerWidthStyle = state => {
   const isComparePanelOpen = isElementOpen(state, 'comparePanel');
   const isWatermarkPanelOpen = isElementOpen(state, 'watermarkPanel');
 
-  const isFlxPanelOpenLeft = isCustomFlxPanelOpenOnLeft(state);
-  const isFlxPanelOpenRight = isCustomFlxPanelOpenOnRight(state);
+  const isFlxPanelOpenLeft = isCustomFlxPanelOpen(state, 'left');
+  const isFlxPanelOpenRight = isCustomFlxPanelOpen(state, 'right');
 
   const spaceTakenUpByPanels =
     0 +
@@ -126,35 +129,31 @@ export const getDocumentContentContainerWidthStyle = state => {
   return `calc(100% - ${spaceTakenUpByPanels + spaceTakenUpByHeaders}px)`;
 };
 
-export const isCustomFlxPanelOpen = state => {
-  const customFlxPanels = state.viewer.customFlxPanels;
+export const isCustomFlxPanelOpen = (state, location) => {
+  let customFlxPanels = state.viewer.customFlxPanels;
+
+  if (location) {
+    customFlxPanels = state.viewer.customFlxPanels.filter((item) => item.location === location);
+  }
+
   return customFlxPanels
     .map(item => item.dataElement)
     .some(elName => isElementOpen(state, elName) === true);
 };
 
-export const isCustomFlxPanelOpenOnLeft = state => {
-  const customFlxPanels = state.viewer.customFlxPanels;
-  return customFlxPanels
-    .filter(item => item.location === 'left')
-    .map(item => item.dataElement)
-    .some(elName => isElementOpen(state, elName) === true);
+export const getDocumentContainerLeftMargin = (state) => {
+  return 0 +
+    (isElementOpen(state, 'leftPanel') ? getLeftPanelWidthWithResizeBar(state) : 0) +
+    (isCustomFlxPanelOpen(state, 'left') ? panelMinWidth : 0);
 };
 
-export const isCustomFlxPanelOpenOnRight = state => {
-  const customFlxPanels = state.viewer.customFlxPanels;
-  return customFlxPanels
-    .filter(item => item.location === 'right')
-    .map(item => item.dataElement)
-    .some(elName => isElementOpen(state, elName) === true);
-};
+export const getCalibrationInfo = (state) => state.viewer.calibrationInfo;
+export const getIsAddingNewScale = (state) => state.viewer.isAddingNewScale;
 
-export const getCalibrationInfo = state => state.viewer.calibrationInfo;
-export const getIsAddingNewScale = state => state.viewer.isAddingNewScale;
+export const getMeasurementScalePreset = (state) => state.viewer.measurementScalePreset;
+export const getIsMultipleScalesMode = (state) => state.viewer.isMultipleScalesMode;
+export const getIsNotesPanelMultiSelectEnabled = (state) => state.viewer.isNotesPanelMultiSelectEnabled;
 
-export const getMeasurementScalePreset = state => state.viewer.measurementScalePreset;
-export const getIsMultipleScalesMode = state => state.viewer.isMultipleScalesMode;
-export const getIsNotesPanelMultiSelectEnabled = state => state.viewer.isNotesPanelMultiSelectEnabled;
 
 export const getDocumentContainerWidth = state => state.viewer.documentContainerWidth;
 export const getDocumentContainerHeight = state => state.viewer.documentContainerHeight;
@@ -219,11 +218,11 @@ export const getCurrentToolbarGroup = state => state.viewer.toolbarGroup;
 
 export const getCurrentGroupedItems = state => state.viewer.activeGroupedItems;
 
-export const getFixedGroupedItems = state => state.viewer.fixedGroupedItems;
+export const getFixedGroupedItems = (state) => state.viewer.fixedGroupedItems;
 
-export const getActiveHeaders = state => {
-  return state.viewer.modularHeaders?.filter(header => {
-    return header.items?.length && header.items.filter(item => {
+export const getActiveHeaders = (state) => {
+  return state.viewer.modularHeaders?.filter((header) => {
+    return header.items?.length && header.items.filter((item) => {
       const itemProps = item.props || item;
       const hasActiveGroupedItems = state.viewer.activeGroupedItems?.length;
       const hasFixedGroupedItems = state.viewer.fixedGroupedItems?.length;
@@ -254,24 +253,32 @@ export const getBottomHeaders = state => {
   return state.viewer.modularHeaders.filter(header => header.placement === PLACEMENT.BOTTOM);
 };
 
-export const getBottomHeadersHeight = state => {
+export const getBottomHeadersHeight = (state) => {
   // Floating headers are excluded from the bottom headers height calculation
   // this is because they have no bearing on the height of the panels, as the float besides them
   const bottomHeaders = getBottomHeaders(state)
-    .filter(header => !header.float);
-  return bottomHeaders.length * state.viewer.modularHeadersHeight.bottomHeaders;
+    .filter((header) => !header.float);
+
+  const sum = bottomHeaders.reduce((accumulator, current) => {
+    if (current.getDimensionTotal) {
+      return accumulator + current.getDimensionTotal();
+    }
+    return 0;
+  }, 0);
+
+  return sum + (bottomHeaders.length * state.viewer.modularHeadersHeight.bottomHeaders);
 };
 
 export const getTopHeaders = state => {
   return state.viewer.modularHeaders.filter(header => header.placement === PLACEMENT.TOP);
 };
 
-export const getRightHeader = state => {
-  return state.viewer.modularHeaders.filter(header => header.placement === PLACEMENT.RIGHT);
+export const getRightHeader = (state) => {
+  return state.viewer.modularHeaders.filter((header) => header.placement === PLACEMENT.RIGHT);
 };
 
-export const getLeftHeader = state => {
-  return state.viewer.modularHeaders.filter(header => header.placement === PLACEMENT.LEFT);
+export const getLeftHeader = (state) => {
+  return state.viewer.modularHeaders.filter((header) => header.placement === PLACEMENT.LEFT);
 };
 
 export const getTopHeadersHeight = state => {
@@ -303,19 +310,39 @@ export const getRightHeaderWidth = state => state.viewer.modularHeadersWidth.rig
 
 export const getLeftHeaderWidth = state => state.viewer.modularHeadersWidth.leftHeader;
 
-export const getActiveLeftHeaderWidth = state => {
+export const getActiveLeftHeaderWidth = (state) => {
   const activeHeaders = getActiveHeaders(state);
-  const isLeftHeaderActive = activeHeaders?.some(header => header.placement === PLACEMENT.LEFT);
+  const isLeftHeaderActive = activeHeaders?.some((header) => header.placement === PLACEMENT.LEFT);
   return isLeftHeaderActive ? getLeftHeaderWidth(state) : 0;
 };
 
-export const getActiveRightHeaderWidth = state => {
+export const getActiveRightHeaderWidth = (state) => {
   const activeHeaders = getActiveHeaders(state);
-  const isRightHeaderActive = activeHeaders?.some(header => header.placement === PLACEMENT.RIGHT);
+  const isRightHeaderActive = activeHeaders?.some((header) => header.placement === PLACEMENT.RIGHT);
   return isRightHeaderActive ? getRightHeaderWidth(state) : 0;
 };
 
-export const getActiveHeaderItems = state => {
+export const getTopFloatingContainerHeight = (state) => state.viewer.floatingContainersDimensions.topFloatingContainerHeight;
+
+export const getBottomFloatingContainerHeight = (state) => state.viewer.floatingContainersDimensions.bottomFloatingContainerHeight;
+
+export const getTopStartFloatingHeaders = (state) => {
+  return getTopHeaders(state).filter((header) => header.position === POSITION.START && header.float);
+};
+
+export const getBottomStartFloatingHeaders = (state) => {
+  return getBottomHeaders(state).filter((header) => header.position === POSITION.START && header.float);
+};
+
+export const getTopEndFloatingHeaders = (state) => {
+  return state.viewer.modularHeaders.filter((header) => header.placement === PLACEMENT.TOP && header.position === POSITION.END && header.float);
+};
+
+export const getBottomEndFloatingHeaders = (state) => {
+  return state.viewer.modularHeaders.filter((header) => header.placement === PLACEMENT.BOTTOM && header.position === POSITION.END && header.float);
+};
+
+export const getActiveHeaderItems = (state) => {
   return state.viewer.headers[state.viewer.activeHeaderGroup];
 };
 
@@ -510,17 +537,19 @@ export const getEnableMouseWheelZoom = state => state.viewer.enableMouseWheelZoo
 
 export const isReaderMode = state => state.viewer.isReaderMode;
 
-export const getCertificates = state => state.digitalSignatureValidation.certificates;
+export const getCertificates = (state) => state.digitalSignatureValidation.certificates;
 
-export const getTrustLists = state => state.digitalSignatureValidation.trustLists;
+export const getTrustLists = (state) => state.digitalSignatureValidation.trustLists;
 
-export const getValidationModalWidgetName = state => state.digitalSignatureValidation.validationModalWidgetName;
+export const getValidationModalWidgetName = (state) => state.digitalSignatureValidation.validationModalWidgetName;
 
 export const getVerificationResult = (state, fieldName) => state.digitalSignatureValidation.verificationResult[fieldName] || {};
 
-export const getIsRevocationCheckingEnabled = state => state.digitalSignatureValidation.isRevocationCheckingEnabled;
+export const getIsRevocationCheckingEnabled = (state) => state.digitalSignatureValidation.isRevocationCheckingEnabled;
 
-export const getRevocationProxyPrefix = state => state.digitalSignatureValidation.revocationProxyPrefix;
+export const getRevocationProxyPrefix = (state) => state.digitalSignatureValidation.revocationProxyPrefix;
+
+
 
 export const isThumbnailSelectingPages = state => state.viewer.thumbnailSelectingPages;
 
@@ -557,6 +586,7 @@ export const getWarningModalClass = state => state.viewer.warning?.modalClass ||
 
 export const getWarningCloseEvent = state => state.viewer.warning?.onClose;
 
+
 // error message
 export const getErrorMessage = state => state.viewer.errorMessage || '';
 
@@ -575,9 +605,10 @@ export const getOutlineEditingEnabled = state => state.viewer.isOutlineEditingEn
 
 export const getBookmarks = state => state.document.bookmarks;
 
-export const getPortfolio = state => state.document.portfolio;
+export const getPortfolio = (state) => state.document.portfolio;
 
-export const getLayers = state => state.document.layers;
+export const getLayers = (state) => state.document.layers;
+
 
 export const getLoadingProgress = state => state.document.loadingProgress;
 
@@ -681,9 +712,7 @@ export const getAvailableFontFaces = state => state.officeEditor.availableFontFa
 
 export const getCSSFontValues = state => state.officeEditor.cssFontValues;
 
-export const getContentBoxEditor = state => state.viewer.contentBoxEditor;
-
-export const getAnnotationFilters = state => state.viewer.annotationFilters;
+export const getContentBoxEditor = (state) => state.viewer.contentBoxEditor;
 
 export const getNotesPanelCustomHeaderOptions = state => state.viewer.notesPanelCustomHeaderOptions;
 
@@ -701,6 +730,50 @@ export const getShortcutKeyMap = state => state.viewer.shortcutKeyMap;
 
 export const getMultiViewerSyncScrollMode = state => state.viewer.multiViewerSyncScrollMode;
 
-export const getTextSignatureQuality = state => state.viewer.textSignatureCanvasMultiplier;
 
-export const getIsMeasurementAnnotationFilterEnabled = state => state.viewer.isMeasurementAnnotationFilterEnabled;
+export const getTextSignatureQuality = (state) => state.viewer.textSignatureCanvasMultiplier;
+
+export const getIsMeasurementAnnotationFilterEnabled = (state) => state.viewer.isMeasurementAnnotationFilterEnabled;
+
+// We will need to refactor this once we have generic panels
+export const isRightPanelOpen = (state) => {
+  const rightPanelElements = [
+    DataElements.NOTES_PANEL,
+    DataElements.SEARCH_PANEL,
+    DataElements.REDACTION_PANEL,
+    DataElements.TEXT_EDITING_PANEL,
+    DataElements.WV3D_PROPERTIES_PANEL,
+    DataElements.COMPARE_PANEL,
+    DataElements.WATERMARK_PANEL
+  ];
+
+  return rightPanelElements.some((element) => isElementOpen(state, element));
+};
+
+export const getOpenRightPanelWidth = (state) => {
+  const panelMap = [
+    { name: DataElements.NOTES_PANEL, isOpen: isElementOpen, getWidth: getNotesPanelWidthWithResizeBar },
+    { name: DataElements.SEARCH_PANEL, isOpen: isElementOpen, getWidth: getSearchPanelWidthWithResizeBar },
+    { name: DataElements.WATERMARK_PANEL, isOpen: isElementOpen, getWidth: getWatermarkPanelWidth },
+    { name: DataElements.TEXT_EDITING_PANEL, isOpen: isElementOpen, getWidth: getTextEditingPanelWidth },
+    { name: DataElements.WV3D_PROPERTIES_PANEL, isOpen: isElementOpen, getWidth: getWv3dPropertiesPanelWidth },
+    { name: DataElements.COMPARE_PANEL, isOpen: isElementOpen, getWidth: getComparePanelWidthWithResizeBar },
+    { name: DataElements.REDACTION_PANEL, isOpen: isElementOpen, getWidth: getRedactionPanelWidth },
+  ];
+
+  for (const panel of panelMap) {
+    if (panel.isOpen(state, panel.name)) {
+      return panel.getWidth(state);
+    }
+  }
+
+  return 0; // return 0 if no panel is open
+};
+
+export const getIsShowComparisonButtonEnabled = (state) => {
+  return state.viewer.isShowComparisonButtonEnabled;
+};
+
+export const getIsMultiViewerModeAvailable = (state) => {
+  return state.viewer.isMultiViewerModeAvailable;
+};

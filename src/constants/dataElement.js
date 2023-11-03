@@ -204,6 +204,10 @@ const DataElements = {
 
   // Menu overlay items
   CREATE_PORTFOLIO_BUTTON: 'createPortfolioButton',
+
+  // Print modal
+  PRINT_QUALITY: 'printQuality',
+  PRINT_WATERMARK: 'printWatermark',
 };
 
 DataElements.TOOLBAR_GROUPS = [

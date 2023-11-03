@@ -1,6 +1,10 @@
 @import '../../constants/panel';
 
 .BookmarksPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  
   .bookmark-switch {
     -webkit-font-smoothing: antialiased;
     margin-top: var(--padding-medium);

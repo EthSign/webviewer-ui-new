@@ -36,9 +36,17 @@ const initialState = {
       topHeaders: 40,
       bottomHeaders: 40
     },
+    annotationFilters: {
+      isDocumentFilterActive: false,
+      includeReplies: true,
+      authorFilter: [],
+      colorFilter: [],
+      typeFilter: [],
+      statusFilter: []
+    },
   },
   featureFlags: {
-    modularHeader: false,
+    customizableUI: false,
   },
 };
 

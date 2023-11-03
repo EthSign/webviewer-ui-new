@@ -21,9 +21,10 @@ function PageManipulationControls(props) {
         onClick={insertPages}
       >
         <Button
-          title="action.insert"
+          title="action.insertPage"
           img="icon-page-insertion-insert"
           role="option"
+          onClickAnnouncement={`${t('action.insertPage')} ${t('action.modal')} ${t('action.isOpen')}`}
         />
         <div className="title">{t('action.insert')}</div>
       </DataElementWrapper>
@@ -33,9 +34,10 @@ function PageManipulationControls(props) {
         onClick={replacePages}
       >
         <Button
-          title="action.replace"
+          title="action.replacePage"
           img="icon-page-replacement"
           role="option"
+          onClickAnnouncement={`${t('action.replacePage')} ${t('action.modal')} ${t('action.isOpen')}`}
         />
         <div className="title">{t('action.replace')}</div>
       </DataElementWrapper>
@@ -45,9 +47,10 @@ function PageManipulationControls(props) {
         onClick={extractPages}
       >
         <Button
-          title="action.extract"
+          title="action.extractPage"
           img="icon-page-manipulation-extract"
           role="option"
+          onClickAnnouncement={`${t('action.extractPage')} ${t('action.modal')} ${t('action.isOpen')}`}
         />
         <div className="title">{t('action.extract')}</div>
       </DataElementWrapper>
@@ -57,9 +60,10 @@ function PageManipulationControls(props) {
         onClick={deletePages}
       >
         <Button
-          title="action.delete"
+          title="option.thumbnailPanel.delete"
           img="icon-delete-line"
           role="option"
+          onClickAnnouncement={`${t('action.delete')} ${t('action.modal')} ${t('action.isOpen')}`}
         />
         <div className="title">{t('action.delete')}</div>
       </DataElementWrapper>

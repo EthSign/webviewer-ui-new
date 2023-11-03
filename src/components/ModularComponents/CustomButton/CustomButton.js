@@ -6,8 +6,11 @@ import PropTypes from 'prop-types';
 import Button from 'components/Button';
 
 const CustomButton = (props) => {
-  const { title, dataElement, label, img, onClick, disabled, className, preset } = props;
-
+  const { title, dataElement, label, img, onClick, disabled, className, preset, headerPlacement } = props;
+  let forceTooltipPosition;
+  if (['left', 'right'].includes(headerPlacement)) {
+    forceTooltipPosition = headerPlacement === 'left' ? 'right' : 'left';
+  }
   return (
     <Button
       className={classNames({
@@ -23,6 +26,7 @@ const CustomButton = (props) => {
       data-element={dataElement}
       onClick={onClick}
       disabled={disabled}
+      forceTooltipPosition={forceTooltipPosition}
     ></Button>
   );
 };

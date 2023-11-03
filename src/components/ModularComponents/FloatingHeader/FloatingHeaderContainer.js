@@ -1,134 +1,120 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import selectors from 'selectors';
+import useFloatingHeaderSelectors from 'hooks/useFloatingHeaderSelectors';
 import FloatingHeader from './FloatingHeader';
 import './FloatingHeader.scss';
 import classNames from 'classnames';
 import { PLACEMENT, POSITION, DEFAULT_GAP } from 'src/constants/customizationVariables';
 
-const FloatSection = (props) => {
-  const { position, isVertical, gap = DEFAULT_GAP } = props;
+const FloatSection = ({ position, isVertical, children, gap = DEFAULT_GAP }) => {
   const className = classNames('FloatSection', position, { 'vertical': isVertical });
-  const style = { gap: `${gap}px` };
   return (
-    <div className={className} style={style}>
-      {props.children}
+    <div className={className} style={{ gap: `${gap}px` }}>
+      {children}
     </div>
   );
 };
 
-
 const FloatingHeaderContainer = React.forwardRef((props, ref) => {
   const { floatingHeaders, placement } = props;
-  // there are three possible positions for the floating sections: start, center, end
-  // here we collect all the headers added and add them into one of these three containers
-  const startHeaders = floatingHeaders.filter((header) => header.position === POSITION.START);
-  const centerHeaders = floatingHeaders.filter((header) => header.position === POSITION.CENTER);
-  const endHeaders = floatingHeaders.filter((header) => header.position === POSITION.END);
+  const isHorizontalHeader = [PLACEMENT.TOP, PLACEMENT.BOTTOM].includes(placement);
+  const selectors = useFloatingHeaderSelectors();
 
-  const [
-    isLeftPanelOpen,
-    isRightPanelOpen,
-    leftPanelWidth,
-    rightPanelWidth,
-    leftHeaderWidth,
-    rightHeaderWidth,
-    topHeadersHeight,
-    bottomHeadersHeight,
-  ] = useSelector((state) => [
-    selectors.isElementOpen(state, 'leftPanel'),
-    selectors.isElementOpen(state, 'notesPanel'),
-    selectors.getLeftPanelWidthWithResizeBar(state),
-    selectors.getNotesPanelWidthWithResizeBar(state),
-    selectors.getActiveLeftHeaderWidth(state),
-    selectors.getActiveRightHeaderWidth(state),
-    selectors.getTopHeadersHeight(state),
-    selectors.getBottomHeadersHeight(state),
-  ]);
+  const style = useMemo(() => computeFloatContainerStyle({
+    ...selectors,
+    isHorizontalHeader,
+    placement,
+  }), [selectors, isHorizontalHeader, placement]);
 
-  const isHorizontalHeader = placement === PLACEMENT.TOP || placement === PLACEMENT.BOTTOM;
-
-  const style = useMemo(() => {
-    const styleObject = {};
-    let panelsWidth = 0;
-    const verticalHeaderWidth = rightHeaderWidth + leftHeaderWidth;
-    let leftOffset = leftHeaderWidth;
-    if (isLeftPanelOpen) {
-      panelsWidth += leftPanelWidth;
-      leftOffset += leftPanelWidth;
-    }
-
-    if (isRightPanelOpen) {
-      panelsWidth += rightPanelWidth;
-    }
-
-    if (leftOffset !== 0) {
-      styleObject['transform'] = `translate(${leftOffset}px, 0px)`;
-    }
-
-    // For the right floatie the translate X is always the default width of itself
-    // panel state doesnt affect it because of the positioning of the divs
-    // Hardcoded for now; we can make this dynamic later if we find issues
-    if (placement === PLACEMENT.RIGHT) {
-      styleObject['transform'] = 'translate(-41px, 0px)';
-    }
-
-    if (isHorizontalHeader && (panelsWidth !== 0 || verticalHeaderWidth !== 0)) {
-      styleObject['width'] = `calc(100% - ${panelsWidth + verticalHeaderWidth}px)`;
-    }
-
-    if (!isHorizontalHeader) {
-      // We also need to know the height of the floaties for this calculation
-      styleObject['height'] = `calc(100% - ${topHeadersHeight + bottomHeadersHeight}px)`;
-    }
-
-    return styleObject;
-  }, [isLeftPanelOpen, leftPanelWidth, isRightPanelOpen, rightPanelWidth, leftHeaderWidth, rightHeaderWidth, topHeadersHeight, bottomHeadersHeight, isHorizontalHeader]);
-
-  const className = classNames('FloatingHeaderContainer', `${placement}`, { 'vertical': !isHorizontalHeader });
-
-  const renderStartHeaders = () => {
-    if (startHeaders.length === 0) {
-      return null;
-    }
-    return (
-      <FloatSection position={`start__${placement}`} isVertical={!isHorizontalHeader}>
-        {startHeaders.map((header) => <FloatingHeader {...header} key={header.dataElement} />)}
-      </FloatSection>
-    );
-  };
-
-  const renderCenterHeaders = () => {
-    if (centerHeaders.length === 0) {
-      return null;
-    }
-    return (
-      <FloatSection position={`center__${placement}`} isVertical={!isHorizontalHeader}>
-        {centerHeaders.map((header) => <FloatingHeader {...header} key={header.dataElement} />)}
-      </FloatSection>
-    );
-  };
-
-  const renderEndHeaders = () => {
-    if (endHeaders.length === 0) {
-      return null;
-    }
-    return (
-      <FloatSection position={`end__${placement}`} isVertical={!isHorizontalHeader}>
-        {endHeaders.map((header) => <FloatingHeader {...header} key={header.dataElement} />)}
-      </FloatSection>
-    );
-  };
+  const renderHeaders = (headers, positionPrefix) => (
+    <FloatSection position={`${positionPrefix}__${placement}`} isVertical={!isHorizontalHeader}>
+      {headers.map((header) => <FloatingHeader {...header} key={header.dataElement} />)}
+    </FloatSection>
+  );
 
   return (
-    <div className={className} style={style} ref={ref}>
-      {renderStartHeaders()}
-      {renderCenterHeaders()}
-      {renderEndHeaders()}
+    <div
+      className={classNames('FloatingHeaderContainer', placement, { 'vertical': !isHorizontalHeader })}
+      style={style}
+      ref={ref}
+    >
+      {renderHeaders(floatingHeaders.filter((h) => h.position === POSITION.START), POSITION.START)}
+      {renderHeaders(floatingHeaders.filter((h) => h.position === POSITION.CENTER), POSITION.CENTER)}
+      {renderHeaders(floatingHeaders.filter((h) => h.position === POSITION.END), POSITION.END)}
     </div>
   );
 });
 
 FloatingHeaderContainer.displayName = 'FloatingHeaderContainer';
+
+function computeFloatContainerStyle(params) {
+  const {
+    isLeftPanelOpen,
+    leftPanelWidth,
+    isRightPanelOpen,
+    rightPanelWidth,
+    leftHeaderWidth,
+    rightHeaderWidth,
+    isHorizontalHeader,
+    topFloatingContainerHeight,
+    bottomFloatingContainerHeight,
+    topStartFloatingHeaders,
+    bottomStartFloatingHeaders,
+    topHeadersHeight,
+    bottomHeadersHeight,
+    bottomEndFloatingHeaders,
+    topEndFloatingHeaders,
+    placement
+  } = params;
+
+  const styles = {};
+  const verticalHeaderWidth = rightHeaderWidth + leftHeaderWidth;
+  let panelsWidth = 0;
+  let leftOffset = leftHeaderWidth;
+
+  if (isLeftPanelOpen) {
+    panelsWidth += leftPanelWidth;
+    leftOffset += leftPanelWidth;
+  }
+  if (isRightPanelOpen) {
+    panelsWidth += rightPanelWidth;
+  }
+
+  if (leftOffset !== 0) {
+    styles.transform = `translate(${leftOffset}px, 0px)`;
+  }
+  if (placement === PLACEMENT.RIGHT) {
+    styles.transform = 'translate(-48px, 0px)';
+  }
+  if (isHorizontalHeader && (panelsWidth || verticalHeaderWidth)) {
+    styles.width = `calc(100% - ${panelsWidth + verticalHeaderWidth}px)`;
+  }
+  if (!isHorizontalHeader) {
+    // if it is the left float header, and there are no top start floating headers, then we can take the full height
+    // otherwise the height must accotun for the floating header container
+    let topFloatingHeaderOffset = 0;
+    let bottomFloatingHeaderOffset = 0;
+
+    if (placement === PLACEMENT.LEFT) {
+      topFloatingHeaderOffset = topStartFloatingHeaders.length === 0 ? 0 : topFloatingContainerHeight;
+      bottomFloatingHeaderOffset = bottomStartFloatingHeaders.length === 0 ? 0 : bottomFloatingContainerHeight;
+    }
+
+    if (placement === PLACEMENT.RIGHT) {
+      topFloatingHeaderOffset = topEndFloatingHeaders.length === 0 ? 0 : topFloatingContainerHeight;
+      bottomFloatingHeaderOffset = bottomEndFloatingHeaders.length === 0 ? 0 : bottomFloatingContainerHeight;
+    }
+
+    styles.height = `calc(100% - ${topHeadersHeight + bottomHeadersHeight + topFloatingHeaderOffset + bottomFloatingHeaderOffset}px)`;
+    if (topFloatingHeaderOffset) {
+      styles.marginTop = `${topFloatingContainerHeight}px`;
+      styles.paddingTop = '0px';
+    }
+    if (bottomFloatingHeaderOffset) {
+      styles.paddingBottom = '0px';
+    }
+  }
+
+  return styles;
+}
 
 export default FloatingHeaderContainer;

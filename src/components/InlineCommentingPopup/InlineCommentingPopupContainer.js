@@ -22,6 +22,7 @@ const InlineCommentingPopupContainer = ({ annotation, closeAndReset }) => {
     showAnnotationNumbering,
     sortStrategy,
     isDocumentReadOnly,
+    activeDocumentViewerKey,
   ] = useSelector(
     (state) => [
       selectors.isElementOpen(state, DataElements.NOTES_PANEL),
@@ -31,6 +32,7 @@ const InlineCommentingPopupContainer = ({ annotation, closeAndReset }) => {
       selectors.isAnnotationNumberingEnabled(state),
       selectors.getSortStrategy(state),
       selectors.isDocumentReadOnly(state),
+      selectors.getActiveDocumentViewerKey(state),
     ],
     shallowEqual,
   );
@@ -64,9 +66,9 @@ const InlineCommentingPopupContainer = ({ annotation, closeAndReset }) => {
 
   useLayoutEffect(() => {
     if (isNotesPanelClosed && popupRef.current && !isMobile) {
-      setPosition(getPopupPosition(annotation, popupRef));
+      setPosition(getPopupPosition(annotation, popupRef, activeDocumentViewerKey));
     }
-  }, []);
+  }, [activeDocumentViewerKey]);
 
   // TO-DO refactor: Lines 189-239 was copied from NotesPanel 228-275
   const [pendingAttachmentMap, setPendingAttachmentMap] = useState({});

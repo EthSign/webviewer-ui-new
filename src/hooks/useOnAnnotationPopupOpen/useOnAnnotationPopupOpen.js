@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import selectors from 'selectors';
 import actions from 'actions';
@@ -17,12 +17,14 @@ export default function useOnAnnotationPopupOpen() {
     popupItems,
     isRightClickAnnotationPopupEnabled,
     isNotesPanelOpen,
+    isMeasurementOverlayOpen,
     activeDocumentViewerKey,
   ] = useSelector(
     (state) => [
       selectors.getPopupItems(state, DataElements.ANNOTATION_POPUP),
       selectors.isRightClickAnnotationPopupEnabled(state),
       selectors.isElementOpen(state, DataElements.NOTES_PANEL),
+      selectors.isElementOpen(state, DataElements.MEASUREMENT_OVERLAY),
       selectors.getActiveDocumentViewerKey(state),
     ],
     shallowEqual,
@@ -87,6 +89,13 @@ export default function useOnAnnotationPopupOpen() {
     }
   }, [focusedAnnotation, groupedLinkAnnotations]);
 
+  // Use this to store isRightClickAnnotationPopupEnabled value to avoid stale closure
+  const isRightClickAnnotationPopupEnabledRef = useRef();
+
+  useEffect(() => {
+    isRightClickAnnotationPopupEnabledRef.current = isRightClickAnnotationPopupEnabled;
+  }, [isRightClickAnnotationPopupEnabled]);
+
   useEffect(() => {
     const onAnnotationSelected = (annotations, action) => {
       if (annotations.length === 0 || annotations[0].ToolName === ToolNames.CROP || annotations[0].ToolName === ToolNames.SNIPPING) {
@@ -94,7 +103,7 @@ export default function useOnAnnotationPopupOpen() {
       }
 
       if (action === 'selected') {
-        if (!isRightClickAnnotationPopupEnabled) {
+        if (!isRightClickAnnotationPopupEnabledRef.current) {
           setFocusedAnnotation(annotations[0]);
         }
         if (annotations[0].isCustomDate) {
@@ -128,22 +137,18 @@ export default function useOnAnnotationPopupOpen() {
       core.removeEventListener('annotationSelected', onAnnotationSelected, null, activeDocumentViewerKey);
       core.removeEventListener('documentUnloaded', closePopup, null, activeDocumentViewerKey);
     };
-  }, [focusedAnnotation, isNotesPanelOpen, isDatePickerOpen, isRightClickAnnotationPopupEnabled, activeDocumentViewerKey]);
+  }, [focusedAnnotation, isNotesPanelOpen, isDatePickerOpen, activeDocumentViewerKey]);
 
   useEffect(() => {
     const onAnnotationChanged = (annotations, action) => {
       if (!core.isAnnotationSelected(focusedAnnotation)) {
         return;
       }
-      if (action === 'modify') {
-        if (focusedAnnotation?.isCustomDate) {
-          closePopup();
-        } else {
-          openPopup();
-        }
 
-
+      if (action === 'modify' && !isMeasurementOverlayOpen) {
+        openPopup();
       }
+
       const hasLinkAnnotation = annotations.some((annotation) => annotation instanceof Annotations.Link);
       if (!hasLinkAnnotation) {
         return;
@@ -169,7 +174,7 @@ export default function useOnAnnotationPopupOpen() {
       core.removeEventListener('annotationChanged', onAnnotationChanged, null, activeDocumentViewerKey);
       core.removeEventListener('updateAnnotationPermission', onUpdateAnnotationPermission, null, activeDocumentViewerKey);
     };
-  }, [canModify, focusedAnnotation, activeDocumentViewerKey]);
+  }, [canModify, focusedAnnotation, isMeasurementOverlayOpen, activeDocumentViewerKey]);
 
   useEffect(() => {
     const onMouseLeftUp = (e) => {
@@ -179,14 +184,10 @@ export default function useOnAnnotationPopupOpen() {
       if (focusedAnnotation) {
         const annotUnderMouse = core.getAnnotationByMouseEvent(e, activeDocumentViewerKey);
 
-        if (!annotUnderMouse) {
-          closePopup();
-        }
-
         const shouldShowPopup =
-          !isRightClickAnnotationPopupEnabled
+          !isRightClickAnnotationPopupEnabledRef.current
           && annotUnderMouse === focusedAnnotation
-          && !isInContentEditFocusMode(annotUnderMouse);
+          && !isInContentEditFocusMode(focusedAnnotation);
         if (shouldShowPopup) {
           openPopup();
         }
@@ -200,7 +201,7 @@ export default function useOnAnnotationPopupOpen() {
 
     core.addEventListener('mouseLeftUp', onMouseLeftUp, null, activeDocumentViewerKey);
     return () => core.removeEventListener('mouseLeftUp', onMouseLeftUp, null, activeDocumentViewerKey);
-  }, [focusedAnnotation, isStylePopupOpen, isRightClickAnnotationPopupEnabled, activeDocumentViewerKey]);
+  }, [focusedAnnotation, isStylePopupOpen, activeDocumentViewerKey]);
 
   useEffect(() => {
     const scrollViewElement = core.getScrollViewElement(activeDocumentViewerKey);
@@ -214,7 +215,7 @@ export default function useOnAnnotationPopupOpen() {
 
   useOnRightClick(
     useCallback((e) => {
-      if (!isRightClickAnnotationPopupEnabled) {
+      if (!isRightClickAnnotationPopupEnabledRef.current) {
         return;
       }
 
@@ -225,10 +226,10 @@ export default function useOnAnnotationPopupOpen() {
         }
 
         if (annotUnderMouse !== focusedAnnotation) {
-          if (!core.isAnnotationSelected(annotUnderMouse)) {
+          if (!core.isAnnotationSelected(annotUnderMouse, activeDocumentViewerKey)) {
             core.deselectAllAnnotations();
           }
-          core.selectAnnotation(annotUnderMouse);
+          core.selectAnnotation(annotUnderMouse, activeDocumentViewerKey);
           setFocusedAnnotation(annotUnderMouse);
         }
         if (annotUnderMouse === focusedAnnotation && !isInContentEditFocusMode(annotUnderMouse)) {
@@ -237,7 +238,7 @@ export default function useOnAnnotationPopupOpen() {
       } else {
         closePopup();
       }
-    }, [focusedAnnotation, isRightClickAnnotationPopupEnabled, activeDocumentViewerKey])
+    }, [focusedAnnotation, activeDocumentViewerKey])
   );
 
   return {

@@ -1,22 +1,39 @@
-import { WIDTH_PLUS_PADDING } from 'constants/flyoutConstants';
-import actions from 'actions';
 import getRootNode from 'helpers/getRootNode';
 
-export default function setFlyoutPositionOnElement(element, dispatch) {
+export function getFlyoutPositionOnElement(dataElement, flyoutRef) {
+  // Get the container, toggle element, and target elements
   const appRect = getRootNode().getElementById('app').getBoundingClientRect();
+  const referenceElement = getRootNode().querySelector(`[data-element="${dataElement}"]`);
+  const referenceButtonRect = referenceElement.getBoundingClientRect();
+  const parentHeader = referenceElement.closest('.ModularHeader');
+  const targetElement = flyoutRef.current;
+  const defaultOffset = 6;
 
-  const buttonRect = element.getBoundingClientRect();
-  let x = buttonRect.x - appRect.x;
-  let y = buttonRect.y - appRect.y;
-  const parentHeader = element.closest('.ModularHeader');
-  if (parentHeader && parentHeader.classList.contains('LeftHeader')) {
-    x += buttonRect.width;
-  } else if (parentHeader && parentHeader.classList.contains('RightHeader')) {
-    x -= WIDTH_PLUS_PADDING;
-  } else if (parentHeader && parentHeader.classList.contains('TopHeader')) {
-    y += buttonRect.height;
-  } else if (parentHeader && parentHeader.classList.contains('BottomHeader')) {
-    y -= buttonRect.height;
+  // Calculate the available space on the left and right sides of the reference element within the container
+  const availableSpaceLeft = referenceButtonRect.left - appRect.left;
+  const availableSpaceRight = appRect.right - referenceButtonRect.right;
+  let flyoutX = referenceButtonRect.left;
+
+  if (parentHeader?.classList.contains('LeftHeader')) {
+    flyoutX += referenceButtonRect.width + defaultOffset;
+  } else if (parentHeader?.classList.contains('RightHeader')) {
+    flyoutX -= (targetElement.clientWidth + defaultOffset);
+  } else if (availableSpaceLeft >= availableSpaceRight) {
+    flyoutX = referenceButtonRect.right - targetElement.clientWidth;
   }
-  dispatch(actions.setFlyoutPosition({ x, y }));
+
+  // Calculate the available space above and below the reference element within the container
+  const availableSpaceAbove = referenceButtonRect.top - appRect.top;
+  const availableSpaceBelow = appRect.bottom - referenceButtonRect.bottom;
+  let flyoutY = referenceButtonRect.top;
+
+  if (parentHeader?.classList.contains('TopHeader')) {
+    flyoutY += referenceButtonRect.height + defaultOffset;
+  } else if (parentHeader?.classList.contains('BottomHeader')) {
+    flyoutY -= (targetElement.clientHeight + defaultOffset);
+  } else if (availableSpaceAbove >= availableSpaceBelow) {
+    flyoutY = referenceButtonRect.bottom - targetElement.clientHeight;
+  }
+
+  return { x: flyoutX, y: flyoutY };
 }

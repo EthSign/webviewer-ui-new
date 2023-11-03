@@ -3,6 +3,7 @@ import actions from 'actions';
 import { useDispatch } from 'react-redux';
 import getRootNode from 'helpers/getRootNode';
 import core from 'core';
+import DataElements from 'constants/dataElement';
 
 import '../FilePickerHandler/FilePickerHandler.scss';
 
@@ -25,9 +26,12 @@ const FilePickerHandler = () => {
     const file = e.target.files[0];
     if (file) {
       try {
+        dispatch(actions.openElement(DataElements.LOADING_MODAL));
         const base64 = await toBase64(file);
         await core.getOfficeEditor().insertImageAtCursor(base64);
+        dispatch(actions.closeElement(DataElements.LOADING_MODAL));
       } catch (error) {
+        dispatch(actions.closeElement(DataElements.LOADING_MODAL));
         dispatch(actions.showWarningMessage({
           title: 'Error',
           message: error.message,

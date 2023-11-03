@@ -20,6 +20,7 @@ jest.mock('core', () => ({
   getDocumentViewer: () => ({
     getDocument: () => ({
       getViewerCoordinates: () => ({ x: 0, y: 0 }),
+      getPageRotation: () => 0,
     }),
   }),
 }));

@@ -1,5 +1,7 @@
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import FontSizeDropdown from 'components/FontSizeDropdown';
+import { DEBOUNCE_TIME } from './FontSizeDropdown';
 import { fireEvent, render } from '@testing-library/react';
 
 const noop = () => { };
@@ -36,20 +38,15 @@ describe('FontSizeDropdown component', () => {
     expect(dropdownItems).toBeInTheDocument();
     expect(dropdownItems).not.toHaveClass('hidden');
   });
-  it('Should call handler on value change', () => {
+  it('Should call handler on value change', async () => {
     const handler = jest.fn();
     const { container } = render(<FontSizeDropdown onFontSizeChange={handler} />);
-
-    const input = container.querySelector('input');
-    fireEvent.change(input, { target: { value: '34' } });
-
     // click to open dropdown menu
     const iconButton = container.querySelector('.icon-button');
     fireEvent.click(iconButton);
     const dropdownItems = container.querySelector('.Dropdown__items');
     fireEvent.click(dropdownItems.childNodes[0]);
-
-    expect(handler).toHaveBeenCalledTimes(2);
+    expect(handler).toHaveBeenCalledTimes(1);
   });
   it('Should render the correct amount of items', () => {
     const items = 5;

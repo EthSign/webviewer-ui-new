@@ -123,6 +123,8 @@ const VirtualizedList = React.forwardRef(
               rowHeight={cache.rowHeight}
               rowRenderer={rowRenderer}
               onScroll={handleScroll}
+              aria-label='presentation'
+              role='presentation'
             />
           </div>
         )}

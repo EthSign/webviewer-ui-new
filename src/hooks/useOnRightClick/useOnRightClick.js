@@ -49,5 +49,5 @@ export default (handler) => {
       getRootNode().removeEventListener('contextmenu', listener);
       core.removeEventListener('longTap', listener, null, activeDocumentViewerKey);
     };
-  }, [activeDocumentViewerKey, isMultiViewerMode]);
+  }, [handler, activeDocumentViewerKey, isMultiViewerMode]);
 };

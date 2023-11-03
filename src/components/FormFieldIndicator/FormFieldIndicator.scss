@@ -5,7 +5,7 @@
   #form-field-indicator-wrapper {
     opacity: 0;
   }
-}
+} 
 
 #form-field-indicator-wrapper {
   position: relative;
@@ -13,25 +13,22 @@
 }
 
 .formFieldIndicator {
-  font-family: IBM Plex Sans;
-  background-color: #F79009;
-  color: #FCFCFD;
-  width: 81px;
-  min-height: 34px;
+  background-color: var(--color-blue-gray-5);
+  color: var(--color-gray-1);
+  width: 98px;
+  min-height: 32px;
   font-size: 13px;
-  line-height: 18px;
-  padding: 8px 12px;
   position: fixed;
+  padding: 4px 0px;
   display: flex;
-  border-radius: 8px;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
   font-family: 'Lato', sans-serif;
 
   .formFieldIndicator-text {
     margin: 0;
     position: absolute;
+    padding: 0 8px;
   }
 }
 
@@ -39,12 +36,13 @@
   content: '';
   display: block;
   position: absolute;
-  right: -5px;
-  bottom: 12px;
-  width: 6px;
-  height: 10px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='10' viewBox='0 0 7 10' fill='none'%3E%3Cg clip-path='url(%23clip0_1615_2893)'%3E%3Cpath d='M4.24478 6.23299C5.10579 5.63647 5.10579 4.36353 4.24478 3.76701L-0.499273 0.480228C-1.49408 -0.208991 -2.85352 0.50299 -2.85352 1.71322L-2.85352 8.28678C-2.85352 9.49701 -1.49408 10.209 -0.499274 9.51977L4.24478 6.23299Z' fill='%23F79009' /%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_1615_2893'%3E%3Crect width='10' height='6' fill='white' transform='translate(6.14648) rotate(90)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
-  background-size: cover;
+  right: -20px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid var(--color-blue-gray-5);
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
 }
 
 .formFieldIndicator.rightSidePage::before {

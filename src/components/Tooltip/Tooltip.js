@@ -112,6 +112,14 @@ const Tooltip = forwardRef(({ content = '', children, hideShortcut, forcePositio
           top: childRect.bottom - hostY,
           left: childRect.left - hostX,
         },
+        top: {
+          top: childRect.top - tooltipRect.height - hostY,
+          left: childRect.left + childRect.width / 2 - tooltipRect.width / 2 - hostX,
+        },
+        topLeft: {
+          top: childRect.top - tooltipRect.height - hostY,
+          left: childRect.left - hostX,
+        },
         left: {
           top: childRect.top + childRect.height / 2 - tooltipRect.height / 2 - hostY,
           left: childRect.left - tooltipRect.width - hostX,
@@ -119,10 +127,6 @@ const Tooltip = forwardRef(({ content = '', children, hideShortcut, forcePositio
         right: {
           top: childRect.top + childRect.height / 2 - tooltipRect.height / 2 - hostY,
           left: childRect.right - hostX,
-        },
-        top: {
-          top: childRect.top - tooltipRect.height - hostY,
-          left: childRect.left + childRect.width / 2 - tooltipRect.width / 2 - hostX,
         },
       };
 

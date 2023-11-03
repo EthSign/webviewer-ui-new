@@ -7,7 +7,7 @@ function LeftPanelPageTabsInsertSmall() {
   return (
     <div className={'dropdown-menu'}>
       <ToggleElementButton
-        title="action.insertPage"
+        title="action.PageInsertion"
         className={'dropdown-menu'}
         element="thumbnailsControlInsertPopup"
         dataElement="thumbnailsControlInsertPopupTrigger"

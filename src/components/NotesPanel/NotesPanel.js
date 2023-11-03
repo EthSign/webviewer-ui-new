@@ -320,6 +320,7 @@ const NotesPanel = ({
                   _isMultiSelectedMap[groupAnnot.Id] = groupAnnot;
                 });
                 setIsMultiSelectedMap(_isMultiSelectedMap);
+                core.selectAnnotations(groupAnnots);
               } else {
                 const _isMultiSelectedMap = { ...isMultiSelectedMap };
                 const groupAnnots = core.getGroupAnnotations(currNote, activeDocumentViewerKey);
@@ -327,6 +328,7 @@ const NotesPanel = ({
                   delete _isMultiSelectedMap[groupAnnot.Id];
                 });
                 setIsMultiSelectedMap(_isMultiSelectedMap);
+                core.deselectAnnotations([currNote, ...groupAnnots]);
               }
             }}
           />

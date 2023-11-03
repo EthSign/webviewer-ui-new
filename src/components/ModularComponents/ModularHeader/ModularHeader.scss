@@ -1,12 +1,13 @@
 @import '../../../constants/styles.scss';
 
 .ModularHeader {
-  box-sizing: content-box;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  min-height: $top-bar-height;
-  padding: 2px;
-  background: var(--gray-1);
+  min-height: $modula-header-min-height;
+  padding: 8px 12px;
+  background: var(--gray-0);
   z-index: $headers-z-index;
+  touch-action: none;
 }

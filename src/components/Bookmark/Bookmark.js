@@ -20,6 +20,7 @@ const propTypes = {
   onSave: PropTypes.func.isRequired,
   onRemove: PropTypes.func,
   onCancel: PropTypes.func,
+  panelSelector: PropTypes.string,
 };
 
 const Bookmark = ({
@@ -33,6 +34,7 @@ const Bookmark = ({
   onSave,
   onRemove,
   onCancel,
+  panelSelector,
 }) => {
   const [t] = useTranslation();
 
@@ -151,7 +153,7 @@ const Bookmark = ({
             {!isMultiSelectionMode &&
               <Button
                 className="bookmark-outline-more-button"
-                dataElement={`bookmark-more-button-${pageIndex}`}
+                dataElement={`bookmark-more-button-${panelSelector}-${pageIndex}`}
                 img="icon-tool-more"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -163,7 +165,7 @@ const Bookmark = ({
             {isContextMenuOpen && (
               <MoreOptionsContextMenuPopup
                 type={'bookmark'}
-                anchorButton={`bookmark-more-button-${pageIndex}`}
+                anchorButton={`bookmark-more-button-${panelSelector}-${pageIndex}`}
                 shouldDisplayDeleteButton={true}
                 onClosePopup={() => setContextMenuOpen(false)}
                 onRenameClick={() => {

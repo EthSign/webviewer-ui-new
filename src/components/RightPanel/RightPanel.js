@@ -49,10 +49,10 @@ const RightPanel = ({ children, dataElement, onResize }) => {
   // Once we move to the new modular UI we can remove the legacy stuff
   const legacyToolsHeaderOpen = isToolsHeaderOpen && currentToolbarGroup !== 'toolbarGroup-View';
   const legacyAllHeadersHidden = !isHeaderOpen && !legacyToolsHeaderOpen;
-  const { modularHeader } = featureFlags;
+  const { customizableUI } = featureFlags;
   const style = {};
   // Calculating its height according to the existing horizontal modular headers
-  if (modularHeader) {
+  if (customizableUI) {
     const horizontalHeadersHeight = topHeadersHeight + bottomHeadersHeight;
     style['height'] = `calc(100% - ${horizontalHeadersHeight}px)`;
   }
@@ -62,8 +62,8 @@ const RightPanel = ({ children, dataElement, onResize }) => {
       className={classNames({
         'right-panel': true,
         'closed': !isVisible,
-        'tools-header-open': (modularHeader ? topHeaders.length === 2 : legacyToolsHeaderOpen) || isOfficeEditorToolsHeaderOpen,
-        'tools-header-and-header-hidden': modularHeader ? topHeaders.length === 0 : legacyAllHeadersHidden,
+        'tools-header-open': (customizableUI ? topHeaders.length === 2 : legacyToolsHeaderOpen) || isOfficeEditorToolsHeaderOpen,
+        'tools-header-and-header-hidden': customizableUI ? topHeaders.length === 0 : legacyAllHeadersHidden,
         'multi-tab-active': isMultiTabActive,
         'logo-bar-enabled': isLogoBarEnabled,
       })}

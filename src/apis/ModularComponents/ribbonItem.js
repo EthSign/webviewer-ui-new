@@ -3,7 +3,7 @@ import Item from './item';
 
 class RibbonItem extends Item {
   constructor(props) {
-    const { isActive, label, img, toolbarGroup, groupedItems } = props;
+    const { isActive, label, img, toolbarGroup, groupedItems, direction } = props;
     super(props);
     this.type = ITEM_TYPE.RIBBON_ITEM;
     this.isActive = isActive;
@@ -11,6 +11,7 @@ class RibbonItem extends Item {
     this.img = img;
     this.toolbarGroup = toolbarGroup;
     this.type = ITEM_TYPE.RIBBON_ITEM;
+    this.direction = direction;
 
     this.groupedItems = [];
     if (Array.isArray(groupedItems)) {

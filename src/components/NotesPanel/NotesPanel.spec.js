@@ -30,6 +30,14 @@ const initialState = {
       notesPanel: DEFAULT_NOTES_PANEL_WIDTH
     },
     sortStrategy: 'position',
+    annotationFilters: {
+      isDocumentFilterActive: false,
+      includeReplies: true,
+      authorFilter: [],
+      colorFilter: [],
+      typeFilter: [],
+      statusFilter: []
+    },
   }
 };
 

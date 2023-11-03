@@ -10,7 +10,7 @@ const INDICATOR_PADDING = 20;
 const FormFieldIndicator = ({ annotation, parameters }) => {
   const { displayMode, viewerBoundingRect, appBoundingRect, scrollLeft, scrollTop } = parameters;
 
-  const setIndicatorYPosition = annotation => {
+  const setIndicatorYPosition = (annotation) => {
     try {
       const { bottomRight: annotationBottomRight, topLeft: annotationTopLeft } = getAnnotationPosition(annotation);
       const annotHeightInPixels = annotationBottomRight.y - annotationTopLeft.y;

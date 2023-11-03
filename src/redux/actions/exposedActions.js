@@ -31,7 +31,7 @@ export const enableApplySnippingWarningModal = () => ({
   payload: { shouldShowApplySnippingWarning: true },
 });
 
-export const setPresetCropDimensions = presetCropDimensions => ({
+export const setPresetCropDimensions = (presetCropDimensions) => ({
   type: 'SET_PRESET_CROP_DIMENSIONS',
   payload: { presetCropDimensions },
 });
@@ -169,7 +169,7 @@ export const setCurrentGroupedItem = groupedItems => dispatch => {
   });
 };
 
-export const setFixedGroupedItems = groupedItems => dispatch => {
+export const setFixedGroupedItems = (groupedItems) => (dispatch) => {
   dispatch({
     type: 'SET_FIXED_GROUPED_ITEMS',
     payload: { groupedItems }
@@ -340,7 +340,11 @@ export const setDocumentContainerHeight = height => ({
 
 export const setGapBetweenHeaderItems = (dataElement, gap) => updateHeaderProperty(dataElement, 'gap', gap);
 
-export const setHeaderAlignment = (dataElement, alignment) => updateHeaderProperty(dataElement, 'alignment', alignment);
+export const setHeaderJustifyContent = (dataElement, justifyContent) => updateHeaderProperty(dataElement, 'justifyContent', justifyContent);
+
+export const setHeaderMaxWidth = (dataElement, maxWidth) => updateHeaderProperty(dataElement, 'maxWidth', maxWidth);
+
+export const setHeaderMaxHeight = (dataElement, maxHeight) => updateHeaderProperty(dataElement, 'maxHeight', maxHeight);
 
 const updateHeaderProperty = (dataElement, property, value) => ({
   type: 'UPDATE_MODULAR_HEADERS',
@@ -407,11 +411,13 @@ export const openElement = dataElement => (dispatch, getState) => {
     return;
   }
 
-  const isFlxPanel = state.viewer.customFlxPanels.find(item => dataElement === item.dataElement);
-  if (isFlxPanel) {
+  const flexPanel = state.viewer.customFlxPanels.find((item) => dataElement === item.dataElement);
+  if (flexPanel?.location === 'left') {
     const keys = ['leftPanel'];
-    getAllPanels(isFlxPanel.location).forEach(item => keys.push(item.dataset.element));
+    getAllPanels(flexPanel.location).forEach((item) => keys.push(item.dataset.element));
     dispatch(closeElements(keys));
+  } else if (flexPanel?.location === 'right') {
+    dispatch(closeElements(rightPanelList));
   }
 
   if (isDataElementLeftPanel(dataElement, state) && dataElement !== DataElements.NOTES_PANEL) {
@@ -514,6 +520,10 @@ export const toggleElement = dataElement => (dispatch, getState) => {
           dispatch(closeElement(panel));
         }
       }
+      const openFlexPanelsRight = getCustomFlxPanels(state, 'right');
+      for (const panel of openFlexPanelsRight) {
+        dispatch(closeElement(panel.dataElement));
+      }
     }
   }
 
@@ -544,7 +554,15 @@ export const setLeftHeaderWidth = width => ({
   type: 'SET_LEFT_HEADER_WIDTH',
   payload: width
 });
-export const setActiveHeaderGroup = headerGroup => ({
+export const setTopFloatingContainerHeight = (height) => ({
+  type: 'SET_TOP_FLOATING_CONTAINER_HEIGHT',
+  payload: height
+});
+export const setBottomFloatingContainerHeight = (height) => ({
+  type: 'SET_BOTTOM_FLOATING_CONTAINER_HEIGHT',
+  payload: height
+});
+export const setActiveHeaderGroup = (headerGroup) => ({
   type: 'SET_ACTIVE_HEADER_GROUP',
   payload: { headerGroup },
 });
@@ -875,12 +893,12 @@ export const setMultiViewerSyncScrollingMode = multiViewerComparedSyncScrollingM
   payload: multiViewerComparedSyncScrollingMode
 });
 
-export const setTextSignatureQuality = multiplier => ({
+export const setTextSignatureQuality = (multiplier) => ({
   type: 'SET_TEXT_SIGNATURE_CANVAS_MULTIPLIER',
   payload: { multiplier },
 });
 
-export const setEnableMeasurementAnnotationsFilter = isEnabled => ({
+export const setEnableMeasurementAnnotationsFilter = (isEnabled) => ({
   type: 'SET_ENABLE_MEASUREMENT_ANNOTATIONS_FILTER',
   payload: { isEnabled },
 });

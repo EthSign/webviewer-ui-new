@@ -15,10 +15,16 @@ import multiViewerHelper from 'helpers/multiViewerHelper';
 import fireEvent from 'helpers/fireEvent';
 import actions from 'actions';
 import DataElements from 'src/constants/dataElement';
+import { panelMinWidth } from 'constants/panel';
 
 const specialChar = /([!@#$%^&*()+=\[\]\\';,./{}|":<>?~_-])/gm;
 
-const ComparePanel = () => {
+const ComparePanel = ({
+  dataElement = 'comparePanel',
+  // For storybook tests
+  initialChangeListData = {},
+  initialTotalChanges = 0,
+}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const isMobile = isMobileSize();
@@ -29,17 +35,19 @@ const ComparePanel = () => {
     isComparisonOverlayEnabled,
     multiViewerSyncScrollMode,
   ] = useSelector((state) => [
-    selectors.isElementOpen(state, 'comparePanel'),
+    selectors.isElementOpen(state, dataElement),
     selectors.getComparePanelWidth(state),
     selectors.isInDesktopOnlyMode(state),
     selectors.getIsComparisonOverlayEnabled(state),
     selectors.getMultiViewerSyncScrollMode(state),
   ]);
+  const isCustom = dataElement !== 'comparePanel';
+  const panelWidth = !isCustom ? currentWidth : panelMinWidth - 32;
   const [searchValue, setSearchValue] = React.useState('');
-  const style = !isInDesktopOnlyMode && isMobile ? {} : { width: `${currentWidth}px`, minWidth: `${currentWidth}px` };
-  const changeListData = useRef([]);
-  const [totalChanges, setTotalChanges] = useState(0);
-  const [filteredListData, setFilteredListData] = useState([]);
+  const style = !isInDesktopOnlyMode && isMobile ? {} : { width: `${panelWidth}px`, minWidth: `${panelWidth}px` };
+  const changeListData = useRef(initialChangeListData);
+  const [totalChanges, setTotalChanges] = useState(initialTotalChanges);
+  const [filteredListData, setFilteredListData] = useState(initialChangeListData);
   const filterfuncRef = useRef(
     throttle(
       (searchValue) => {
@@ -236,7 +244,7 @@ const ComparePanel = () => {
     };
     const resetPanelItems = () => {
       setTotalChanges(0);
-      changeListData.current = [];
+      changeListData.current = {};
     };
     core.addEventListener(Events.COMPARE_ANNOTATIONS_LOADED, updatePanelItems, undefined, 1);
     core.addEventListener('documentUnloaded', resetPanelItems, undefined, 1);
@@ -263,10 +271,11 @@ const ComparePanel = () => {
     filterfuncRef.current(newValue);
   };
 
+  const shouldRenderItems = !!(totalChanges && filteredListData && Object.keys(filteredListData).length);
   return (
     <DataElementWrapper
       className={classNames('Panel', 'ComparePanel', { 'open': isOpen })}
-      dataElement="comparePanel"
+      dataElement={dataElement}
       style={style}
     >
       <div className="input-container">
@@ -286,7 +295,7 @@ const ComparePanel = () => {
           {t('multiViewer.comparePanel.changesList')} <span>({totalChanges})</span>
         </div>
         <div className="changeList">
-          {totalChanges && filteredListData && Object.keys(filteredListData).map((key) => renderPageItem(key))}
+          {shouldRenderItems && Object.keys(filteredListData).map((key) => renderPageItem(key))}
         </div>
       </div>
     </DataElementWrapper>

@@ -18,6 +18,8 @@ import {
   JUSTIFICATION_OPTIONS,
   LIST_OPTIONS,
   DEFAULT_POINT_SIZE,
+  OFFICE_BULLET_OPTIONS,
+  OFFICE_NUMBER_OPTIONS
 } from 'src/constants/officeEditor';
 import Measure from 'react-measure';
 
@@ -216,6 +218,18 @@ const JustificationOptions = ({ justification }) => {
 };
 
 const ListOptions = ({ listType }) => {
+  const bulletListObjects = OFFICE_BULLET_OPTIONS.map((options) => ({
+    className: 'officeEditor-list-style-icon',
+    key: options.enum,
+    src: options.img
+  }));
+
+  const numberListOptions = OFFICE_NUMBER_OPTIONS.map((options) => ({
+    className: 'officeEditor-list-style-icon',
+    key: options.enum,
+    src: options.img
+  }));
+
   return (
     <>
       <ActionButton
@@ -223,20 +237,56 @@ const ListOptions = ({ listType }) => {
         dataElement='office-editor-bullet-list'
         title='officeEditor.bulletList'
         img='icon-office-editor-bullet-list'
+        className='list-style-button'
         onClick={() => {
           core.getOfficeEditor().toggleListSelection(LIST_OPTIONS.Unordered);
-
           focusContent();
         }}
+      />
+      <Dropdown
+        dataElement='office-editor-bullet-list-dropdown'
+        images={bulletListObjects}
+        columns={3}
+        onClickItem={(val) => {
+          core.getOfficeEditor().setListPreset(val);
+        }}
+        className={'list-style-dropdown'}
       />
       <ActionButton
         isActive={listType === LIST_OPTIONS.Ordered}
         dataElement='office-editor-number-list'
         title='officeEditor.numberList'
         img='icon-office-number-list'
+        className='list-style-button'
         onClick={() => {
           core.getOfficeEditor().toggleListSelection(LIST_OPTIONS.Ordered);
-
+          focusContent();
+        }}
+      />
+      <Dropdown
+        dataElement='office-editor-number-list-dropdown'
+        images={numberListOptions}
+        columns={3}
+        onClickItem={(val) => {
+          core.getOfficeEditor().setListPreset(val);
+        }}
+        className={'list-style-dropdown'}
+      />
+      <ActionButton
+        dataElement='office-editor-decrease-indent'
+        title='officeEditor.decreaseIndent'
+        img='ic-indent-decrease'
+        onClick={async () => {
+          await core.getOfficeEditor().decreaseIndent();
+          focusContent();
+        }}
+      />
+      <ActionButton
+        dataElement='office-editor-increase-indent'
+        title='officeEditor.increaseIndent'
+        img='ic-indent-increase'
+        onClick={async () => {
+          await core.getOfficeEditor().increaseIndent();
           focusContent();
         }}
       />
@@ -605,18 +655,17 @@ const OfficeEditorToolsHeader = () => {
                       />
                     )}
                   />
-                  {!isInsertImageDisabled && (
-                    <>
-                      <div className="divider" />
-                      <ActionButton
-                        className="tool-group-button"
-                        dataElement={DataElement.OFFICE_EDITOR_TOOLS_HEADER_INSERT_IMAGE}
-                        title='officeEditor.insertImage'
-                        img='icon-tool-image-line'
-                        onClick={openOfficeEditorFilePicker}
-                      />
-                    </>
-                  )}
+                  <div className="divider" />
+                  <>
+                    <ActionButton
+                      className="tool-group-button"
+                      dataElement={DataElement.OFFICE_EDITOR_TOOLS_HEADER_INSERT_IMAGE}
+                      title='officeEditor.insertImage'
+                      img='icon-tool-image-line'
+                      onClick={openOfficeEditorFilePicker}
+                    />
+                    <OfficeEditorImageFilePickerHandler />
+                  </>
                   {(visibleGroupCount === 6) && (
                     <>
                       <div className="divider" />

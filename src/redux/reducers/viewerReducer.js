@@ -5,13 +5,6 @@ export default (initialState) => (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case 'UPDATE_FLYOUT':
-      return {
-        ...state,
-        flyoutMap: {
-          [payload.dataElement]: payload.flyout
-        }
-      };
     case 'SET_ACTIVE_FLYOUT':
       return {
         ...state,
@@ -25,6 +18,7 @@ export default (initialState) => (state = initialState, action) => {
         flyoutMap,
       };
     case 'ADD_FLYOUT':
+    case 'UPDATE_FLYOUT':
       return {
         ...state,
         flyoutMap: {
@@ -36,6 +30,11 @@ export default (initialState) => (state = initialState, action) => {
       return {
         ...state,
         flyoutPosition: payload.newPosition,
+      };
+    case 'SET_FLYOUT_TOGGLE_ELEMENT':
+      return {
+        ...state,
+        flyoutToggleElement: payload.toggleElement,
       };
     case 'SET_INITIALS_OFFSET':
       return {
@@ -83,10 +82,25 @@ export default (initialState) => (state = initialState, action) => {
         ...state,
         activeDocumentViewerKey: payload.activeDocumentViewerKey,
       };
+    case 'SET_IS_MULTI_VIEWER_READY':
+      return {
+        ...state,
+        isMultiViewerReady: payload.isMultiViewerReady,
+      };
     case 'SET_IS_MULTI_VIEWER_MODE':
       return {
         ...state,
         isMultiViewerMode: payload.isMultiViewerMode,
+      };
+    case 'SET_IS_MULTI_VIEWER_MODE_AVAILABLE':
+      return {
+        ...state,
+        isMultiViewerModeAvailable: payload.isMultiViewerModeAvailable,
+      };
+    case 'SET_COMPARE_PAGES_BUTTON_ENABLED':
+      return {
+        ...state,
+        isShowComparisonButtonEnabled: payload.isShowComparisonButtonEnabled,
       };
     case 'SHOW_APPLY_CROP_WARNING':
       return {
@@ -643,6 +657,22 @@ export default (initialState) => (state = initialState, action) => {
         modularHeadersWidth: {
           ...state.modularHeadersWidth,
           leftHeader: payload,
+        }
+      };
+    case 'SET_TOP_FLOATING_CONTAINER_HEIGHT':
+      return {
+        ...state,
+        floatingContainersDimensions: {
+          ...state.floatingContainersDimensions,
+          topFloatingContainerHeight: payload,
+        }
+      };
+    case 'SET_BOTTOM_FLOATING_CONTAINER_HEIGHT':
+      return {
+        ...state,
+        floatingContainersDimensions: {
+          ...state.floatingContainersDimensions,
+          bottomFloatingContainerHeight: payload,
         }
       };
     case 'SET_MOUSE_WHEEL_ZOOM':

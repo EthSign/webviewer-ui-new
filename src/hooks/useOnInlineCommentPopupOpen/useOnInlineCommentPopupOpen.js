@@ -12,6 +12,7 @@ export default function useOnInlineCommentPopupOpen() {
     leftPanelOpen,
     activeLeftPanel,
     inlineCommentFilter,
+    activeDocumentViewerKey,
   ] = useSelector(
     (state) => [
       selectors.isElementOpen(state, DataElements.NOTES_PANEL),
@@ -19,6 +20,7 @@ export default function useOnInlineCommentPopupOpen() {
       selectors.isElementOpen(state, DataElements.LEFT_PANEL),
       selectors.getActiveLeftPanel(state),
       selectors.getInlineCommentFilter(state),
+      selectors.getActiveDocumentViewerKey(state),
     ],
     shallowEqual,
   );
@@ -47,9 +49,9 @@ export default function useOnInlineCommentPopupOpen() {
       }
     };
 
-    core.addEventListener('annotationDoubleClicked', onAnnotationDoubleClicked);
-    return () => core.removeEventListener('annotationDoubleClicked', onAnnotationDoubleClicked);
-  }, []);
+    core.addEventListener('annotationDoubleClicked', onAnnotationDoubleClicked, null, activeDocumentViewerKey);
+    return () => core.removeEventListener('annotationDoubleClicked', onAnnotationDoubleClicked, null, activeDocumentViewerKey);
+  }, [activeDocumentViewerKey]);
 
   useEffect(() => {
     const onAnnotationSelected = (annotations, action) => {
@@ -71,11 +73,11 @@ export default function useOnInlineCommentPopupOpen() {
       }
     };
 
-    core.addEventListener('annotationSelected', onAnnotationSelected);
+    core.addEventListener('annotationSelected', onAnnotationSelected, null, activeDocumentViewerKey);
     return () => {
-      core.removeEventListener('annotationSelected', onAnnotationSelected);
+      core.removeEventListener('annotationSelected', onAnnotationSelected, null, activeDocumentViewerKey);
     };
-  }, [annotation, isFreeTextAnnotationAdded]);
+  }, [annotation, isFreeTextAnnotationAdded, activeDocumentViewerKey]);
 
   useEffect(() => {
     setFreeTextAnnotationAdded(false);
@@ -84,7 +86,7 @@ export default function useOnInlineCommentPopupOpen() {
       // clicking on the selected annotation is considered clicking outside of this component
       // so this component will close due to useOnClickOutside
       // this handler is used to make sure that if we click on the selected annotation, this component will show up again
-      const annotUnderMouse = core.getAnnotationByMouseEvent(e);
+      const annotUnderMouse = core.getAnnotationByMouseEvent(e, activeDocumentViewerKey);
 
       if (annotation) {
         if (!annotUnderMouse) {
@@ -105,13 +107,13 @@ export default function useOnInlineCommentPopupOpen() {
       }
     };
 
-    core.addEventListener('mouseLeftUp', onMouseLeftUp);
-    core.addEventListener('annotationChanged', onAnnotationChanged);
+    core.addEventListener('mouseLeftUp', onMouseLeftUp, null, activeDocumentViewerKey);
+    core.addEventListener('annotationChanged', onAnnotationChanged, null, activeDocumentViewerKey);
     return () => {
-      core.removeEventListener('mouseLeftUp', onMouseLeftUp);
-      core.removeEventListener('annotationChanged', onAnnotationChanged);
+      core.removeEventListener('mouseLeftUp', onMouseLeftUp, null, activeDocumentViewerKey);
+      core.removeEventListener('annotationChanged', onAnnotationChanged, null, activeDocumentViewerKey);
     };
-  }, [annotation]);
+  }, [annotation, activeDocumentViewerKey]);
 
   useEffect(() => {
     if (!isNotesPanelOpenOrActive && annotation && inlineCommentFilter(annotation)) {

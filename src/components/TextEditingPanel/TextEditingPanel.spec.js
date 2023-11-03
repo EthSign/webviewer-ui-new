@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { TextEditingUndoRedo as TextEditUndoRedoStory } from './TextEditingPanel.stories';
 import TextEditingPanel from './TextEditingPanel';
+import core from 'core';
 
 const TestTextEditingPanel = withProviders(TextEditingPanel);
 
@@ -18,6 +19,10 @@ const mockProps = {
   },
   undoRedoProperties: undefined,
 };
+
+core.getContentEditManager = () => ({
+  isInContentEditMode: () => true,
+});
 
 describe('TextEditingPanel', () => {
   it('Undo/redo story should render without errors', () => {

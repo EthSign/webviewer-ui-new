@@ -3,13 +3,20 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import TextEditingPanel from './TextEditingPanel';
 import RightPanel from 'components/RightPanel';
+<<<<<<< HEAD
 import core from 'core';
+=======
+import { configureStore } from '@reduxjs/toolkit';
+import initialState from 'src/redux/initialState';
+import App from 'components/App';
+>>>>>>> 10.5
 
 const noop = () => { };
 
 export default {
   title: 'Components/TextEditingPanel',
   component: TextEditingPanel,
+<<<<<<< HEAD
   includeStories: ['Basic', 'TextEditingUndoRedo'],
 };
 
@@ -24,10 +31,20 @@ const initialState = {
       logoBar: { disabled: true },
     },
     customElementOverrides: {},
+=======
+  includeStories: ['Basic', 'TextEditingUndoRedo', 'LeftSide'],
+};
+
+const textEditingPanelInitialState = {
+  ...initialState,
+  viewer: {
+    ...initialState.viewer,
+>>>>>>> 10.5
     openElements: {
       header: true,
       textEditingPanel: true,
     },
+<<<<<<< HEAD
     currentLanguage: 'en',
     panelWidths: {
       textEditingPanel: 330,
@@ -44,6 +61,19 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
+=======
+    panelWidths: {
+      textEditingPanel: 330,
+    },
+
+  },
+  featureFlags: {
+    customizableUI: false,
+  },
+};
+
+function rootReducer(state = textEditingPanelInitialState) {
+>>>>>>> 10.5
   return state;
 }
 
@@ -110,3 +140,41 @@ export const TextEditingUndoRedo = () => {
     </TextEditingPanelStoryWrapper>
   );
 };
+<<<<<<< HEAD
+=======
+
+const MockApp = ({ initialState }) => {
+  return (
+    <Provider store={configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
+    })}>
+      <App removeEventHandlers={noop} />
+    </Provider>
+  );
+};
+
+export const LeftSide = () => {
+  const stateTextEditingPanelOnLeft = {
+    ...initialState,
+    viewer: {
+      ...initialState.viewer,
+      isInDesktopOnlyMode: true,
+      customFlxPanels: [
+        {
+          dataElement: 'panel1',
+          render: 'textEditingPanel',
+          location: 'left',
+        }
+      ],
+      openElements: {
+        ...initialState.viewer.openElements,
+        contextMenuPopup: false,
+        panel1: true,
+      }
+    },
+  };
+  return <MockApp initialState={stateTextEditingPanelOnLeft} />;
+};
+>>>>>>> 10.5

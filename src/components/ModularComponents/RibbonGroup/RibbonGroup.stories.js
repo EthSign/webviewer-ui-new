@@ -15,11 +15,17 @@ const initialState = {
     openElements: {},
     customPanels: [],
     customFlxPanels: [],
+    flyoutMap: {},
     headers: {},
     lastPickedToolForGroup: {},
     lastPickedToolGroup: {},
     toolButtonObjects: {},
     toolbarGroup: 'toolbarGroup-View',
+    modularHeaders: [],
+    modularHeadersHeight: {
+      topHeaders: 40,
+      bottomHeaders: 40
+    },
   },
 };
 
@@ -46,16 +52,74 @@ const item3 = {
   type: 'ribbonItem',
 };
 
-export const ribbonGroup = () => {
+const item4 = {
+  dataElement: 'Ribbon Item4',
+  label: 'Insert',
+  toolbarGroup: 'toolbarGroup-Insert',
+  type: 'ribbonItem',
+};
+
+const item5 = {
+  dataElement: 'Ribbon Item5',
+  title: 'Measure',
+  'img': 'icon-tool-measurement-distance-line',
+  toolbarGroup: 'toolbarGroup-Measure',
+  type: 'ribbonItem',
+};
+
+const item6 = {
+  dataElement: 'Ribbon Item6',
+  label: 'Edit',
+  toolbarGroup: 'toolbarGroup-Edit',
+  type: 'ribbonItem',
+};
+
+const item7 = {
+  dataElement: 'Ribbon Item7',
+  label: 'Fill and Sign',
+  toolbarGroup: 'toolbarGroup-FillAndSign',
+  type: 'ribbonItem',
+};
+
+const item8 = {
+  dataElement: 'Ribbon Item8',
+  label: 'Forms',
+  toolbarGroup: 'toolbarGroup-Forms',
+  type: 'ribbonItem',
+};
+
+const store = configureStore({
+  reducer: () => initialState,
+});
+
+export const ribbonGroupFull = () => {
   const props = {
     dataElement: 'ribbon-group',
-    items: [item1, item2, item3]
+    headerDirection: 'row',
+    items: [item1, item2, item3, item4, item5, item6, item7, item8],
   };
 
   return (
-    <Provider store={configureStore({ reducer: () => initialState })}>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Provider store={store}>
+      <div style={{ display: 'flex', maxWidth: '100%' }}>
         <RibbonGroup {...props} />
+      </div>
+    </Provider>
+  );
+};
+
+
+export const ribbonGroupDropdown = () => {
+  const props = {
+    dataElement: 'ribbon-group',
+    headerDirection: 'row',
+    items: [item1, item2, item3],
+  };
+
+  return (
+    <Provider store={store}>
+      <div style={{ display: 'flex', maxWidth: '10%' }}>
+        <RibbonGroup {...props}/>
       </div>
     </Provider>
   );

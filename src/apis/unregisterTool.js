@@ -33,5 +33,7 @@ const unregisterToolInRedux = (store, toolName) => {
 };
 
 const unregisterToolInToolModeMap = (toolName) => {
-  delete core.getToolModeMap()[toolName];
+  core.getDocumentViewers().forEach((viewer) => {
+    delete viewer.getToolModeMap()[toolName];
+  });
 };

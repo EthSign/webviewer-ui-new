@@ -6,8 +6,12 @@ import classNames from 'classnames';
 import DataElementWrapper from 'components/DataElementWrapper';
 import useOnClickOutside from 'hooks/useOnClickOutside';
 import { useTranslation } from 'react-i18next';
+import { restoreSelection, keepTextEditSelectionOnInputFocus } from './pdfEditHelper';
 
 import './FontSizeDropdown.scss';
+import debounce from 'lodash/debounce';
+
+export const DEBOUNCE_TIME = 750;
 
 const propTypes = {
   fontSize: PropTypes.number,
@@ -45,6 +49,7 @@ const FontSizeDropdown = ({
   const dropdownContainerRef = useRef();
   const [sizes, setSizes] = useState([]);
   const [error, setError] = useState(false);
+  const [initialFontSize, setInitialFontSize] = useState(null);
 
   const onClickOutside = useCallback(() => {
     setOpen(false);
@@ -58,6 +63,7 @@ const FontSizeDropdown = ({
     if (core.getContentEditManager().isInContentEditMode()) {
       setCurrSize(fontSize <= maxFontSize ? fontSize : 1);
     }
+    inputRef.current.value = focused ? fontSize : `${fontSize}pt`;
   }, [fontSize]);
   useEffect(() => {
     incrementMap[maxFontSize] = 12;
@@ -93,43 +99,70 @@ const FontSizeDropdown = ({
     };
     setSizes(getNewNumbers(Math.floor(currSize)));
   }, []);
-  const sizeChange = (e) => {
-    setFocused(true);
-    const newValue = e.target.value;
-    const newSize = typeof newValue === 'string' ?
-      parseFloat(newValue.replace(/[^\d]+/gi, ''))
-      : newValue;
+
+  const sizeChange = async (inputElement) => {
+    let newSize = inputElement.value;
+    if (typeof newSize === 'string' && document.activeElement === inputElement) {
+      // we are flooring to integers here following Adobe's font size behaviour
+      newSize = Math.floor(parseFloat(newSize));
+      inputElement.value = newSize;
+    }
     if (currSize !== newSize) {
-      if (typeof newSize !== 'number') {
-        return setCurrSize(MIN_FONT_SIZE);
+      if (typeof newSize !== 'number' || isNaN(newSize)) {
+        return;
       }
-      setCurrSize(newSize);
-      if (!e.target.checkValidity()) {
-        if (isValidNum(currSize)) {
-          e.target.validFontSize = currSize;
+      if (!inputElement.checkValidity()) {
+        if (isValidNum(newSize)) {
+          inputElement.validFontSize = newSize;
         }
         if (onError) {
-          onError(t('option.stylePopup.invalidFontSize') + maxFontSize);
+          onError(`${t('option.stylePopup.invalidFontSize')}: ${MIN_FONT_SIZE} - ${maxFontSize}`);
           setError(true);
         }
-        return e.preventDefault();
+        return;
       }
-      setError(false);
-      onError && onError('');
+      setCurrSize(newSize);
       !applyOnlyOnBlur && onFontSizeChange(`${newSize}${fontUnit}`);
+    } else if (currSize !== inputElement.value) {
+      // update the input if it has decimal but floored to the same value as currSize.
+      setCurrSize(newSize);
     }
+    setError(false);
+    onError && onError('');
   };
-
+  const debouncedSizeChange = debounce(sizeChange, DEBOUNCE_TIME);
+  // This prevents the debounce function from being re-created after re-rendering
+  const cachedDebouncedSizeChange = useCallback((value) => debouncedSizeChange(value), []);
+  useEffect(() => {
+    if (applyOnlyOnBlur) {
+      sizeChange(inputRef.current);
+    } else {
+      cachedDebouncedSizeChange(inputRef.current);
+    }
+    return () => debouncedSizeChange.cancel();
+  }, [currSize]);
   const [focused, setFocused] = useState(false);
-  const focus = () => setFocused(true);
+  const focus = (e) => {
+    if (applyOnlyOnBlur) {
+      const annot = core.getAnnotationManager().getSelectedAnnotations()[0];
+      const id = annot?.getCustomData?.('contentEditBoxId');
+      const editor = core.getContentEditManager().getContentBoxById(id)?.editor;
+      editor && keepTextEditSelectionOnInputFocus(core);
+      setInitialFontSize(e.target.value);
+    }
+    setFocused(true);
+  };
   const blur = (e) => {
+    applyOnlyOnBlur && restoreSelection();
     if (!e.target.checkValidity() || !currSize) {
       setCurrSize(e.target.validFontSize || MIN_FONT_SIZE);
     }
     setFocused(false);
     onError && onError(null);
     onError && setError(false);
-    applyOnlyOnBlur && onFontSizeChange(`${currSize}${fontUnit}`);
+    // Only call worker update when the font size is changed
+    const fontSizeChanged = e.target.value !== initialFontSize && e.target.value > MIN_FONT_SIZE && e.target.value < maxFontSize;
+    (applyOnlyOnBlur && fontSizeChanged) && onFontSizeChange(`${currSize}${fontUnit}`);
   };
 
   const [isOpen, setOpen] = useState(false);
@@ -175,13 +208,18 @@ const FontSizeDropdown = ({
     [currSize, isOpen, onClickDropdownItem, fontUnit, sizes]
   );
 
+  const onOpenDropdown = (e) => {
+    e.preventDefault();
+    setOpen(!isOpen);
+  };
+
   return (
     <div className="FontSizeDropdown">
       <input
         min={MIN_FONT_SIZE}
         max={maxFontSize}
-        value={focused ? currSize : `${currSize}pt`}
-        onChange={sizeChange}
+        value = {focused ? currSize : `${currSize}pt`}
+        onChange={(e) => setCurrSize(e.target.value)}
         type={focused ? 'number' : 'string'}
         onFocus={focus}
         onBlur={blur}
@@ -193,8 +231,8 @@ const FontSizeDropdown = ({
       <div ref={dropdownContainerRef}>
         <div
           className={classNames('icon-button')}
-          onClick={() => setOpen(!isOpen)}
-          onTouchEnd={() => setOpen(!isOpen)}
+          onClick={onOpenDropdown}
+          onTouchEnd={onOpenDropdown}
           ref={iconButtonRef}>
           <Icon glyph={`icon-chevron-${isOpen ? 'up' : 'down'}`} />
         </div>

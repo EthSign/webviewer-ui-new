@@ -33,6 +33,7 @@
  * @property {string} WatermarkPanelImageTab toggle feature to enable the image tab in watermark panel
  * @property {string} ContentEdit toggle feature to enable content editing in a pdf document
  * @property {string} LegacyRichTextPopup Toggle legacy richTextPopup
+ * @property {string} Portfolio Toggle feature to create PDF portfolio and the portfolio panel
  * @example
  WebViewer(...)
  .then(function(instance) {
@@ -78,4 +79,6 @@ export default {
   WatermarkPanelImageTab: 'WatermarkPanelImageTab',
   Panel: 'Panel',
   LegacyRichTextPopup: 'LegacyRichTextPopup',
+  ComparePages: 'ComparePages',
+  Portfolio: 'Portfolio',
 };

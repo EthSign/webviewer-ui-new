@@ -9,7 +9,7 @@ import OutlineControls from '../OutlineControls';
 import Outline from 'components/Outline';
 import OutlineContext from 'components/Outline/Context';
 import Button from 'components/Button';
-import OutlineContent from 'src/components/OutlineContent';
+import OutlineContent from 'components/OutlineContent';
 import DataElementWrapper from 'components/DataElementWrapper';
 
 import core from 'core';
@@ -117,19 +117,28 @@ const OutlinesPanel = () => {
   }, []);
 
   const getCurrentDestViewerCoord = (pageNum, { x, y }) => {
-    const docViewer = core.getDocumentViewer().getDocument();
+    const doc = core.getDocumentViewer().getDocument();
     // convert annotation coordinates to viewerCoordinates because PDFNet used PDF coordinates
-    return docViewer.getViewerCoordinates(pageNum, x, y);
+    return doc.getViewerCoordinates(pageNum, x, y);
   };
 
   const addNewOutline = async (name) => {
-    const { x, y } = getCurrentDestViewerCoord(currentDestPage, currentDestCoord);
+    let { x, y } = getCurrentDestViewerCoord(currentDestPage, currentDestCoord);
     let nextPath;
     let outlineName = name;
     if (![defaultDestText, areaDestinationText].includes(currentDestText) && !name) {
       outlineName = currentDestText.slice(0, 40);
     } else if (!name) {
       outlineName = t('message.untitled');
+    }
+
+    const doc = core.getDocumentViewer().getDocument();
+
+    const pageRotation = doc.getPageRotation(currentDestPage) / 90;
+    if (pageRotation === window.Core.PageRotation.E_90 || pageRotation === window.Core.PageRotation.E_270) {
+      const tmp = x;
+      x = y;
+      y = tmp;
     }
     if (outlines.length === 0) {
       nextPath = await outlineUtils.addRootOutline(outlineName, currentDestPage, x, y, 0);

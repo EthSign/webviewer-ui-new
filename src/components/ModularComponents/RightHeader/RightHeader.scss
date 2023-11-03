@@ -4,11 +4,17 @@
   height: 100%;
   width: $right-header-width;
   min-width: fit-content;
-  padding: 2px;
   transition: transform .3s ease-in-out;
   z-index: 63;
+  padding: 12px 8px;
 }
 
 .RightHeader.closed {
   transform: translateX(100%);
+}
+
+.RightHeader.stroke {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: var(--gray-5);
 }

@@ -294,6 +294,7 @@ const CustomStampForums = ({
               onClickItem={handleFontChange}
               currentSelectionKey={state.font || fonts[0]}
               getCustomItemStyle={(item) => ({ fontFamily: item })}
+              maxHeight={200}
             />
             <Button
               dataElement="stampTextBoldButton"
@@ -407,6 +408,7 @@ const CustomStampForums = ({
             items={dateTimeDropdownItems}
             currentSelectionKey={dateTime}
             onClickItem={onDateFormatChange}
+            maxHeight={200}
           />
         </div>}
       </div>

@@ -62,7 +62,7 @@ const initialState = {
     },
   },
   featureFlags: {
-    modularHeader: false,
+    customizableUI: false,
   },
   search: {
     redactionSearchPatterns: {

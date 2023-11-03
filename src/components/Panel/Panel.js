@@ -22,7 +22,7 @@ const Panel = (props) => {
     isToolsHeaderOpen,
     isLogoBarEnabled,
     featureFlags,
-    headerList,
+    topHeaders,
   ] = useSelector(
     (state) => [
       selectors.getPanelWidth(state, props.dataElement),
@@ -34,7 +34,7 @@ const Panel = (props) => {
       selectors.isElementOpen(state, 'toolsHeader'),
       !selectors.isElementDisabled(state, 'logoBar'),
       selectors.getFeatureFlags(state),
-      selectors.getModularHeaderList(state),
+      selectors.getTopHeaders(state),
     ],
     shallowEqual,
   );
@@ -52,11 +52,10 @@ const Panel = (props) => {
 
   // TODO: For whoever is refactoring the LeftPanel to make it generic, review if this is the best approach
   // Once we move to the new UI we can remove the legacy stuff
-  const topHeaders = headerList?.filter((header) => header.options.placement === PLACEMENT.TOP);
   const legacyToolsHeaderOpen = isToolsHeaderOpen && currentToolbarGroup !== 'toolbarGroup-View';
   const legacyAllHeadersHidden = !isHeaderOpen && !legacyToolsHeaderOpen;
 
-  const modularHeader = featureFlags?.modularHeader;
+  const customizableUI = featureFlags?.customizableUI;
 
   return (
     <div
@@ -65,8 +64,8 @@ const Panel = (props) => {
         'closed': !isVisible,
         'left': isLeftSide,
         'right': isRightSide,
-        'tools-header-open': modularHeader ? topHeaders.length === 2 : legacyToolsHeaderOpen,
-        'tools-header-and-header-hidden': modularHeader ? topHeaders.length === 0 : legacyAllHeadersHidden,
+        'tools-header-open': customizableUI ? topHeaders.length === 2 : legacyToolsHeaderOpen,
+        'tools-header-and-header-hidden': customizableUI ? topHeaders.length === 0 : legacyAllHeadersHidden,
         'logo-bar-enabled': isLogoBarEnabled,
       })}
       data-element={props.dataElement}

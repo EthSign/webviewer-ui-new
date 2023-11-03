@@ -38,6 +38,7 @@ const Thumbnail = ({
   isThumbnailSelectingPages,
   thumbnailSelectionMode,
   activeDocumentViewerKey,
+  panelSelector
 }) => {
   const thumbSize = thumbnailSize ? Number(thumbnailSize) : 150;
 
@@ -49,7 +50,7 @@ const Thumbnail = ({
 
   const loadThumbnailAsync = () => {
     loadTimeout = setTimeout(() => {
-      const thumbnailContainer = getRootNode().querySelector(`#pageThumb${index}`);
+      const thumbnailContainer = getRootNode().querySelector(`.ThumbnailsPanel.${panelSelector} #pageThumb${index}`);
 
       const pageNum = index + 1;
       const viewerRotation = core.getRotation(pageNum);
@@ -64,7 +65,7 @@ const Thumbnail = ({
           width: thumbSize,
           height: thumbSize,
           drawComplete: async (thumb) => {
-            const thumbnailContainer = getRootNode().querySelector(`#pageThumb${index}`);
+            const thumbnailContainer = getRootNode().querySelector(`.ThumbnailsPanel.${panelSelector} #pageThumb${index}`);
             if (thumbnailContainer) {
               const childElement = thumbnailContainer.querySelector('.page-image');
               if (childElement) {
@@ -183,7 +184,7 @@ const Thumbnail = ({
         // get the range of the selected index and update selected page
         const currSelectMinIndex = Math.min(shiftKeyPivot, index);
         const currSelectMaxIndex = Math.max(shiftKeyPivot, index);
-        updatedSelectedPages = [...new Set([...updatedSelectedPages, ...Array.from(
+        updatedSelectedPages = [...new Set([...Array.from(
           { length: currSelectMaxIndex - currSelectMinIndex + 1 },
           (_, i) => i + currSelectMinIndex,
         )])];
@@ -201,11 +202,18 @@ const Thumbnail = ({
             dispatch(actions.setShiftKeyThumbnailsPivotIndex(index));
           }
         }
+        dispatch(actions.setShiftKeyThumbnailsPivotIndex(index));
       } else {
         updatedSelectedPages = [index];
       }
       // set shiftKeyPivot when press ctr key or single key
-      !isThumbnailSelectingPages && !shiftKeyPressed && dispatch(actions.setShiftKeyThumbnailsPivotIndex(updatedSelectedPages[updatedSelectedPages.length - 1]));
+      const lastSelectedPageIndex = updatedSelectedPages[updatedSelectedPages.length - 1];
+      const shouldUpdateShiftKeyPivotIndex = !isThumbnailSelectingPages && !shiftKeyPressed;
+
+      if (shouldUpdateShiftKeyPivotIndex) {
+        dispatch(actions.setShiftKeyThumbnailsPivotIndex(lastSelectedPageIndex));
+      }
+
       dispatch(actions.setSelectedPageThumbnails(updatedSelectedPages));
     } else if (isMobile()) {
       dispatch(actions.closeElement('leftPanel'));

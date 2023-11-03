@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './ModularHeaderItems.scss';
 import InnerItem from '../ModularComponents/InnerItem';
-import { PLACEMENT } from 'constants/customizationVariables';
+import { PLACEMENT, DIRECTION } from 'constants/customizationVariables';
 
 const ModularHeaderItems = (props) => {
-  const { placement, gap, items, alignment, className = '' } = props;
+  const { placement, gap, items, justifyContent, className = '', maxWidth, maxHeight } = props;
   const [itemsGap, setItemsGap] = useState(gap);
-
 
   useEffect(() => {
     setItemsGap(gap);
   }, [gap]);
 
-  const headerDirection = [PLACEMENT.LEFT, PLACEMENT.RIGHT].includes(placement) ? 'column' : 'row';
+  const headerDirection = [PLACEMENT.LEFT, PLACEMENT.RIGHT].includes(placement) ? DIRECTION.COLUMN : DIRECTION.ROW;
 
   const headerItems = items?.map((item, i) => {
     /**
@@ -21,7 +20,7 @@ const ModularHeaderItems = (props) => {
      * to the header or add the plain object.
      */
     let itemProps = item.props || item;
-    itemProps = { ...itemProps, headerPlacement: placement };
+    itemProps = { headerPlacement: placement, justifyContent: justifyContent, ...itemProps };
     const { type, dataElement } = itemProps;
     const key = `${type}-${dataElement || i}-wrapper-${i}`;
     return <InnerItem key={key} {...itemProps} headerDirection={headerDirection} />;
@@ -32,7 +31,9 @@ const ModularHeaderItems = (props) => {
       style={{
         gap: `${itemsGap}px`,
         flexDirection: headerDirection,
-        justifyContent: alignment,
+        justifyContent: justifyContent,
+        maxWidth: `${maxWidth}px`,
+        maxHeight: `${maxHeight}px`,
       }}>
       {headerItems}
     </div>

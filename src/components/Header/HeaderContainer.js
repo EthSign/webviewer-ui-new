@@ -11,9 +11,9 @@ function HeaderContainer() {
     (state) => [
       selectors.getFeatureFlags(state),
     ], shallowEqual);
-  const { modularHeader } = featureFlags;
+  const { customizableUI } = featureFlags;
 
-  if (!modularHeader) {
+  if (!customizableUI) {
     return (
       <>
         <Header />

@@ -14,12 +14,19 @@ const getFileNameWithoutExtension = (filename) => {
   return filename.slice(0, -(extension.length + 1));
 };
 
+const adobeOrderKey = 'adobe:Order';
+
 export const isOpenableFile = (extension) => {
   return window.Core.SupportedFileFormats.CLIENT.includes(extension);
 };
 
 export const hasChildren = (portfolioItem) => {
   return portfolioItem?.children?.length > 0;
+};
+
+const getNextLargestValue = (files) => {
+  // TODO: will need to also get order values from folders
+  return Math.max(...files.map((a) => a.order)) + 1;
 };
 
 export const getPortfolioFiles = async () => {
@@ -43,7 +50,7 @@ export const getPortfolioFiles = async () => {
   return unsortedPortfolioFiles.sort((a, b) => a.order - b.order);
 };
 
-export const addFile = async (pdfDoc, file) => {
+export const addFile = async (pdfDoc, file, order = undefined) => {
   const PDFNet = window.Core.PDFNet;
 
   // Create FileSpec dict
@@ -57,6 +64,15 @@ export const addFile = async (pdfDoc, file) => {
   const flateFilter = await PDFNet.Filter.createFlateEncode();
   const embeddedStream = await pdfDoc.createIndirectStream(await file.arrayBuffer(), flateFilter);
   ef.put('F', embeddedStream);
+
+  if (order === undefined) {
+    order = getNextLargestValue(await getPortfolioFiles());
+  }
+
+  // Add internal order
+  const ci = await pdfDoc.createIndirectDict();
+  await ci.putNumber(adobeOrderKey, order);
+  await fs.put('CI', ci);
 
   // Add file attachment
   const fileSpec = await PDFNet.FileSpec.createFromObj(fs);
@@ -106,8 +122,8 @@ export const createPortfolio = async (files) => {
 
   const pdfDoc = await PDFNet.PDFDoc.create();
 
-  for (const file of files) {
-    await addFile(pdfDoc, file);
+  for (const [index, file] of files.entries()) {
+    await addFile(pdfDoc, file, index);
   }
   await addCoverPage(pdfDoc);
   await addCollection(pdfDoc);
@@ -139,6 +155,9 @@ const getPDFNetFiles = async () => {
 export const findPDFNetPortfolioItem = async (id) => {
   let target = null;
   const files = await getPDFNetFiles();
+  if (!files) {
+    return;
+  }
 
   // Traverse the list of embedded files.
   const fileItr = await files.getIteratorBegin();
@@ -182,4 +201,14 @@ export const downloadPortfolioFile = async (portfolioItem) => {
   } catch (e) {
     console.warn(e);
   }
+};
+
+export const reorderPortfolioFile = async (id, newOrder) => {
+  const target = await findPDFNetPortfolioItem(id);
+  if (!target) {
+    return;
+  }
+  const filesIteratorValue = await target.value();
+  const ciValue = await (await filesIteratorValue.get('CI')).value();
+  await ciValue.putNumber(adobeOrderKey, newOrder);
 };

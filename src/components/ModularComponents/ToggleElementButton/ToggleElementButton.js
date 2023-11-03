@@ -5,7 +5,6 @@ import actions from 'actions';
 import PropTypes from 'prop-types';
 import './ToggleElementButton.scss';
 import Button from 'components/Button';
-import setFlyoutPositionOnElement from 'helpers/flyoutHelper';
 
 const ToggleElementButton = (props) => {
   const buttonRef = useRef();
@@ -28,14 +27,10 @@ const ToggleElementButton = (props) => {
       if (onFlyoutToggled) {
         onFlyoutToggled();
       } else {
-        setFlyoutPositionOnElement(buttonRef.current, dispatch);
+        dispatch(actions.setFlyoutToggleElement(dataElement));
       }
     }
-    if (isElementActive) {
-      dispatch(actions.closeElement(toggleElement));
-    } else {
-      dispatch(actions.openElement(toggleElement));
-    }
+    dispatch(actions.toggleElement(toggleElement));
   };
 
   return (

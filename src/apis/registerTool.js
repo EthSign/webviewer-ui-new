@@ -47,10 +47,12 @@ const registerToolInRedux = (store, tool) => {
 };
 
 const registerToolInToolModeMap = ({ toolObject, toolName }) => {
-  const toolModeMap = core.getToolModeMap();
-
-  toolModeMap[toolName] = toolObject;
-  toolModeMap[toolName].name = toolName;
+  core.getDocumentViewers().forEach((viewer) => {
+    const toolModeMap = viewer.getToolModeMap();
+    const toolConstructor = toolObject.constructor;
+    toolModeMap[toolName] = new toolConstructor(viewer);
+    toolModeMap[toolName].name = toolName;
+  });
 };
 
 const updateColorMapInRedux = (store) => {

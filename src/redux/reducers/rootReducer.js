@@ -8,6 +8,7 @@ import documentReducer from 'reducers/documentReducer';
 import wv3dPropertiesPanelReducer from 'src/redux/reducers/wv3dPropertiesPanelReducer';
 import officeEditorReducer from 'src/redux/reducers/officeEditorReducer';
 import digitalSignatureValidationReducer from 'src/redux/reducers/digitalSignatureValidationReducer';
+import featureFlagsReducer from './featureFlagsReducer';
 import { getInstanceID } from 'helpers/getRootNode';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -48,7 +49,7 @@ export default combineReducers({
   document: documentReducer(initialState.document),
   // TODO: refactor in another PR to remove state.advanced. It's not necessary to have this because those states never change.
   advanced: () => initialState.advanced,
-  featureFlags: () => initialState.featureFlags,
+  featureFlags: featureFlagsReducer(initialState.featureFlags),
   wv3dPropertiesPanel: wv3dPropertiesPanelReducer(initialState.wv3dPropertiesPanel),
   officeEditor: officeEditorReducer(initialState.officeEditor),
   digitalSignatureValidation: digitalSignatureValidationReducer(initialState.digitalSignatureValidation),

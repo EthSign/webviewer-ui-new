@@ -113,7 +113,7 @@ const initialState = {
     },
   },
   featureFlags: {
-    modularHeader: false,
+    customizableUI: false,
   },
   wv3dPropertiesPanel: {
     modelData: [],

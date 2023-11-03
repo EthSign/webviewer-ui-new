@@ -74,6 +74,12 @@ const RedactionItem = (props) => {
         <div className="redaction-item-preview">
           {redactionPreview}
         </div>
+        {
+          annotation.OverlayText ?
+            <div className="redaction-item-label-text">
+              {t('option.stylePopup.labelText')}: {annotation.OverlayText}
+            </div> : null
+        }
         <div className="redaction-item-date-author">
           {dateAndAuthor}
         </div>

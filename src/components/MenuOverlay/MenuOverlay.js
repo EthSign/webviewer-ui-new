@@ -62,6 +62,7 @@ function MenuOverlay() {
   const sortStrategy = useSelector(selectors.getSortStrategy);
   const isFullScreen = useSelector((state) => selectors.isFullScreen(state));
   const timezone = useSelector((state) => selectors.getTimezone(state));
+  const isCreatePortfolioButtonEnabled = !useSelector((state) => selectors.isElementDisabled(state, DataElements.CREATE_PORTFOLIO_BUTTON)) && core.isFullPDFEnabled();
 
   const closeMenuOverlay = useCallback(() => dispatch(actions.closeElements([DataElements.MENU_OVERLAY])), [dispatch]);
 
@@ -180,7 +181,7 @@ function MenuOverlay() {
         />
       </InitialMenuOverLayItem>
       <div className="divider"></div>
-      {core.isFullPDFEnabled() && (
+      {isCreatePortfolioButtonEnabled && (
         <>
           <ActionButton
             dataElement={DataElements.CREATE_PORTFOLIO_BUTTON}

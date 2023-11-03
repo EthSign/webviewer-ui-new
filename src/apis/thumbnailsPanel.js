@@ -8,28 +8,48 @@ import thumbnailSelectionModes from 'constants/thumbnailSelectionModes';
  */
 
 /**
- * Enable multi select in the left thumbnail panel
+ * Enable the multi select mode in the left thumbnail panel
  * @method UI.ThumbnailsPanel.enableMultiselect
+ * @deprecated Use [enableMultiSelect]{@link UI.ThumbnailsPanel.enableMultiSelect} instead
+ */
+const enableMultiselect = (store) => () => {
+  console.warn('UI.ThumbnailsPanel.enableMultiselect is deprecated, please use UI.ThumbnailsPanel.enableMultiSelect instead');
+  enableMultiSelect(store)();
+};
+
+/**
+ * Exit the multi select mode in the left thumbnail panel
+ * @method UI.ThumbnailsPanel.disableMultiselect
+ * @deprecated Use [disableMultiSelect]{@link UI.ThumbnailsPanel.disableMultiSelect} instead
+ */
+const disableMultiselect = (store) => () => {
+  console.warn('UI.ThumbnailsPanel.disableMultiselect is deprecated, please use UI.ThumbnailsPanel.disableMultiSelect instead');
+  disableMultiSelect(store)();
+};
+
+/**
+ * Enable the multi select mode in the left thumbnail panel
+ * @method UI.ThumbnailsPanel.enableMultiSelect
  * @example
 WebViewer(...)
   .then(function(instance) {
-    instance.UI.ThumbnailsPanel.enableMultiselect();
+    instance.UI.ThumbnailsPanel.enableMultiSelect();
   });
  */
-const enableMultiselect = (store) => () => {
+const enableMultiSelect = (store) => () => {
   store.dispatch(actions.setThumbnailSelectingPages(true));
 };
 
 /**
- * Disable multi select in the left thumbnail panel
- * @method UI.ThumbnailsPanel.disableMultiselect
+ * Exit the multi select mode in the left thumbnail panel
+ * @method UI.ThumbnailsPanel.disableMultiSelect
  * @example
 WebViewer(...)
   .then(function(instance) {
-    instance.UI.ThumbnailsPanel.disableMultiselect();
+    instance.UI.ThumbnailsPanel.disableMultiSelect();
   });
  */
-const disableMultiselect = (store) => () => {
+const disableMultiSelect = (store) => () => {
   store.dispatch(actions.setThumbnailSelectingPages(false));
 };
 
@@ -141,6 +161,8 @@ const setThumbnailSelectionMode = (store) => (thumbnailSelectionMode) => {
 export {
   enableMultiselect,
   disableMultiselect,
+  enableMultiSelect,
+  disableMultiSelect,
   selectPages,
   unselectPages,
   getSelectedPageNumbers,

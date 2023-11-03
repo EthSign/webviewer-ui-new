@@ -330,6 +330,7 @@ const HotkeysManager = {
     });
     this.didInitializeAllKeys = true;
     hotkeys.setScope(defaultHotkeysScope);
+    this.formBuilderDisabledKeys = {};
   },
   /**
    * Add an event handler for the given hotkey

@@ -7,6 +7,7 @@ import selectors from 'selectors';
 import actions from 'actions';
 import pageNumberPlaceholder from 'constants/pageNumberPlaceholder';
 import core from 'src/core';
+import { useTranslation } from 'react-i18next';
 
 import './DocumentControls.scss';
 
@@ -30,6 +31,7 @@ function getPageString(selectedPageArray, pageLabels) {
 }
 
 const DocumentControls = ({ shouldShowControls }) => {
+  const [t] = useTranslation();
   const dispatch = useDispatch();
 
   const [selectedPageIndexes, isDisabled, pageLabels, isThumbnailSelectingPages] = useSelector((state) => [
@@ -97,7 +99,7 @@ const DocumentControls = ({ shouldShowControls }) => {
               onChange={pageStringUpdate}
               value={pageString}
               placeholder={pageNumberPlaceholder}
-              aria-label={pageNumberPlaceholder}
+              aria-label={t('option.thumbnailPanel.enterPageNumbers')}
               className="pagesInput"
               type="text"
             />

@@ -24,7 +24,7 @@ describe('PageRotationControls', () => {
         rotateCounterClockwise={noop}
       />);
 
-      const rotateClockwiseButton = container.querySelector('.Button[aria-label="Rotate Clockwise"]');
+      const rotateClockwiseButton = container.querySelector('.Button[aria-label="Rotate Page Clockwise"]');
       expect(rotateClockwiseButton).toBeInTheDocument();
       fireEvent.click(rotateClockwiseButton);
       expect(rotateClockWise).toBeCalled();
@@ -37,7 +37,7 @@ describe('PageRotationControls', () => {
         rotateCounterClockwise={rotateCounterClockWise}
       />);
 
-      const rotateCounterClockwiseButton = container.querySelector('.Button[aria-label="Rotate Counterclockwise"]');
+      const rotateCounterClockwiseButton = container.querySelector('.Button[aria-label="Rotate Page Counterclockwise"]');
       expect(rotateCounterClockwiseButton).toBeInTheDocument();
       fireEvent.click(rotateCounterClockwiseButton);
       expect(rotateCounterClockWise).toBeCalled();

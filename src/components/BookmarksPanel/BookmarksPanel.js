@@ -15,7 +15,7 @@ import selectors from 'selectors';
 import '../../constants/bookmarksOutlinesShared.scss';
 import './BookmarksPanel.scss';
 
-const BookmarksPanel = () => {
+const BookmarksPanel = ({ panelSelector }) => {
   const [
     isDisabled,
     bookmarks,
@@ -85,7 +85,7 @@ const BookmarksPanel = () => {
 
   return (
     <div
-      className="Panel BookmarksPanel bookmark-outline-panel"
+      className={`Panel BookmarksPanel bookmark-outline-panel ${panelSelector}`}
       data-element={DataElements.BOOKMARK_PANEL}
     >
       <div className="bookmark-outline-panel-header">
@@ -142,12 +142,14 @@ const BookmarksPanel = () => {
               setAddingNewBookmark(false);
             }}
             onCancel={() => setAddingNewBookmark(false)}
+            panelSelector={panelSelector}
           />
         }
 
         {pageIndexes.map((pageIndex) => (
           <Bookmark
             key={pageIndex}
+            panelSelector={panelSelector}
             isMultiSelectionMode={isMultiSelectionMode}
             label={`${t('component.bookmarkPage')} ${pageLabels[pageIndex]} - ${t('component.bookmarkTitle')}`}
             defaultLabel={`${t('component.bookmarkPage')} ${pageLabels[pageIndex]}`}

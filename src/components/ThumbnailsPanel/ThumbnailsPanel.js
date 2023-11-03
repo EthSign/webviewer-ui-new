@@ -20,6 +20,7 @@ import fireEvent from 'helpers/fireEvent';
 
 import './ThumbnailsPanel.scss';
 import getRootNode from 'helpers/getRootNode';
+import { useTranslation } from 'react-i18next';
 
 const dataTransferWebViewerFrameKey = 'dataTransferWebViewerFrame';
 
@@ -30,9 +31,9 @@ const MAX_COLUMNS = 16;
 
 const hoverAreaHeight = 25;
 
-const ThumbnailsPanel = () => {
+const ThumbnailsPanel = ({ panelSelector }) => {
   const [
-    isOpen,
+    isLeftPanelOpen,
     isDisabled,
     totalPages,
     currentPage,
@@ -46,7 +47,8 @@ const ThumbnailsPanel = () => {
     isDocumentReadOnly,
     totalPagesFromSecondaryDocumentViewer,
     activeDocumentViewerKey,
-    isRightClickEnabled
+    isRightClickEnabled,
+    featureFlags
   ] = useSelector(
     (state) => [
       selectors.isElementOpen(state, 'leftPanel') || true,
@@ -63,10 +65,13 @@ const ThumbnailsPanel = () => {
       selectors.isDocumentReadOnly(state),
       selectors.getTotalPages(state, 2),
       selectors.getActiveDocumentViewerKey(state),
-      selectors.openingPageManipulationOverlayByRightClickEnabled(state)
+      selectors.openingPageManipulationOverlayByRightClickEnabled(state),
+      selectors.getFeatureFlags(state)
     ],
     shallowEqual,
   );
+
+  const [t] = useTranslation();
 
   const listRef = useRef();
   const pendingThumbs = useRef([]);
@@ -286,8 +291,10 @@ const ThumbnailsPanel = () => {
     }
   }, [isReaderMode, isDocumentReadOnly]);
 
-  // if disabled or is not open return
-  if (isDisabled || !isOpen) {
+  const { customizableUI } = featureFlags;
+
+  // if disabled or left panel is not open when we are not in customize mode, return
+  if (isDisabled || (!isLeftPanelOpen && !customizableUI)) {
     return null;
   }
   const onDragEnd = () => {
@@ -442,7 +449,9 @@ const ThumbnailsPanel = () => {
   const onRightClick = (event, pageIndex) => {
     event.preventDefault();
     core.setCurrentPage(pageIndex + 1);
-    dispatch(actions.setSelectedPageThumbnails([pageIndex]));
+    if (!selectedPageIndexes.includes(pageIndex)) {
+      dispatch(actions.setSelectedPageThumbnails([pageIndex]));
+    }
 
     if (isReaderMode || isDocumentReadOnly) {
       return;
@@ -502,6 +511,7 @@ const ThumbnailsPanel = () => {
                   updateAnnotations={updateAnnotations}
                   shouldShowControls={allowPageOperationsUI}
                   thumbnailSize={thumbnailSize}
+                  panelSelector={panelSelector}
                 />
               </div>
               {showPlaceHolder && !isDraggingToPreviousPage && <div key={`placeholder2-${thumbIndex}`} className="thumbnailPlaceholder" />}
@@ -544,10 +554,15 @@ const ThumbnailsPanel = () => {
           dataElement="zoomThumbOutButton"
         />
         <input
+          role='slider'
           type="range"
+          aria-label='thumbnail size slider'
           min={ZOOM_RANGE_MIN}
           max={ZOOM_RANGE_MAX}
           value={thumbnailSize}
+          aria-valuemin={ZOOM_RANGE_MIN}
+          aria-valuemax={ZOOM_RANGE_MAX}
+          aria-valuenow={thumbnailSize}
           onChange={(e) => {
             setThumbnailSize(Number(e.target.value));
             updateNumberOfColumns();
@@ -571,10 +586,10 @@ const ThumbnailsPanel = () => {
       </div>}
       <Measure bounds onResize={onPanelResize} key={thumbnailSize}>
         {({ measureRef }) => (
-          <div className="Panel ThumbnailsPanel" id="virtualized-thumbnails-container" data-element="thumbnailsPanel" onDrop={onDrop} ref={measureRef}>
+          <div className={`Panel ThumbnailsPanel ${panelSelector}`} id="virtualized-thumbnails-container" data-element="thumbnailsPanel" onDrop={onDrop} ref={measureRef}>
             <div className="virtualized-thumbnails-container">
               {isDragging ?
-                <div className="thumbnailAutoScollArea" onDragOver={scrollUp} style={thumbnailAutoScrollAreaStyle}></div> : ''
+                <div className="thumbnailAutoScrollArea" onDragOver={scrollUp} style={thumbnailAutoScrollAreaStyle}></div> : ''
               }
               <List
                 ref={listRef}
@@ -590,9 +605,11 @@ const ThumbnailsPanel = () => {
                 style={{ outline: 'none' }}
                 // Ensure we show the current page in the thumbnails when we open the panel
                 scrollToIndex={Math.floor((currentPage - 1) / numberOfColumns)}
+                role='grid'
+                aria-label={t('component.thumbnailsPanel')}
               />
               {isDragging ?
-                <div className="thumbnailAutoScollArea" onDragOver={scrollDown} style={{ ...thumbnailAutoScrollAreaStyle, 'bottom': '70px' }}></div> : ''
+                <div className="thumbnailAutoScrollArea" onDragOver={scrollDown} style={{ ...thumbnailAutoScrollAreaStyle, 'bottom': '70px' }}></div> : ''
               }
             </div>
           </div>

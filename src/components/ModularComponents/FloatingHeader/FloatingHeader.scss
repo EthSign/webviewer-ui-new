@@ -73,8 +73,45 @@
 }
 
 .FloatingHeader {
-  background: var(--gray-0);
   border-radius: 4px;
-  border: 1px solid var(--gray-5);
   pointer-events: auto;
+  transition: opacity .2s ease;
+
+  // customizable styles
+  padding: 8px 12px;
+  background: var(--gray-0);
+
+  &.opacity-full {
+    opacity: 1;
+  }
+
+  &.opacity-low {
+    opacity: 0.5;
+
+    &.isVisible {
+      opacity: 1;
+    }
+  }
+
+  &.opacity-none {
+    opacity: 0;
+
+    &.isVisible {
+      opacity: 1;
+    }
+  }
+
+  &.opacity-mode-dynamic:hover {
+    opacity: 1;
+  }
+}
+
+.FloatingHeader.stroke {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--gray-5);
+}
+
+.FloatingHeader.VerticalHeader {
+  padding: 12px 8px;
 }

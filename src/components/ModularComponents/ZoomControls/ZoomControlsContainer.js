@@ -5,7 +5,6 @@ import actions from 'actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { zoomTo, zoomIn, zoomOut, fitToWidth, fitToPage } from 'helpers/zoom';
 import ZoomControls from './ZoomControls';
-import setFlyoutPositionOnElement from 'helpers/flyoutHelper';
 
 const ZoomControlsContainer = ({ dataElement = 'zoom-container', initialSize = 0 }) => {
   // TODO: remove ignore below after resizing algorithm is implemented
@@ -46,7 +45,8 @@ const ZoomControlsContainer = ({ dataElement = 'zoom-container', initialSize = 0
   };
 
   const onFlyoutToggle = () => {
-    setFlyoutPositionOnElement(elementRef.current, dispatch);
+    const dataElement = elementRef.current.getAttribute('data-element');
+    dispatch(actions.setFlyoutToggleElement(dataElement));
   };
 
   const [zoomOptionsList, currentFlyout] = useSelector((state) => [

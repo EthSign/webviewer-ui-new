@@ -3,7 +3,10 @@
 .CustomButton {
   padding: 5px;
   width: fit-content;
-  background-color: var(--gray-4);
+
+  &:hover {
+    background-color: var(--view-header-button-hover);
+  }
 }
 
 .confirm-button {
@@ -20,7 +23,7 @@
 
   &:hover {
     background: var(--primary-button-hover) !important;
-    border: 1px solid var(--primary-button-hover) !important;;
+    border: 1px solid var(--primary-button-hover) !important;
     border-radius: 5px !important;
   }
 }

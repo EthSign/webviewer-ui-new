@@ -10,9 +10,11 @@ export default {
 
 const initialState = {
   viewer: {
-    modularHeaders: [],
+    disabledElements: {},
     customElementOverrides: {},
-    disabledElements: []
+    openElements: {},
+    customPanels: [],
+    flyoutMap: {},
   },
 };
 

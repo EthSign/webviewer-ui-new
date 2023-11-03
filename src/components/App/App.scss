@@ -46,6 +46,11 @@ body,
   color: var(--text-color);
   visibility: visible !important;
 }
+// This needed in WebComponent mode
+#note-state-popup-portal {
+  font-family: 'Lato', sans-serif;
+  color: var(--text-color);
+}
 
 // This needed in WebComponent mode
 #note-state-popup-portal {
@@ -139,7 +144,7 @@ select {
   padding: 0px;
 }
 
-.ql-editor>p {
+.ql-editor > p {
   margin: 0;
   padding: 0;
 }
@@ -147,4 +152,16 @@ select {
 .ql-clipboard {
   width: 0;
   height: 1px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }

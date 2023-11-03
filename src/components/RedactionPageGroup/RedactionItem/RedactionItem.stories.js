@@ -153,3 +153,23 @@ export function EmailRedactionItem() {
     <RedactionItemWithRedux {...regionRedactionItemProps} />
   );
 }
+
+export function RedactionItemWithLabelText() {
+  const labelTextRedaction = getMockRedactionAnnotation();
+  labelTextRedaction.redactionType = redactionTypeMap['REGION'];
+  const { icon } = defaultRedactionTypes[redactionTypeMap['REGION']];
+  labelTextRedaction.icon = icon;
+  labelTextRedaction.OverlayText = 'This is a label';
+  const textRedactionItemProps = {
+    iconColor: '#E44234',
+    annotation: labelTextRedaction,
+    author: labelTextRedaction.Author,
+    dateFormat: 'MMM D, LT',
+    language: 'en',
+    textPreview: 'Redaction item with label text',
+  };
+
+  return (
+    <RedactionItemWithRedux {...textRedactionItemProps} />
+  );
+}

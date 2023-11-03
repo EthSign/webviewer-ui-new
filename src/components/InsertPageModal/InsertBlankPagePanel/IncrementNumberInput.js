@@ -12,8 +12,12 @@ const IncrementNumberInput = ({ className, min, onChange, value, fillWidth }) =>
   };
 
   const decrementNumber = () => {
-    onChange(number - 1);
-    setNumber(number - 1);
+    const newNumber = number - 1;
+    if (newNumber < min) {
+      return;
+    }
+    onChange(newNumber);
+    setNumber(newNumber);
   };
 
   const handleChange = (e) => {

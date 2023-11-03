@@ -128,13 +128,13 @@ const LeftPanel = () => {
   const legacyToolsHeaderOpen = isToolsHeaderOpen && currentToolbarGroup !== 'toolbarGroup-View';
   const legacyAllHeadersHidden = !isHeaderOpen && !legacyToolsHeaderOpen;
 
-  const { modularHeader } = featureFlags;
+  const { customizableUI } = featureFlags;
   const wrapperStyle = {
     // prevent panel from appearing until scss is loaded
     display: 'none',
   };
   // Calculating its height according to the existing horizontal modular headers
-  if (modularHeader) {
+  if (customizableUI) {
     const horizontalHeadersHeight = topHeadersHeight + bottomHeadersHeight;
     wrapperStyle['height'] = `calc(100% - ${horizontalHeadersHeight}px)`;
   }

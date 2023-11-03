@@ -16,6 +16,7 @@ const ComparisonButton = () => {
     selectors.isCompareStarted(state),
     selectors.getIsComparisonOverlayEnabled(state),
   ]);
+  const semanticDiffAnnotations = core.getSemanticDiffAnnotations();
 
   useEffect(() => {
     const checkDisabled = () => {
@@ -41,13 +42,22 @@ const ComparisonButton = () => {
     core.addEventListener('documentLoaded', checkDisabled, undefined, 2);
     core.addEventListener('documentUnloaded', unLoaded, undefined, 1);
     core.addEventListener('documentUnloaded', unLoaded, undefined, 2);
+
+    if (!semanticDiffAnnotations.length && isComparisonOverlayEnabled) {
+      dispatch(actions.setIsComparisonOverlayEnabled(false));
+    }
+
+    if (semanticDiffAnnotations.length && !isComparisonOverlayEnabled) {
+      dispatch(actions.setIsComparisonOverlayEnabled(true));
+    }
+
     return () => {
       core.removeEventListener('documentLoaded', checkDisabled, undefined, 1);
       core.removeEventListener('documentLoaded', checkDisabled, undefined, 2);
       core.removeEventListener('documentUnloaded', unLoaded, undefined, 1);
       core.removeEventListener('documentUnloaded', unLoaded, undefined, 2);
     };
-  }, []);
+  }, [semanticDiffAnnotations]);
 
   const startComparison = useCallback(() => {
     const [documentViewer, documentViewer2] = core.getDocumentViewers();
@@ -63,14 +73,13 @@ const ComparisonButton = () => {
     }
   }, []);
 
-  const toggleComparisonOverlay = () => {
+  const toggleComparisonOverlay = async () => {
     const enable = !isComparisonOverlayEnabled;
+    const [documentViewerOne, documentViewerTwo] = core.getDocumentViewers();
     if (enable) {
-      core.showAnnotations(core.getSemanticDiffAnnotations(1), 1);
-      core.showAnnotations(core.getSemanticDiffAnnotations(2), 2);
+      await documentViewerOne.startSemanticDiff(documentViewerTwo);
     } else {
-      core.hideAnnotations(core.getSemanticDiffAnnotations(1), 1);
-      core.hideAnnotations(core.getSemanticDiffAnnotations(2), 2);
+      await documentViewerOne.stopSemanticDiff();
     }
     dispatch(actions.setIsComparisonOverlayEnabled(enable));
   };

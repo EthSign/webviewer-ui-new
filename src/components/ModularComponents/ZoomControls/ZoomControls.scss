@@ -61,9 +61,7 @@
 }
 
 .Flyout .ZoomFlyoutMenu {
-  max-height: 100%;
-  overflow: hidden;
-  height: fit-content;
+  overflow-y: auto;
   z-index: 200;
   background-color: var(--component-background);
   width: 170px;

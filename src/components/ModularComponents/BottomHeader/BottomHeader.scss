@@ -16,3 +16,9 @@
 .BottomHeader.closed {
   transform: translateY(100%);
 }
+
+.BottomHeader.stroke {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--gray-5);
+}

@@ -36,6 +36,7 @@ export default {
     initalsOffset: 0,
     isInitialsModeEnabled: false,
     isMultiViewerMode: false,
+    isMultiViewerReady: false,
     multiViewerSyncScrollMode: SYNC_MODES.SKIP_UNMATCHED,
     syncViewer: null,
     isCompareStarted: false,
@@ -188,7 +189,7 @@ export default {
           img: 'icon-header-chat-line',
           title: 'component.notesPanel',
           element: 'notesPanel',
-          onClick: dispatch => {
+          onClick: (dispatch) => {
             // Trigger with a delay so we ensure the panel is open before we compute correct coordinates of annotation
             setTimeout(() => dispatch(actions.toggleElement('annotationNoteConnectorLine')), 400);
           },
@@ -2050,19 +2051,26 @@ export default {
     activeGroupedItems: [],
     fixedGroupedItems: [],
     modularHeadersHeight: {
-      topHeaders: 40,
-      bottomHeaders: 40
+      topHeaders: 32,
+      bottomHeaders: 32
     },
     modularHeadersWidth: {
       rightHeader: 0,
       leftHeader: 0
+    },
+    floatingContainersDimensions: {
+      topFloatingContainerHeight: 0,
+      bottomFloatingContainerHeight: 0,
     },
     toolDefaultStyleUpdateFromAnnotationPopupEnabled: true,
     shortcutKeyMap: { ...ShortcutKeys },
     flyoutMap: {},
     flyoutPosition: { x: 0, y: 0 },
     activeFlyout: null,
+    flyoutToggleElement: null,
     textSignatureCanvasMultiplier: 1,
+    isShowComparisonButtonEnabled: false,
+    isMultiViewerModeAvailable: false,
   },
   search: {
     value: '',
@@ -2131,7 +2139,7 @@ export default {
       getHashParameters('disableMultiViewerComparison', false) || !getHashParameters('pdfnet', false),
   },
   featureFlags: {
-    modularHeader: false,
+    customizableUI: false,
   },
   wv3dPropertiesPanel: {
     modelData: [],
