@@ -325,7 +325,7 @@ class DocumentContainer extends React.PureComponent {
         })}
         onTransitionEnd={this.onTransitionEnd}
       >
-        <div className="document-title" >{core.getDocument()?.getFilename()?.replace(/.pdf|.docx|.doc/ig,'')}</div>
+        <div className="document-title" >{core.getDocument()?.getFilename()?.replace(/.pdf|.docx|.doc/ig, '')}</div>
         <Measure onResize={this.handleResize}>
           {({ measureRef }) => (
             <div className="measurement-container" ref={measureRef}>
